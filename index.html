@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Journey of Love - Jenifar ❤️</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;400;600;800&family=Great+Vibes&display=swap"
+        rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    <style>
+        :root {
+            --primary: #ff4d6d;
+            --secondary: #ff8fa3;
+            --dark: #590d22;
+            --glass: rgba(255, 255, 255, 0.88);
+            --gradient: linear-gradient(45deg, #ff9a9e 0%, #fecfef 99%, #fecfef 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #ffffff;
+            color: var(--dark);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* --- LIQUID AURORA BACKGROUND --- */
+        .bg-wrapper {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            filter: blur(80px);
+            opacity: 0.8;
+        }
+
+        .blob {
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            border-radius: 50%;
+            mix-blend-mode: multiply;
+        }
+
+        .blob1 {
+            top: -100px;
+            left: -100px;
+            background: #ff9a9e;
+            animation: move1 20s infinite alternate linear;
+        }
+
+        .blob2 {
+            bottom: -150px;
+            right: -100px;
+            background: #fad0c4;
+            animation: move2 25s infinite alternate linear;
+        }
+
+        .blob3 {
+            top: 50%;
+            left: 50%;
+            background: #fbc2eb;
+            animation: move3 18s infinite alternate linear;
+        }
+
+        @keyframes move1 {
+            0% {
+                transform: translate(0, 0) scale(1);
+            }
+
+            100% {
+                transform: translate(300px, 400px) scale(1.3);
+            }
+        }
+
+        @keyframes move2 {
+            0% {
+                transform: translate(0, 0) scale(1.2);
+            }
+
+            100% {
+                transform: translate(-400px, -300px) scale(0.8);
+            }
+        }
+
+        @keyframes move3 {
+            0% {
+                transform: translate(-50%, -50%) scale(1);
+            }
+
+            100% {
+                transform: translate(00px, -450px) scale(1.5);
+            }
+        }
+
+        .heart-particle {
+            position: absolute;
+            color: var(--primary);
+            opacity: 0.4;
+            pointer-events: none;
+            z-index: 1;
+            animation: floatUpDown 8s linear infinite;
+        }
+
+        @keyframes floatUpDown {
+            0% {
+                transform: translateY(110vh) rotate(0deg) scale(0.8);
+                opacity: 0;
+            }
+
+            20% {
+                opacity: 0.6;
+            }
+
+            100% {
+                transform: translateY(-10vh) rotate(360deg) scale(1.5);
+                opacity: 0;
+            }
+        }
+
+        .journey-container {
+            width: 92%;
+            max-width: 500px;
+            height: 85vh;
+            background: rgba(255, 255, 255, 0.72);
+            backdrop-filter: blur(35px) saturate(160%);
+            -webkit-backdrop-filter: blur(35px) saturate(160%);
+            border-radius: 40px;
+            box-shadow: 0 40px 100px rgba(89, 13, 34, 0.12);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            position: relative;
+            z-index: 10;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            padding: 24px;
+            text-align: center;
+        }
+
+        .progress-header {
+            width: 100%;
+            height: 10px;
+            background: rgba(0, 0, 0, 0.04);
+            border-radius: 20px;
+            margin-bottom: 24px;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        #progressBarInner {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #ff8fa3, #ff4d6d, #d90429);
+            transition: width 0.7s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+
+        .steps-wrapper {
+            flex-grow: 1;
+            position: relative;
+        }
+
+        .step {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transform: translateY(40px) scale(0.92);
+            transition: all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+            pointer-events: none;
+        }
+
+        .step.active {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+            pointer-events: all;
+        }
+
+        .step.exit {
+            opacity: 0;
+            transform: translateY(-40px) scale(0.92);
+        }
+
+        h1 {
+            font-family: 'Great Vibes', cursive;
+            font-size: 3.2rem;
+            color: #d90429;
+            margin-bottom: 15px;
+        }
+
+        h2 {
+            font-size: 1.6rem;
+            color: var(--primary);
+            margin-bottom: 12px;
+            font-weight: 700;
+        }
+
+        p {
+            font-size: 1.1rem;
+            color: #4b4b4b;
+            line-height: 1.7;
+            margin-bottom: 22px;
+            white-space: pre-line;
+        }
+
+        .icon-box {
+            font-size: 4.5rem;
+            margin-bottom: 15px;
+            display: block;
+            filter: drop-shadow(0 10px 15px rgba(217, 4, 41, 0.25));
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-15px);
+            }
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #ff4d6d 0%, #d90429 100%);
+            color: white;
+            padding: 16px 32px;
+            border-radius: 50px;
+            border: none;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 12px 24px rgba(217, 4, 41, 0.35);
+            transition: all 0.3s ease;
+            width: 85%;
+            max-width: 280px;
+            margin-top: 10px;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(217, 4, 41, 0.45);
+        }
+
+        .btn-music {
+            background: linear-gradient(135deg, #a18cd1 0%, #8e44ad 100%);
+        }
+
+        .btn-call {
+            background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
+            animation: pulse Green 2s infinite;
+        }
+
+        .slider-wrap {
+            width: 90%;
+            margin: 20px 0;
+        }
+
+        .love-slider {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 10px;
+            border-radius: 10px;
+            background: #ffe5ec;
+        }
+
+        .love-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 25px;
+            height: 25px;
+            background: var(--primary);
+            border-radius: 50%;
+            border: 3px solid white;
+            cursor: pointer;
+        }
+
+        /* --- MEMORY IMAGE FRAME --- */
+        .memory-frame {
+            width: 90%;
+            height: 200px;
+            margin: 0 auto 20px;
+            border-radius: 20px;
+            padding: 8px;
+            background: white;
+            box-shadow: 0 15px 35px rgba(255, 77, 109, 0.2);
+            position: relative;
+            transform: rotate(-2deg);
+            border: 1px solid rgba(255, 77, 109, 0.1);
+            transition: transform 0.5s ease;
+        }
+
+        .memory-frame::before {
+            content: '❤️';
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 1.5rem;
+            z-index: 2;
+        }
+
+        .memory-frame:hover {
+            transform: rotate(0deg) scale(1.05);
+        }
+
+        .memory-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 12px;
+            display: block;
+        }
+
+        /* Responsive Fixes */
+        @media (max-width: 480px) {
+            .memory-frame {
+                height: 160px;
+            }
+
+            h1 {
+                font-size: 2.5rem;
+            }
+
+            h2 {
+                font-size: 1.4rem;
+            }
+
+            p {
+                font-size: 1rem;
+            }
+        }
+
+        .compliment-box {
+            font-weight: 700;
+            color: #d90429;
+            font-size: 1.3rem;
+            min-height: 60px;
+            padding: 15px;
+            background: rgba(255, 77, 109, 0.08);
+            border-radius: 15px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="bg-wrapper">
+        <div class="blob blob1"></div>
+        <div class="blob blob2"></div>
+        <div class="blob blob3"></div>
+    </div>
+
+    <audio id="bgMusic" loop>
+        <source src="Neelothi Video Song Out Now  Sirai  Vikram Prabhu.mp3" type="audio/mpeg">
+    </audio>
+
+    <div class="journey-container">
+        <div class="progress-header">
+            <div id="progressBarInner"></div>
+        </div>
+        <div class="steps-wrapper" id="stepsWrapper"></div>
+    </div>
+
+    <script>
+        const stepsData = [
+            { id: 1, icon: '💝', h1: 'Hi Ammu!', p: 'Happy Birthday Jenifar! 🎉\nNamakkaga indha journey ready panni vechirukan.\nIdhu namma life-oda real story. Full-ah paaru ok-va?', btn: 'Sari, Paakalam! ❤️' },
+            { id: 2, icon: '📅', h2: 'March 12, 2002', p: 'Andha special day dhaan oru azhagana angel\nmannula vandhu porandhuta! ✨\nThat angel is YOU, Jenifar Ammu.', img: 'https://images.unsplash.com/photo-1513151233558-d860c5398176?auto=format&fit=crop&q=80&w=500', btn: 'Next enna? 😍' },
+            { id: 3, icon: '👦', h2: 'May 01, 2002', p: 'Adhuthu konja naal laye unakaaga dhaan\nnaanum porandhu vandhen! 😜\nTwo 2002 legends ready-aagittu irundhom.', btn: 'Sollu, Apuram? 👀' },
+            { id: 4, icon: '🎓', h2: 'College: 2019', p: 'Namma rendu perum college-la orey time-la dhaan irundhom.\nAana appo unaku na yaru nu kooda theriyadhu, naanum edhum kandukala! 😂', img: 'https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&q=80&w=500', btn: 'True dhan! 🧐' },
+            { id: 5, icon: '⏳', h2: 'The Blank Years', p: '2019 to 2021 varaiku namma pesunadhe illa.\nOru conversation kooda nadakkala, appadiye poittu irundhudhu.', btn: 'Sari, Puridhu! 🤩' },
+            { id: 6, icon: '🕰️', h2: 'Start: 2021', p: 'Finally, 2021-la dhaan namma pesa start pannom.\nAndha spark-um appo dhaan correct-ah start aachi! ✨', img: 'https://images.unsplash.com/photo-1516589174184-e67823dbf48e?auto=format&fit=crop&q=80&w=500', btn: 'August 2021... ✨' },
+            { id: 7, icon: '💘', h2: 'Proposal', p: 'August 2021... indha month dhaan un kitta\nfirst time naan en love-ah sonnen.\nRomba bayandhutu dhaan sonnen! 🙈', btn: 'Nee enna sonna? 👀' },
+            { id: 8, icon: '🔥', h2: 'Dec 28, 2021', p: 'Nee "YES" sonna andha miracle day.\nBharath life-ae andha second dhaan full-ah maarichi!', btn: 'Surprise Time! 🎁' },
+            { id: 9, icon: '�', h2: 'Special for You!', p: 'Indha "Neelothi" song unakaga naan padunadhu Ammu!\nSurprise-ah irukka? Play panni kelu...', type: 'music', btn: 'Semma! Next 👉' },
+            { id: 10, icon: '🏠', h2: 'Happy Years', p: '2022 and 2023 namma semma happy-ah irundhom.\nEn ulagame unna suthi dhaan irundhuchi.', img: 'https://images.unsplash.com/photo-1511895426328-dc8714191300?auto=format&fit=crop&q=80&w=500', btn: 'Apuram enna? ❤️' },
+            { id: 11, icon: '🌑', h2: 'July 11, 2024', p: 'Indha day en life-la romba iruttana day.\nNee "venam" nu sonna piragu na full-ah udhanju poiten.', btn: 'Feeling sad... 🥺' },
+            { id: 12, icon: '💔', h2: 'The Struggle', p: '1 year naan romba kasta patten.\nEnmela enakee Confidence konjam kuda illa, life tholacha mari irundhuchi.\nAana unna na eppaum venam nu nenaikala.', btn: 'Apuram? 😢' },
+            { id: 13, icon: '🎭', h2: 'Yes/No Game!', p: 'Konja kaalam "Ok" nu solli again "No" nu sonna.\nEn heart-ah vachi football vilayadite! 😂', btn: 'Aug 28, 2025... ✨' },
+            { id: 14, icon: '✨', h2: 'The Miracle', p: 'Finally Aug 28, 2025-la namma close aanom.\nAndha second-la dhaan en life thirumba vandhuchi.', img: 'https://images.unsplash.com/photo-1494774157365-9e04c6720e47?auto=format&fit=crop&q=80&w=500', btn: 'So Happy! 😍' },
+            { id: 15, icon: '🥺', h2: 'Realization', p: '1 week laye nee enna purinjikita.\nNaan evlo unmaiya irukken nu unaku thirinjudhuchi.', btn: 'Family Problems? 🛡️' },
+            { id: 16, icon: '🛡️', h2: 'Strong Love', p: 'Family problems irundhalum elathayum thaangittu\nen kooda anba irukka paaru... nee dhaan di!', btn: 'Namma Sandaigal 🥊' },
+            { id: 17, icon: '🥊', h2: 'The Sorry Logic!', p: 'Prachana yar pannaalum final-ah naan dhaan sorry solluven! 😂\nThis is the secret of namma love secret.', btn: 'Lol, True dhan! 🤣' },
+            { id: 18, icon: '🏡', h2: 'My Happiness', p: 'Nee dhaan en home, en safety, en life.\nUnna epovume vitta kodukka maaten.', img: 'https://images.unsplash.com/photo-1516589174184-e67823dbf48e?auto=format&fit=crop&q=80&w=500', btn: 'Love Test! 🌡️' },
+            { id: 19, icon: '🤞', h2: 'My Promise', p: 'Engaiyum poga maaten... un koodave iruppan.\nAlways yours, Bharath.', btn: 'Un Love Meter 📊' },
+            { id: 20, icon: '📊', h2: 'Love Meter', p: 'Oru chinna game Ammu. Slider-ah move pannu.\nEn mela unaku evlo love iruku?', type: 'meter', btn: 'Check Result! 👉' },
+            { id: 21, icon: '✨', h2: 'Thinking...', p: 'Check panni paaru, naan unna pathi enna nenaikiran nu.', type: 'compliment', btn: 'Final Victory? 💍' },
+            { id: 22, icon: '🎉', h1: 'I Love You!', p: 'Namma love win aayiduchi Ammu!\nIppo na unna paakanum pola iruku.\nSeekiram Video call vaa!', type: 'finish' }
+        ];
+
+        let currentStep = 1;
+        const stepsWrapper = document.getElementById('stepsWrapper');
+        const progressInner = document.getElementById('progressBarInner');
+
+        function initSteps() {
+            stepsData.forEach((step, index) => {
+                const stepDiv = document.createElement('div');
+                stepDiv.className = `step ${index === 0 ? 'active' : ''}`;
+                stepDiv.id = `step${step.id}`;
+
+                let content = '';
+
+                // Add Memory Frame if image exists
+                if (step.img) {
+                    content += `
+                        <div class="memory-frame">
+                            <img src="${step.img}" class="memory-img" alt="Memory">
+                        </div>
+                    `;
+                } else {
+                    content += `<span class="icon-box">${step.icon}</span>`;
+                }
+
+                content += `
+                    ${step.h1 ? `<h1>${step.h1}</h1>` : ''}
+                    ${step.h2 ? `<h2>${step.h2}</h2>` : ''}
+                    <p>${step.p}</p>
+                `;
+
+                if (step.type === 'music') {
+                    content += `<button class="btn btn-music" onclick="playMusic()">▶️ Play 'Neelothi'</button>`;
+                } else if (step.type === 'meter') {
+                    content += `
+                        <div class="slider-wrap">
+                            <input type="range" min="1" max="100" value="50" class="love-slider" oninput="updateMeter(this.value)">
+                        </div>
+                        <p id="meterText" style="font-weight:bold; color:var(--primary);">Oru 50% ah? 🤨</p>
+                    `;
+                } else if (step.type === 'compliment') {
+                    content += `
+                        <div class="compliment-box" id="compBox">Nee dhaan en ulagam! 🌍</div>
+                        <button class="btn" style="background:#555; width:150px;" onclick="newCompliment()">More... ✨</button>
+                    `;
+                } else if (step.type === 'finish') {
+                    content += `
+                        <a href="https://call.whatsapp.com/video/hdzUkrheCL54ZESXslks2t" class="btn btn-call" target="_blank">
+                            📞 Video Call Vaa!
+                        </a>
+                    `;
+                }
+
+                if (index < stepsData.length - 1) {
+                    const nextId = stepsData[index + 1].id;
+                    content += `<button class="btn" onclick="nextStep(${nextId})">${step.btn || 'Next'} ➡️</button>`;
+                }
+
+                stepDiv.innerHTML = content;
+                stepsWrapper.appendChild(stepDiv);
+            });
+        }
+
+        function nextStep(id) {
+            const current = document.querySelector('.step.active');
+            if (current) {
+                current.classList.remove('active');
+                current.classList.add('exit');
+            }
+            setTimeout(() => {
+                if (current) current.classList.remove('exit');
+                const next = document.getElementById(`step${id}`);
+                if (next) {
+                    next.classList.add('active');
+                    currentStep = id;
+                    const idx = stepsData.findIndex(s => s.id === id);
+                    progressInner.style.width = `${((idx + 1) / stepsData.length) * 100}%`;
+                }
+                if (id === 22) triggerConfetti();
+            }, 600);
+        }
+
+        function playMusic() {
+            const audio = document.getElementById('bgMusic');
+            audio.play().then(() => {
+                alert("Enjoy the song! Naan dhaan padunan Ammu! 🎤🎶");
+            }).catch(() => {
+                alert("Click anywhere first to play audio.");
+            });
+        }
+
+        function updateMeter(val) {
+            const text = document.getElementById('meterText');
+            if (val < 30) text.innerText = "Evlo kammi? 🥺";
+            else if (val < 80) text.innerText = "Nalla love dhan! 🥰";
+            else text.innerText = "Semma love! ❤️❤️❤️❤️";
+        }
+
+        const compliments = ["Nee oru angel! ✨", "Semma azhagu! 😍", "My soulmate! ❤️", "Best Ammu! 🏆", "Gold heart! 💎", "En uyir nee! 💓"];
+        function newCompliment() {
+            const box = document.getElementById('compBox');
+            box.innerText = compliments[Math.floor(Math.random() * compliments.length)];
+        }
+
+        function triggerConfetti() {
+            const duration = 5000;
+            const end = Date.now() + duration;
+            (function frame() {
+                confetti({ particleCount: 5, angle: 60, spread: 55, origin: { x: 0 } });
+                confetti({ particleCount: 5, angle: 120, spread: 55, origin: { x: 1 } });
+                if (Date.now() < end) requestAnimationFrame(frame);
+            }());
+        }
+
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.className = 'heart-particle';
+            heart.innerText = ['❤️', '💖', '✨', '😍'][Math.floor(Math.random() * 4)];
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.fontSize = (15 + Math.random() * 20) + 'px';
+            heart.style.animationDuration = (5 + Math.random() * 5) + 's';
+            document.body.appendChild(heart);
+            setTimeout(() => heart.remove(), 10000);
+        }
+        setInterval(createHeart, 600);
+        initSteps();
+    </script>
+</body>
+
+</html>
