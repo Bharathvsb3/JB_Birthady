@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>A Journey of Love - Jenifar ❤️</title>
     <link
         href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;400;600;800&family=Great+Vibes&display=swap"
@@ -14,8 +14,6 @@
             --primary: #ff4d6d;
             --secondary: #ff8fa3;
             --dark: #590d22;
-            --glass: rgba(255, 255, 255, 0.88);
-            --gradient: linear-gradient(45deg, #ff9a9e 0%, #fecfef 99%, #fecfef 100%);
         }
 
         * {
@@ -25,11 +23,17 @@
             -webkit-tap-highlight-color: transparent;
         }
 
+        html {
+            height: 100%;
+            height: -webkit-fill-available;
+        }
+
         body {
             font-family: 'Poppins', sans-serif;
-            background: #ffffff;
+            background: #fff;
             color: var(--dark);
             min-height: 100vh;
+            min-height: 100dvh;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -37,16 +41,14 @@
             position: relative;
         }
 
-        /* --- LIQUID AURORA BACKGROUND --- */
+        /* ===== LIQUID AURORA BG ===== */
         .bg-wrapper {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            inset: 0;
             z-index: 0;
             filter: blur(80px);
             opacity: 0.8;
+            pointer-events: none;
         }
 
         .blob {
@@ -79,52 +81,45 @@
         }
 
         @keyframes move1 {
-            0% {
-                transform: translate(0, 0) scale(1);
-            }
-
-            100% {
+            to {
                 transform: translate(300px, 400px) scale(1.3);
             }
         }
 
         @keyframes move2 {
-            0% {
-                transform: translate(0, 0) scale(1.2);
-            }
-
-            100% {
+            to {
                 transform: translate(-400px, -300px) scale(0.8);
             }
         }
 
         @keyframes move3 {
-            0% {
+            from {
                 transform: translate(-50%, -50%) scale(1);
             }
 
-            100% {
-                transform: translate(00px, -450px) scale(1.5);
+            to {
+                transform: translate(0, -450px) scale(1.5);
             }
         }
 
+        /* ===== FLOATING HEARTS ===== */
         .heart-particle {
-            position: absolute;
+            position: fixed;
             color: var(--primary);
             opacity: 0.4;
             pointer-events: none;
             z-index: 1;
-            animation: floatUpDown 8s linear infinite;
+            animation: floatUp 8s linear infinite;
         }
 
-        @keyframes floatUpDown {
+        @keyframes floatUp {
             0% {
                 transform: translateY(110vh) rotate(0deg) scale(0.8);
                 opacity: 0;
             }
 
             20% {
-                opacity: 0.6;
+                opacity: 0.5;
             }
 
             100% {
@@ -133,31 +128,214 @@
             }
         }
 
+        /* ===========================
+           LOVE LOCK SCREEN
+        =========================== */
+        #lockScreen {
+            position: fixed;
+            inset: 0;
+            z-index: 100;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .lock-card {
+            width: 100%;
+            max-width: 420px;
+            background: rgba(255, 255, 255, 0.82);
+            backdrop-filter: blur(30px) saturate(180%);
+            -webkit-backdrop-filter: blur(30px) saturate(180%);
+            border-radius: 36px;
+            border: 1px solid rgba(255, 255, 255, 0.9);
+            box-shadow: 0 30px 80px rgba(89, 13, 34, 0.18);
+            padding: 36px 28px 32px;
+            text-align: center;
+            animation: popIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        @keyframes popIn {
+            from {
+                transform: scale(0.8);
+                opacity: 0;
+            }
+
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .lock-icon {
+            font-size: 3.5rem;
+            display: block;
+            margin-bottom: 10px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .lock-card h1 {
+            font-family: 'Great Vibes', cursive;
+            font-size: clamp(2.2rem, 8vw, 3rem);
+            color: var(--primary);
+            margin-bottom: 6px;
+        }
+
+        .lock-card .sub {
+            font-size: 0.9rem;
+            color: #888;
+            margin-bottom: 22px;
+        }
+
+        /* Emoji Puzzle Clues */
+        .puzzle-clue {
+            background: rgba(255, 77, 109, 0.07);
+            border-radius: 18px;
+            padding: 16px 20px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255, 77, 109, 0.15);
+        }
+
+        .puzzle-clue .emoji-row {
+            font-size: 2rem;
+            letter-spacing: 8px;
+            margin-bottom: 8px;
+        }
+
+        .puzzle-clue .clue-text {
+            font-size: 0.88rem;
+            color: #777;
+            line-height: 1.5;
+        }
+
+        /* PIN Buttons */
+        .pin-display {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .pin-dot {
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: rgba(255, 77, 109, 0.15);
+            border: 2px solid rgba(255, 77, 109, 0.3);
+            transition: all 0.3s;
+        }
+
+        .pin-dot.filled {
+            background: var(--primary);
+            border-color: var(--primary);
+            transform: scale(1.1);
+        }
+
+        .pin-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+
+        .pin-btn {
+            background: rgba(255, 255, 255, 0.8);
+            border: 1.5px solid rgba(255, 77, 109, 0.2);
+            border-radius: 16px;
+            padding: 14px;
+            font-size: 1.4rem;
+            font-weight: 700;
+            font-family: 'Poppins', sans-serif;
+            color: var(--dark);
+            cursor: pointer;
+            transition: all 0.15s ease;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        .pin-btn:active {
+            transform: scale(0.9);
+            background: var(--primary);
+            color: white;
+        }
+
+        .pin-btn.del {
+            font-size: 1.1rem;
+            color: #aaa;
+        }
+
+        .pin-btn.zero {
+            grid-column: 2;
+        }
+
+        .lock-error {
+            color: var(--primary);
+            font-size: 0.85rem;
+            font-weight: 600;
+            min-height: 20px;
+            margin-bottom: 8px;
+            animation: shake 0.4s ease;
+        }
+
+        @keyframes shake {
+
+            0%,
+            100% {
+                transform: translateX(0);
+            }
+
+            25% {
+                transform: translateX(-8px);
+            }
+
+            75% {
+                transform: translateX(8px);
+            }
+        }
+
+        #lockScreen.fade-out {
+            animation: fadeOut 0.8s ease forwards;
+        }
+
+        @keyframes fadeOut {
+            to {
+                opacity: 0;
+                transform: scale(1.05);
+                pointer-events: none;
+            }
+        }
+
+        /* ===========================
+           MAIN JOURNEY CARD
+        =========================== */
         .journey-container {
             width: 92%;
             max-width: 480px;
             height: 90vh;
+            height: 90dvh;
             max-height: 800px;
             background: rgba(255, 255, 255, 0.75);
             backdrop-filter: blur(35px) saturate(160%);
             -webkit-backdrop-filter: blur(35px) saturate(160%);
             border-radius: 36px;
             box-shadow: 0 30px 80px rgba(89, 13, 34, 0.15);
-            border: 1px solid rgba(255, 255, 255, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.85);
             position: relative;
             z-index: 10;
-            overflow: hidden;
             display: flex;
             flex-direction: column;
             padding: 20px 20px 16px;
             text-align: center;
+            /* Prevent body scroll bleed */
+            overflow: hidden;
+            touch-action: manipulation;
         }
 
         @media (min-width: 900px) {
             .journey-container {
                 max-width: 560px;
                 height: 88vh;
-                max-height: 850px;
+                height: 88dvh;
+                max-height: 860px;
                 padding: 28px 32px 20px;
                 border-radius: 44px;
             }
@@ -165,18 +343,21 @@
 
         @media (max-width: 380px) {
             .journey-container {
-                padding: 14px 14px 12px;
+                width: 96%;
+                height: 96vh;
+                height: 96dvh;
+                padding: 14px 12px 10px;
                 border-radius: 28px;
-                height: 95vh;
             }
         }
 
+        /* ===== PROGRESS BAR ===== */
         .progress-header {
             width: 100%;
-            height: 10px;
-            background: rgba(0, 0, 0, 0.04);
+            height: 8px;
+            background: rgba(0, 0, 0, 0.06);
             border-radius: 20px;
-            margin-bottom: 24px;
+            margin-bottom: 14px;
             overflow: hidden;
             flex-shrink: 0;
         }
@@ -186,31 +367,33 @@
             width: 0%;
             background: linear-gradient(90deg, #ff8fa3, #ff4d6d, #d90429);
             transition: width 0.7s cubic-bezier(0.19, 1, 0.22, 1);
+            border-radius: 20px;
         }
 
+        /* ===== STEPS ===== */
         .steps-wrapper {
-            flex-grow: 1;
+            flex: 1;
             position: relative;
             overflow: hidden;
+            border-radius: 20px;
         }
 
         .step {
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            inset: 0;
             display: flex;
             flex-direction: column;
             justify-content: flex-start;
             align-items: center;
             opacity: 0;
             transform: translateY(40px) scale(0.93);
-            transition: all 0.75s cubic-bezier(0.34, 1.56, 0.64, 1);
+            transition: all 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
             pointer-events: none;
+            /* Key fix: scroll inside step, NOT the body */
             overflow-y: auto;
             overflow-x: hidden;
-            padding: 10px 4px 16px;
+            -webkit-overflow-scrolling: touch;
+            padding: 8px 6px 20px;
             scrollbar-width: none;
             -ms-overflow-style: none;
         }
@@ -230,33 +413,35 @@
             transform: translateY(-40px) scale(0.93);
         }
 
+        /* ===== TYPOGRAPHY ===== */
         h1 {
             font-family: 'Great Vibes', cursive;
-            font-size: clamp(2.4rem, 8vw, 3.5rem);
+            font-size: clamp(2.4rem, 8vw, 3.4rem);
             color: #d90429;
-            margin-bottom: 12px;
+            margin-bottom: 10px;
             line-height: 1.2;
         }
 
         h2 {
-            font-size: clamp(1.2rem, 4.5vw, 1.6rem);
+            font-size: clamp(1.1rem, 4vw, 1.5rem);
             color: var(--primary);
-            margin-bottom: 10px;
+            margin-bottom: 8px;
             font-weight: 700;
         }
 
         p {
-            font-size: clamp(0.9rem, 3.5vw, 1.05rem);
+            font-size: clamp(0.88rem, 3.5vw, 1rem);
             color: #4b4b4b;
             line-height: 1.75;
-            margin-bottom: 18px;
+            margin-bottom: 14px;
             white-space: pre-line;
-            padding: 0 8px;
+            padding: 0 6px;
         }
 
+        /* ===== ICON ===== */
         .icon-box {
-            font-size: clamp(3rem, 10vw, 4.5rem);
-            margin-bottom: 12px;
+            font-size: clamp(2.8rem, 10vw, 4rem);
+            margin-bottom: 10px;
             display: block;
             filter: drop-shadow(0 8px 12px rgba(217, 4, 41, 0.2));
             animation: float 3s ease-in-out infinite;
@@ -270,93 +455,91 @@
             }
 
             50% {
-                transform: translateY(-15px);
+                transform: translateY(-12px);
             }
         }
 
+        /* ===== BUTTON ===== */
         .btn {
             background: linear-gradient(135deg, #ff4d6d 0%, #d90429 100%);
             color: white;
-            padding: clamp(12px, 3.5vw, 16px) clamp(22px, 6vw, 32px);
+            padding: clamp(11px, 3vw, 15px) clamp(20px, 6vw, 30px);
             border-radius: 50px;
             border: none;
-            font-size: clamp(0.9rem, 3.5vw, 1.05rem);
+            font-size: clamp(0.85rem, 3.5vw, 1rem);
             font-weight: 600;
+            font-family: 'Poppins', sans-serif;
             cursor: pointer;
             box-shadow: 0 10px 22px rgba(217, 4, 41, 0.3);
-            transition: all 0.3s ease;
+            transition: all 0.25s ease;
             width: 88%;
             max-width: 300px;
-            margin-top: 10px;
+            margin-top: 8px;
             text-decoration: none;
             display: inline-block;
+            flex-shrink: 0;
         }
 
-        .btn:hover,
         .btn:active {
-            transform: translateY(-3px);
-            box-shadow: 0 14px 28px rgba(217, 4, 41, 0.45);
+            transform: scale(0.96);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 14px 28px rgba(217, 4, 41, 0.4);
         }
 
         .btn-music {
-            background: linear-gradient(135deg, #a18cd1 0%, #8e44ad 100%);
+            background: linear-gradient(135deg, #a18cd1, #8e44ad);
+            box-shadow: 0 10px 22px rgba(142, 68, 173, 0.3);
         }
 
         .btn-call {
-            background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
-            animation: pulse Green 2s infinite;
+            background: linear-gradient(135deg, #2ecc71, #27ae60);
+            box-shadow: 0 10px 22px rgba(39, 174, 96, 0.3);
+            animation: pulseGreen 2s infinite;
         }
 
-        .slider-wrap {
-            width: 90%;
-            margin: 20px 0;
+        @keyframes pulseGreen {
+
+            0%,
+            100% {
+                box-shadow: 0 10px 22px rgba(39, 174, 96, 0.3);
+            }
+
+            50% {
+                box-shadow: 0 10px 35px rgba(39, 174, 96, 0.65);
+            }
         }
 
-        .love-slider {
-            -webkit-appearance: none;
-            width: 100%;
-            height: 10px;
-            border-radius: 10px;
-            background: #ffe5ec;
-        }
-
-        .love-slider::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            width: 25px;
-            height: 25px;
-            background: var(--primary);
-            border-radius: 50%;
-            border: 3px solid white;
-            cursor: pointer;
-        }
-
-        /* --- MEMORY IMAGE FRAME --- */
+        /* ===== MEMORY FRAME ===== */
         .memory-frame {
             width: 90%;
-            height: 200px;
-            margin: 0 auto 20px;
-            border-radius: 20px;
-            padding: 8px;
+            height: clamp(130px, 28vw, 190px);
+            margin: 4px auto 14px;
+            border-radius: 18px;
+            padding: 6px;
             background: white;
-            box-shadow: 0 15px 35px rgba(255, 77, 109, 0.2);
+            box-shadow: 0 10px 28px rgba(255, 77, 109, 0.2);
             position: relative;
-            transform: rotate(-2deg);
-            border: 1px solid rgba(255, 77, 109, 0.1);
+            transform: rotate(-1.5deg);
+            border: 1px solid rgba(255, 77, 109, 0.12);
             transition: transform 0.5s ease;
+            flex-shrink: 0;
         }
 
         .memory-frame::before {
             content: '❤️';
             position: absolute;
-            top: -15px;
+            top: -13px;
             left: 50%;
             transform: translateX(-50%);
-            font-size: 1.5rem;
+            font-size: 1.3rem;
             z-index: 2;
         }
 
-        .memory-frame:hover {
-            transform: rotate(0deg) scale(1.05);
+        .memory-frame:active {
+            transform: rotate(0deg) scale(1.04);
         }
 
         .memory-img {
@@ -367,46 +550,106 @@
             display: block;
         }
 
-        /* === Responsive memory frame fluid height === */
-        .memory-frame {
-            height: clamp(140px, 30vw, 200px);
-            flex-shrink: 0;
+        /* ===== SLIDER ===== */
+        .slider-wrap {
+            width: 90%;
+            margin: 12px 0;
         }
 
-        @media (max-width: 380px) {
-            .memory-frame {
-                height: 120px;
-            }
+        .love-slider {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 100%;
+            height: 10px;
+            border-radius: 10px;
+            background: #ffe5ec;
+            outline: none;
         }
 
-        @media (min-width: 600px) and (max-width: 899px) {
-            .journey-container {
-                max-width: 520px;
-                height: 85vh;
-            }
+        .love-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 26px;
+            height: 26px;
+            background: var(--primary);
+            border-radius: 50%;
+            border: 3px solid white;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(255, 77, 109, 0.4);
         }
 
+        /* ===== COMPLIMENT BOX ===== */
         .compliment-box {
             font-weight: 700;
             color: #d90429;
-            font-size: clamp(1rem, 3.5vw, 1.2rem);
-            min-height: 56px;
+            font-size: clamp(0.95rem, 3.5vw, 1.15rem);
+            min-height: 52px;
             padding: 14px;
-            background: rgba(255, 77, 109, 0.08);
-            border-radius: 15px;
-            margin-bottom: 16px;
+            background: rgba(255, 77, 109, 0.07);
+            border-radius: 14px;
+            margin-bottom: 12px;
             width: 90%;
+        }
+
+        /* Tablet */
+        @media (min-width: 600px) and (max-width: 899px) {
+            .journey-container {
+                max-width: 520px;
+            }
         }
     </style>
 </head>
 
 <body>
+
+    <!-- Aurora Background -->
     <div class="bg-wrapper">
         <div class="blob blob1"></div>
         <div class="blob blob2"></div>
         <div class="blob blob3"></div>
     </div>
 
+    <!-- ====== LOVE LOCK SCREEN ====== -->
+    <div id="lockScreen">
+        <div class="lock-card">
+            <span class="lock-icon">🔐</span>
+            <h1>Love Lock</h1>
+            <p class="sub">Only ONE person can open this... Is that you? 🥰</p>
+
+            <div class="puzzle-clue">
+                <div class="emoji-row">🎂 + 🎉 + 💝</div>
+                <div class="clue-text">Unga special day, unga special feeling...<br>Enter the PIN to unlock! 💌</div>
+            </div>
+
+            <!-- PIN hint: 1212 (Jenifar's birthday: March 12 → 12, Month 03... using day 12 twice as a fun personal pin) -->
+            <!-- Hint shown below: "Hint: Andha special date! 😉" -->
+            <div class="pin-display">
+                <div class="pin-dot" id="dot0"></div>
+                <div class="pin-dot" id="dot1"></div>
+                <div class="pin-dot" id="dot2"></div>
+                <div class="pin-dot" id="dot3"></div>
+            </div>
+
+            <div class="lock-error" id="lockError"></div>
+
+            <div class="pin-grid">
+                <button class="pin-btn" onclick="pinPress('1')">1</button>
+                <button class="pin-btn" onclick="pinPress('2')">2</button>
+                <button class="pin-btn" onclick="pinPress('3')">3</button>
+                <button class="pin-btn" onclick="pinPress('4')">4</button>
+                <button class="pin-btn" onclick="pinPress('5')">5</button>
+                <button class="pin-btn" onclick="pinPress('6')">6</button>
+                <button class="pin-btn" onclick="pinPress('7')">7</button>
+                <button class="pin-btn" onclick="pinPress('8')">8</button>
+                <button class="pin-btn" onclick="pinPress('9')">9</button>
+                <button class="pin-btn zero" onclick="pinPress('0')">0</button>
+                <button class="pin-btn del" onclick="pinDel()">⌫</button>
+            </div>
+
+            <p style="font-size:0.78rem; color:#bbb; margin-top:4px;">💡 Hint: Nee porandha date! (DDMM)</p>
+        </div>
+    </div>
+
+    <!-- ====== JOURNEY ====== -->
     <audio id="bgMusic" loop>
         <source src="Neelothi Video Song Out Now  Sirai  Vikram Prabhu.mp3" type="audio/mpeg">
     </audio>
@@ -419,29 +662,70 @@
     </div>
 
     <script>
+        // ===== LOCK SCREEN LOGIC =====
+        const SECRET_PIN = '1203'; // Jenifar birthday: March 12 → 1203
+        let pinEntered = '';
+
+        function pinPress(num) {
+            if (pinEntered.length >= 4) return;
+            pinEntered += num;
+            updateDots();
+            if (pinEntered.length === 4) checkPin();
+        }
+
+        function pinDel() {
+            pinEntered = pinEntered.slice(0, -1);
+            updateDots();
+            document.getElementById('lockError').textContent = '';
+        }
+
+        function updateDots() {
+            for (let i = 0; i < 4; i++) {
+                document.getElementById('dot' + i).classList.toggle('filled', i < pinEntered.length);
+            }
+        }
+
+        function checkPin() {
+            if (pinEntered === SECRET_PIN) {
+                document.getElementById('lockError').textContent = '✅ Correct! Welcome Ammu! 💝';
+                document.getElementById('lockError').style.color = '#27ae60';
+                setTimeout(() => {
+                    const ls = document.getElementById('lockScreen');
+                    ls.classList.add('fade-out');
+                    setTimeout(() => ls.remove(), 800);
+                }, 700);
+            } else {
+                document.getElementById('lockError').textContent = '❌ Wrong PIN! Try again 😜';
+                document.getElementById('lockError').style.color = '#ff4d6d';
+                pinEntered = '';
+                updateDots();
+            }
+        }
+
+        // ===== JOURNEY STEPS =====
         const stepsData = [
             { id: 1, icon: '💝', h1: 'Hi Ammu!', p: 'Happy Birthday Jenifar! 🎉\nNamakkaga indha journey ready panni vechirukan.\nIdhu namma life-oda real story. Full-ah paaru ok-va?', btn: 'Sari, Paakalam! ❤️' },
             { id: 2, icon: '📅', h2: 'March 12, 2002', p: 'Andha special day dhaan oru azhagana angel\nmannula vandhu porandhuta! ✨\nThat angel is YOU, Jenifar Ammu.', img: 'https://images.unsplash.com/photo-1513151233558-d860c5398176?auto=format&fit=crop&q=80&w=500', btn: 'Next enna? 😍' },
             { id: 3, icon: '👦', h2: 'May 01, 2002', p: 'Adhuthu konja naal laye unakaaga dhaan\nnaanum porandhu vandhen! 😜\nTwo 2002 legends ready-aagittu irundhom.', img: 'https://images.unsplash.com/photo-1504196606672-aef5c9cefc92?auto=format&fit=crop&q=80&w=500', btn: 'Sollu, Apuram? 👀' },
-            { id: 4, icon: '🎓', h2: 'College: 2019', p: 'Namma rendu perum college-la orey time-la dhaan irundhom.\nAana appo unaku na yaru nu kooda theriyadhu, naanum edhum kandukala! 😂', img: 'https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&q=80&w=500', btn: 'True dhan! 🧐' },
+            { id: 4, icon: '🎓', h2: 'College: 2019', p: 'Namma rendu perum college-la orey time-la dhaan irundhom.\nAana appo unaku na yaru nu kooda theriyadhu,\nnaanum edhum kandukala! 😂', img: 'https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&q=80&w=500', btn: 'True dhan! 🧐' },
             { id: 5, icon: '⏳', h2: 'The Blank Years', p: '2019 to 2021 varaiku namma pesunadhe illa 😂\nRandom strangers mathiri irundhom!\nAana destiny vera plan vachundhu! 🎯', img: 'https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&q=80&w=500', btn: 'Sari, Puridhu! 🤩' },
             { id: 6, icon: '🕰️', h2: 'Start: 2021', p: 'Finally, 2021-la dhaan namma pesa start pannom.\nAndha spark-um appo dhaan correct-ah start aachi! ✨', img: 'https://images.unsplash.com/photo-1516589174184-e67823dbf48e?auto=format&fit=crop&q=80&w=500', btn: 'August 2021... ✨' },
             { id: 7, icon: '💘', h2: 'Proposal 💌', p: 'August 2021... un kitta first time\nnaan en love-ah sonnen! 🙈\nHeart beat 200-ku pona mari irundhuchi! 💓', img: 'https://images.unsplash.com/photo-1518621736915-f3b1c41bfd00?auto=format&fit=crop&q=80&w=500', btn: 'Nee enna sonna? 👀' },
             { id: 8, icon: '🔥', h2: 'Dec 28, 2021 🎊', p: 'Nee "YES" sonna andha miracle day! 🥳\nBharath life-ae andha one second dhaan full-ah maarichi!\nBest day ever! 🏆', img: 'https://images.unsplash.com/photo-1530103862676-de8c9debad1d?auto=format&fit=crop&q=80&w=500', btn: 'Surprise Time! 🎁' },
-            { id: 9, icon: '�', h2: 'Special for You!', p: 'Indha "Neelothi" song unakaga naan padunadhu Ammu!\nSurprise-ah irukka? Play panni kelu...', type: 'music', btn: 'Semma! Next 👉' },
-            { id: 10, icon: '🏠', h2: 'Happy Years', p: '2022 and 2023 namma semma happy-ah irundhom.\nEn ulagame unna suthi dhaan irundhuchi.', img: 'https://images.unsplash.com/photo-1511895426328-dc8714191300?auto=format&fit=crop&q=80&w=500', btn: 'Apuram enna? ❤️' },
-            { id: 11, icon: '�️', h2: 'July 11, 2024', p: 'Andha time konjam gap vandhuchu...\nAana naan un mela ulla love-ah poklam nu nenaikala! 🫶', img: 'https://images.unsplash.com/photo-1519692933481-e162a57d6721?auto=format&fit=crop&q=80&w=500', btn: 'Apuram? 🌤️' },
-            { id: 12, icon: '🤡', h2: 'That 1 Year 😅', p: 'Oru full year naan romba "try hard" mode-la irundhein! 😂\nEveryone saw me... except you! 🫣\nAana give up? Never! 😤', img: 'https://images.unsplash.com/photo-1531427186611-ecfd6d936c79?auto=format&fit=crop&q=80&w=500', btn: 'Apuram? �' },
+            { id: 9, icon: '🎤', h2: 'Special for You!', p: 'Indha "Neelothi" song unakaga naan padunadhu Ammu!\nSurprise-ah irukka? Play panni kelu... 🎵', type: 'music', btn: 'Semma! Next 👉' },
+            { id: 10, icon: '🏠', h2: 'Happy Years', p: '2022 and 2023 namma semma happy-ah irundhom.\nEn ulagame unna suthi dhaan irundhuchi. 🥰', img: 'https://images.unsplash.com/photo-1511895426328-dc8714191300?auto=format&fit=crop&q=80&w=500', btn: 'Apuram enna? ❤️' },
+            { id: 11, icon: '🌧️', h2: 'July 11, 2024', p: 'Andha time konjam gap vandhuchu...\nAana naan un mela ulla love-ah poklam nu nenaikala! 🫶', img: 'https://images.unsplash.com/photo-1519692933481-e162a57d6721?auto=format&fit=crop&q=80&w=500', btn: 'Apuram? 🌤️' },
+            { id: 12, icon: '🤡', h2: 'That 1 Year 😅', p: 'Oru full year naan romba "try hard" mode-la irundhein! 😂\nEveryone saw me... except you! 🫣\nAana give up? Never! 😤', img: 'https://images.unsplash.com/photo-1531427186611-ecfd6d936c79?auto=format&fit=crop&q=80&w=500', btn: 'Apuram? 😏' },
             { id: 13, icon: '🎭', h2: 'The Yes/No Game 😂', p: 'Seri nu sonna... illa nu sonna... again seri...\nActually nee en heart-ah vachi\nCricket match vilayadite!! 🏏😂', img: 'https://images.unsplash.com/photo-1513346940221-6f673d962e97?auto=format&fit=crop&q=80&w=500', btn: 'Aug 28, 2025... ✨' },
-            { id: 14, icon: '✨', h2: 'The Miracle', p: 'Finally Aug 28, 2025-la namma close aanom.\nAndha second-la dhaan en life thirumba vandhuchi.', img: 'https://images.unsplash.com/photo-1494774157365-9e04c6720e47?auto=format&fit=crop&q=80&w=500', btn: 'So Happy! 😍' },
+            { id: 14, icon: '✨', h2: 'The Miracle', p: 'Finally Aug 28, 2025-la namma close aanom.\nAndha second-la dhaan en life thirumba vandhuchi. 🌈', img: 'https://images.unsplash.com/photo-1494774157365-9e04c6720e47?auto=format&fit=crop&q=80&w=500', btn: 'So Happy! 😍' },
             { id: 15, icon: '🥺', h2: 'Finally! 😮', p: 'Just 1 week laye nee enna full-ah purinjikita! 🎉\nEn patience, en care, en love...\nEverything certified by Jenifar! ✅😄', img: 'https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&q=80&w=500', btn: 'Strong-ah irukkom! 🛡️' },
             { id: 16, icon: '🦁', h2: 'Unbeatable! 💪', p: 'Problems vanthu paakanum... namma love-ku\nena pannum! 😎 Nee + Naan = Unstoppable! 🔥\nNee dhaan en power-up! 🎮', img: 'https://images.unsplash.com/photo-1522529599102-193c0d76b5b6?auto=format&fit=crop&q=80&w=500', btn: 'Namma Sandaigal 🥊' },
-            { id: 17, icon: '🥊', h2: 'Namma Fight Club! 😂', p: 'Nee fight start pannuva... 💥\nNaan sorry solluven... �\nNee again ready... naan again sorry! 🔁\nIndhA cycle-ku end-e illai! 🤣', img: 'https://images.unsplash.com/photo-1516589091380-5d8e87df6999?auto=format&fit=crop&q=80&w=500', btn: 'Lol, True dhan! 🤣' },
-            { id: 18, icon: '🏡', h2: 'My Happiness', p: 'Nee dhaan en home, en safety, en life.\nUnna epovume vitta kodukka maaten.', img: 'https://images.unsplash.com/photo-1516589174184-e67823dbf48e?auto=format&fit=crop&q=80&w=500', btn: 'Love Test! 🌡️' },
+            { id: 17, icon: '🥊', h2: 'Namma Fight Club! 😂', p: 'Nee fight start pannuva... 💥\nNaan sorry solluven... 😇\nNee again ready... naan again sorry! 🔁\nIndha cycle-ku end-e illai! 🤣', img: 'https://images.unsplash.com/photo-1516589091380-5d8e87df6999?auto=format&fit=crop&q=80&w=500', btn: 'Lol, True dhan! 🤣' },
+            { id: 18, icon: '🏡', h2: 'My Happiness', p: 'Nee dhaan en home, en safety, en life.\nUnna epovume vitta kodukka maaten. 💖', img: 'https://images.unsplash.com/photo-1516589174184-e67823dbf48e?auto=format&fit=crop&q=80&w=500', btn: 'Love Test! 🌡️' },
             { id: 19, icon: '🤞', h2: 'My Promise 💍', p: 'Naan engaiyum poga maaten Ammu...\nUn kittaye iruppan, always! 🥰\nForever yours, Bharath. ❤️', img: 'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?auto=format&fit=crop&q=80&w=500', btn: 'Un Love Meter 📊' },
             { id: 20, icon: '📊', h2: 'Love Meter', p: 'Oru chinna game Ammu. Slider-ah move pannu.\nEn mela unaku evlo love iruku?', type: 'meter', btn: 'Check Result! 👉' },
-            { id: 21, icon: '✨', h2: 'Thinking...', p: 'Check panni paaru, naan unna pathi enna nenaikiran nu.', type: 'compliment', btn: 'Final Victory? 💍' },
-            { id: 22, icon: '🎉', h1: 'I Love You!', p: 'Namma love win aayiduchi Ammu!\nIppo na unna paakanum pola iruku.\nSeekiram Video call vaa!', type: 'finish' }
+            { id: 21, icon: '✨', h2: 'Thinking...', p: 'Check panni paaru, naan unna pathi enna nenaikiran nu.', type: 'compliment', btn: 'Final one? 💍' },
+            { id: 22, icon: '🎉', h1: 'I Love You!', p: 'Namma love win aayiduchi Ammu!\nIppo na unna paakanum pola iruku.\nSeekiram Video call vaa! 📞😍', type: 'finish' }
         ];
 
         let currentStep = 1;
@@ -456,13 +740,8 @@
 
                 let content = '';
 
-                // Add Memory Frame if image exists
                 if (step.img) {
-                    content += `
-                        <div class="memory-frame">
-                            <img src="${step.img}" class="memory-img" alt="Memory">
-                        </div>
-                    `;
+                    content += `<div class="memory-frame"><img src="${step.img}" class="memory-img" alt="Memory" loading="lazy"></div>`;
                 } else {
                     content += `<span class="icon-box">${step.icon}</span>`;
                 }
@@ -480,12 +759,12 @@
                         <div class="slider-wrap">
                             <input type="range" min="1" max="100" value="50" class="love-slider" oninput="updateMeter(this.value)">
                         </div>
-                        <p id="meterText" style="font-weight:bold; color:var(--primary);">Oru 50% ah? 🤨</p>
+                        <p id="meterText" style="font-weight:700; color:var(--primary);">Oru 50% ah? 🤨</p>
                     `;
                 } else if (step.type === 'compliment') {
                     content += `
                         <div class="compliment-box" id="compBox">Nee dhaan en ulagam! 🌍</div>
-                        <button class="btn" style="background:#555; width:150px;" onclick="newCompliment()">More... ✨</button>
+                        <button class="btn" style="background:linear-gradient(135deg,#667eea,#764ba2); margin-bottom:6px;" onclick="newCompliment()">More... ✨</button>
                     `;
                 } else if (step.type === 'finish') {
                     content += `
@@ -516,6 +795,7 @@
                 const next = document.getElementById(`step${id}`);
                 if (next) {
                     next.classList.add('active');
+                    next.scrollTop = 0; // reset scroll on each step
                     currentStep = id;
                     const idx = stepsData.findIndex(s => s.id === id);
                     progressInner.style.width = `${((idx + 1) / stepsData.length) * 100}%`;
@@ -526,29 +806,31 @@
 
         function playMusic() {
             const audio = document.getElementById('bgMusic');
-            audio.play().then(() => {
-                alert("Enjoy the song! Naan dhaan padunan Ammu! 🎤🎶");
-            }).catch(() => {
-                alert("Click anywhere first to play audio.");
-            });
+            audio.play().catch(() => { });
+            alert('🎤 Naan dhaan padunan Ammu! Neelothi... 🎶');
         }
 
         function updateMeter(val) {
             const text = document.getElementById('meterText');
-            if (val < 30) text.innerText = "Evlo kammi? 🥺";
-            else if (val < 80) text.innerText = "Nalla love dhan! 🥰";
-            else text.innerText = "Semma love! ❤️❤️❤️❤️";
+            if (val < 30) text.innerText = 'Evlo kammi? 🥺 Increase panna!!';
+            else if (val < 60) text.innerText = 'Konjam konjam... 💛 nalla iruku!';
+            else if (val < 90) text.innerText = 'Nalla love dhan! 🥰 Almost there!';
+            else text.innerText = 'SEMMA LOVE! ❤️❤️❤️ Correct answer!';
         }
 
-        const compliments = ["Nee oru angel! ✨", "Semma azhagu! 😍", "My soulmate! ❤️", "Best Ammu! 🏆", "Gold heart! 💎", "En uyir nee! 💓"];
+        const compliments = [
+            'Nee oru angel! ✨', 'Semma azhagu! 😍',
+            'My soulmate! ❤️', 'Best Ammu! 🏆',
+            'Gold heart! 💎', 'En uyir nee! 💓',
+            'Nee illama en life illai! 🌟', 'Cutest person ever! 🥰'
+        ];
         function newCompliment() {
             const box = document.getElementById('compBox');
             box.innerText = compliments[Math.floor(Math.random() * compliments.length)];
         }
 
         function triggerConfetti() {
-            const duration = 5000;
-            const end = Date.now() + duration;
+            const duration = 5000, end = Date.now() + duration;
             (function frame() {
                 confetti({ particleCount: 5, angle: 60, spread: 55, origin: { x: 0 } });
                 confetti({ particleCount: 5, angle: 120, spread: 55, origin: { x: 1 } });
@@ -559,14 +841,15 @@
         function createHeart() {
             const heart = document.createElement('div');
             heart.className = 'heart-particle';
-            heart.innerText = ['❤️', '💖', '✨', '😍'][Math.floor(Math.random() * 4)];
+            heart.innerText = ['❤️', '💖', '✨', '😍', '💕'][Math.floor(Math.random() * 5)];
             heart.style.left = Math.random() * 100 + 'vw';
-            heart.style.fontSize = (15 + Math.random() * 20) + 'px';
+            heart.style.fontSize = (12 + Math.random() * 16) + 'px';
             heart.style.animationDuration = (5 + Math.random() * 5) + 's';
             document.body.appendChild(heart);
             setTimeout(() => heart.remove(), 10000);
         }
-        setInterval(createHeart, 600);
+
+        setInterval(createHeart, 700);
         initSteps();
     </script>
 </body>
