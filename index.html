@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Happy Birthday Ammu ❤️</title>
+    <title>Happy Birthday Jenifar 💙</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Great+Vibes&display=swap"
         rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
@@ -26,79 +26,76 @@
 
         body {
             font-family: 'Poppins', sans-serif;
-            min-height: 100vh;
             min-height: 100dvh;
             display: flex;
             justify-content: center;
             align-items: center;
-            position: relative;
-            background: #0f010a;
+            background: #030a1f;
             overflow: hidden;
             color: #fff;
         }
 
-        /* ── DYNAMIC COLORFUL BACKGROUND ── */
+        /* BLUE AURORA */
         .bg {
             position: fixed;
             inset: 0;
             z-index: 0;
-            filter: blur(80px);
-            opacity: 0.7;
+            filter: blur(90px);
+            opacity: .7;
             pointer-events: none;
         }
 
         .b {
             position: absolute;
             border-radius: 50%;
-            transition: all 1s ease;
         }
 
         .b1 {
             width: 600px;
             height: 600px;
-            top: -100px;
-            left: -100px;
-            background: #d90429;
-            animation: m1 20s infinite alternate;
+            top: -150px;
+            left: -150px;
+            background: radial-gradient(circle, #1d4ed8 0%, transparent 70%);
+            animation: m1 18s infinite alternate;
         }
 
         .b2 {
-            width: 500px;
-            height: 500px;
-            bottom: -100px;
-            right: -100px;
-            background: #ff4d6d;
-            animation: m2 25s infinite alternate;
+            width: 550px;
+            height: 550px;
+            bottom: -120px;
+            right: -120px;
+            background: radial-gradient(circle, #0ea5e9 0%, transparent 70%);
+            animation: m2 22s infinite alternate;
         }
 
         .b3 {
             width: 400px;
             height: 400px;
-            top: 30%;
-            left: 30%;
-            background: #800f2f;
-            animation: m3 15s infinite alternate;
+            top: 40%;
+            left: 20%;
+            background: radial-gradient(circle, #7c3aed 0%, transparent 70%);
+            animation: m3 14s infinite alternate;
         }
 
         @keyframes m1 {
             to {
-                transform: translate(150px, 200px) scale(1.1)
+                transform: translate(200px, 250px)scale(1.15)
             }
         }
 
         @keyframes m2 {
             to {
-                transform: translate(-150px, -150px) scale(0.9)
+                transform: translate(-200px, -200px)scale(.85)
             }
         }
 
         @keyframes m3 {
             from {
-                transform: translate(-50%, -50%)
+                transform: translate(-40%, -40%)
             }
 
             to {
-                transform: translate(100px, -200px) scale(1.2)
+                transform: translate(100px, -200px)scale(1.2)
             }
         }
 
@@ -111,25 +108,25 @@
 
         @keyframes ptr {
             0% {
-                transform: translateY(105vh) rotate(0);
+                transform: translateY(105vh)rotate(0);
                 opacity: 0
             }
 
             15% {
-                opacity: 0.6
+                opacity: .5
             }
 
             90% {
-                opacity: 0.4
+                opacity: .4
             }
 
             100% {
-                transform: translateY(-15vh) rotate(360deg);
+                transform: translateY(-12vh)rotate(360deg);
                 opacity: 0
             }
         }
 
-        /* ════════════ LOGIN ════════════ */
+        /* LOGIN */
         #login {
             position: fixed;
             inset: 0;
@@ -137,18 +134,18 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 18px;
+            padding: 20px;
         }
 
         .lc {
             width: 100%;
             max-width: 360px;
-            background: rgba(20, 2, 10, 0.85);
+            background: rgba(5, 15, 50, .85);
             backdrop-filter: blur(30px);
             -webkit-backdrop-filter: blur(30px);
             border-radius: 40px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(96, 165, 250, .25);
+            box-shadow: 0 30px 70px rgba(0, 0, 0, .6), 0 0 40px rgba(29, 78, 216, .15);
             padding: 40px 24px 30px;
             text-align: center;
             animation: popIn .7s cubic-bezier(.34, 1.56, .64, 1);
@@ -166,97 +163,6 @@
             }
         }
 
-        .hrt {
-            font-size: 3.5rem;
-            display: block;
-            margin-bottom: 12px;
-            animation: hp 1.4s ease-in-out infinite;
-        }
-
-        @keyframes hp {
-
-            0%,
-            100% {
-                transform: scale(1)
-            }
-
-            50% {
-                transform: scale(1.15)
-            }
-        }
-
-        .lt {
-            font-family: 'Great Vibes', cursive;
-            font-size: clamp(2rem, 8vw, 2.7rem);
-            color: #ff4d6d;
-            margin-bottom: 5px;
-        }
-
-        .clue {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 20px;
-            padding: 15px;
-            margin-bottom: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .ct {
-            font-size: .8rem;
-            color: rgba(255, 255, 255, 0.7);
-            line-height: 1.5;
-        }
-
-        .dots {
-            display: flex;
-            justify-content: center;
-            gap: 12px;
-            margin-bottom: 15px;
-        }
-
-        .dot {
-            width: 16px;
-            height: 16px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.1);
-            border: 2px solid rgba(255, 255, 255, 0.1);
-            transition: all .2s;
-        }
-
-        .dot.on {
-            background: #ff4d6d;
-            border-color: #ff4d6d;
-            transform: scale(1.2);
-            box-shadow: 0 0 10px #ff4d6d;
-        }
-
-        .pgrid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-        }
-
-        .pb {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 18px;
-            padding: 15px 0;
-            font-size: 1.3rem;
-            font-weight: 600;
-            color: #fff;
-            cursor: pointer;
-            transition: all .15s;
-        }
-
-        .pb:active {
-            transform: scale(.9);
-            background: rgba(255, 77, 109, 0.3);
-        }
-
-        #login.out {
-            animation: lout .6s ease forwards;
-            pointer-events: none;
-        }
-
         @keyframes lout {
             to {
                 opacity: 0;
@@ -264,18 +170,150 @@
             }
         }
 
-        /* ════════════ MAIN CARD ════════════ */
+        #login.out {
+            animation: lout .6s forwards;
+            pointer-events: none;
+        }
+
+        .hrt {
+            font-size: 3.6rem;
+            display: block;
+            margin-bottom: 12px;
+            animation: hp 1.6s ease-in-out infinite;
+        }
+
+        @keyframes hp {
+
+            0%,
+            100% {
+                transform: scale(1);
+                filter: drop-shadow(0 0 8px #3b82f6)
+            }
+
+            50% {
+                transform: scale(1.12);
+                filter: drop-shadow(0 0 22px #60a5fa)
+            }
+        }
+
+        .lt {
+            font-family: 'Great Vibes', cursive;
+            font-size: clamp(2rem, 8vw, 2.8rem);
+            color: #60a5fa;
+            margin-bottom: 6px;
+        }
+
+        .ls-sub {
+            font-size: .8rem;
+            color: rgba(255, 255, 255, .4);
+            margin-bottom: 20px;
+        }
+
+        .clue {
+            background: rgba(59, 130, 246, .08);
+            border: 1px solid rgba(59, 130, 246, .2);
+            border-radius: 18px;
+            padding: 14px;
+            margin-bottom: 20px;
+        }
+
+        .ct {
+            font-size: .8rem;
+            color: rgba(255, 255, 255, .65);
+            line-height: 1.6;
+        }
+
+        .dots {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 14px;
+        }
+
+        .dot {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, .08);
+            border: 2px solid rgba(59, 130, 246, .2);
+            transition: all .22s;
+        }
+
+        .dot.on {
+            background: #3b82f6;
+            border-color: #60a5fa;
+            box-shadow: 0 0 12px #3b82f6;
+            transform: scale(1.2);
+        }
+
+        .lerr {
+            font-size: .8rem;
+            font-weight: 700;
+            height: 22px;
+            margin-bottom: 8px;
+            color: #f87171;
+        }
+
+        @keyframes shk {
+
+            0%,
+            100% {
+                transform: translateX(0)
+            }
+
+            25% {
+                transform: translateX(-8px)
+            }
+
+            75% {
+                transform: translateX(8px)
+            }
+        }
+
+        .pgrid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .pb {
+            background: rgba(59, 130, 246, .08);
+            border: 1px solid rgba(59, 130, 246, .18);
+            border-radius: 18px;
+            padding: 15px 0;
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #fff;
+            cursor: pointer;
+            transition: all .15s;
+        }
+
+        .pb:active {
+            transform: scale(.88);
+            background: rgba(59, 130, 246, .35);
+        }
+
+        .pb.del {
+            color: rgba(255, 255, 255, .4);
+            font-size: 1rem;
+        }
+
+        .pb.z {
+            grid-column: 2;
+        }
+
+        /* MAIN CARD */
         #card {
             width: 94%;
             max-width: 440px;
-            height: 88vh;
-            height: 88dvh;
+            height: 90dvh;
             max-height: 820px;
             border-radius: 40px;
-            background: rgba(255, 255, 255, 0.03);
+            background: rgba(5, 12, 40, .65);
             backdrop-filter: blur(35px);
             -webkit-backdrop-filter: blur(35px);
-            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.1) inset;
+            box-shadow: 0 30px 70px rgba(0, 0, 0, .55), 0 0 0 1px rgba(96, 165, 250, .15) inset;
             position: relative;
             z-index: 10;
             display: flex;
@@ -298,14 +336,31 @@
             right: 0;
             height: 4px;
             z-index: 20;
-            background: rgba(255, 255, 255, 0.05);
+            background: rgba(255, 255, 255, .06);
         }
 
         #pbi {
             height: 100%;
             width: 0%;
-            background: #ff4d6d;
+            background: linear-gradient(90deg, #1d4ed8, #38bdf8);
             transition: width .6s ease;
+            border-radius: 2px;
+        }
+
+        /* STEP COUNTER BADGE */
+        .step-badge {
+            position: absolute;
+            top: 12px;
+            right: 16px;
+            z-index: 20;
+            background: rgba(59, 130, 246, .15);
+            border: 1px solid rgba(59, 130, 246, .3);
+            border-radius: 50px;
+            padding: 4px 14px;
+            font-size: .72rem;
+            font-weight: 700;
+            color: #60a5fa;
+            letter-spacing: .5px;
         }
 
         .sw {
@@ -323,7 +378,7 @@
             opacity: 0;
             pointer-events: none;
             transform: translateX(100%);
-            transition: transform .6s cubic-bezier(.4, 1, .2, 1), opacity .4s ease;
+            transition: transform .55s cubic-bezier(.4, 1, .2, 1), opacity .35s ease;
             overflow-y: auto;
             scrollbar-width: none;
         }
@@ -343,7 +398,7 @@
             transform: translateX(-100%);
         }
 
-        /* ── INNER CONTENT ── */
+        /* INNER */
         .inner {
             width: 100%;
             flex: 1;
@@ -351,14 +406,15 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 40px 24px 20px;
+            padding: 44px 22px 16px;
             text-align: center;
         }
 
         .s-icon {
-            font-size: 4rem;
-            margin-bottom: 15px;
+            font-size: clamp(3rem, 10vw, 4rem);
+            margin-bottom: 14px;
             animation: flt 3s ease-in-out infinite;
+            display: block;
         }
 
         @keyframes flt {
@@ -369,63 +425,63 @@
             }
 
             50% {
-                transform: translateY(-15px)
+                transform: translateY(-14px)
             }
         }
 
         .s-title {
             font-family: 'Great Vibes', cursive;
-            font-size: 3rem;
-            color: #ff4d6d;
+            font-size: clamp(2.2rem, 8vw, 3rem);
+            color: #60a5fa;
             margin-bottom: 10px;
+            text-shadow: 0 0 30px rgba(96, 165, 250, .4);
         }
 
         .s-head {
-            font-size: 1.2rem;
+            font-size: 1rem;
             font-weight: 700;
-            color: #fff;
-            margin-bottom: 15px;
-            line-height: 1.4;
+            color: rgba(255, 255, 255, .85);
+            margin-bottom: 14px;
+            line-height: 1.45;
         }
 
+        /* HINT LINES */
         .hints-wrap {
             width: 100%;
             display: flex;
             flex-direction: column;
-            gap: 12px;
-            margin-bottom: 20px;
+            gap: 10px;
+            margin-bottom: 18px;
         }
 
-        .hint-line {
-            font-size: .9rem;
-            color: rgba(255, 255, 255, 0.7);
-            font-weight: 500;
-            line-height: 1.6;
-            padding: 12px 16px;
-            border-radius: 20px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+        .hl {
+            font-size: .88rem;
+            color: rgba(255, 255, 255, .7);
+            line-height: 1.65;
+            padding: 11px 16px;
+            border-radius: 18px;
+            background: rgba(255, 255, 255, .04);
+            border: 1px solid rgba(255, 255, 255, .08);
             opacity: 0;
-            transform: translateY(15px);
-            transition: all .6s ease;
+            transform: translateY(14px);
+            transition: all .55s ease;
         }
 
-        .hint-line.show {
+        .hl.show {
             opacity: 1;
             transform: translateY(0);
         }
 
         .mf {
             width: 90%;
-            height: 180px;
-            margin-bottom: 20px;
-            border-radius: 24px;
-            background: rgba(255, 255, 255, 0.1);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-            flex-shrink: 0;
-            transform: rotate(-2deg);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            height: 160px;
+            margin-bottom: 18px;
+            border-radius: 22px;
             overflow: hidden;
+            flex-shrink: 0;
+            transform: rotate(-1.5deg);
+            box-shadow: 0 12px 35px rgba(0, 0, 0, .3);
+            border: 1px solid rgba(255, 255, 255, .12);
         }
 
         .mf img {
@@ -435,67 +491,28 @@
             display: block;
         }
 
-        /* ── TRICK HINT (BOTTOM) ── */
-        .trick-hint {
-            width: 100%;
-            padding: 15px;
-            background: rgba(255, 77, 109, 0.1);
-            font-size: 0.75rem;
+        /* TRICK HINT BAR */
+        .trick-bar {
+            flex-shrink: 0;
+            padding: 14px 20px;
+            background: rgba(59, 130, 246, .1);
+            border-top: 1px solid rgba(59, 130, 246, .2);
+            font-size: .75rem;
             font-weight: 700;
-            color: #ff8fa3;
+            color: #60a5fa;
+            letter-spacing: .8px;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            border-top: 1px solid rgba(255, 77, 109, 0.2);
+            text-align: center;
         }
 
-        /* ── PUZZLE ── */
-        .pz-wrap {
-            position: relative;
-            border-radius: 24px;
-            overflow: hidden;
-            cursor: pointer;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
-            background: rgba(255, 255, 255, 0.05);
-        }
-
-        .piece {
-            position: absolute;
-            background-repeat: no-repeat;
-            transition: all .6s cubic-bezier(.34, 1.56, .64, 1);
-        }
-
-        /* ── METER ── */
-        .sw-wrap {
-            width: 90%;
-            margin: 20px 0;
-        }
-
-        .love-sl {
-            -webkit-appearance: none;
-            width: 100%;
-            height: 8px;
-            border-radius: 10px;
-            background: rgba(255, 255, 255, 0.1);
-            outline: none;
-        }
-
-        .love-sl::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            width: 28px;
-            height: 28px;
-            background: #ff4d6d;
-            border-radius: 50%;
-            border: 3px solid #fff;
-            cursor: pointer;
-        }
-
-        /* ── VINYL ── */
+        /* MUSIC STEP */
         .vinyl {
-            font-size: 5rem;
-            animation: spin 4s linear infinite;
+            font-size: 5.5rem;
             display: block;
-            margin-bottom: 15px;
+            margin-bottom: 16px;
+            animation: spin 4s linear infinite;
             cursor: pointer;
+            filter: drop-shadow(0 0 20px rgba(96, 165, 250, .5));
         }
 
         @keyframes spin {
@@ -504,9 +521,104 @@
             }
         }
 
-        /* ── FINISH ── */
+        .vinyl:active {
+            transform: scale(.95);
+        }
+
+        .play-lbl {
+            font-size: .85rem;
+            color: rgba(255, 255, 255, .5);
+            margin-top: 8px;
+        }
+
+        /* PUZZLE */
+        .pz-wrap {
+            position: relative;
+            border-radius: 20px;
+            overflow: hidden;
+            cursor: pointer;
+            border: 2px solid rgba(59, 130, 246, .25);
+        }
+
+        .pz-piece {
+            position: absolute;
+            background-repeat: no-repeat;
+            transition: all .55s cubic-bezier(.34, 1.56, .64, 1);
+        }
+
+        .pz-stat {
+            font-size: .8rem;
+            color: #60a5fa;
+            font-weight: 700;
+            margin-top: 14px;
+            min-height: 20px;
+        }
+
+        .pz-btn {
+            display: none;
+            margin-top: 16px;
+            background: rgba(59, 130, 246, .18);
+            border: 1px solid rgba(59, 130, 246, .4);
+            border-radius: 50px;
+            padding: 13px 32px;
+            font-weight: 700;
+            font-size: .88rem;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        /* METER */
+        .sw-wrap {
+            width: 90%;
+            margin: 20px 0;
+        }
+
+        .love-sl {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 100%;
+            height: 10px;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, .08);
+            outline: none;
+        }
+
+        .love-sl::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 30px;
+            height: 30px;
+            background: #3b82f6;
+            border-radius: 50%;
+            border: 4px solid #fff;
+            cursor: pointer;
+            box-shadow: 0 0 12px rgba(59, 130, 246, .6);
+        }
+
+        .m-lbl {
+            font-size: .9rem;
+            font-weight: 700;
+            color: #60a5fa;
+            margin-top: 8px;
+            min-height: 24px;
+        }
+
+        /* CONFETTI BTN */
+        .conf-btn {
+            background: rgba(59, 130, 246, .15);
+            border: 1px solid rgba(59, 130, 246, .4);
+            border-radius: 50px;
+            padding: 14px 32px;
+            font-weight: 700;
+            font-size: .88rem;
+            color: #fff;
+            cursor: pointer;
+            margin-top: 16px;
+            letter-spacing: .5px;
+        }
+
+        /* FINISH */
         .call-btn {
-            background: #ff4d6d;
+            background: #3b82f6;
             color: #fff;
             padding: 16px 40px;
             border-radius: 50px;
@@ -515,6 +627,20 @@
             text-decoration: none;
             display: inline-block;
             margin-top: 20px;
+            box-shadow: 0 12px 30px rgba(59, 130, 246, .4);
+            animation: cpulse 2s infinite;
+        }
+
+        @keyframes cpulse {
+
+            0%,
+            100% {
+                box-shadow: 0 12px 30px rgba(59, 130, 246, .4), 0 0 0 0 rgba(59, 130, 246, .3)
+            }
+
+            50% {
+                box-shadow: 0 12px 30px rgba(59, 130, 246, .4), 0 0 0 12px rgba(59, 130, 246, 0)
+            }
         }
     </style>
 </head>
@@ -526,14 +652,14 @@
         <div class="b b3"></div>
     </div>
 
-    <!-- ════════════ LOGIN ════════════ -->
+    <!-- LOGIN -->
     <div id="login">
         <div class="lc">
-            <span class="hrt">💝</span>
-            <div class="lt">Happy Birthday!</div>
-            <div class="ls">Unlock your special 15-step journey Ammu!</div>
+            <span class="hrt">💙</span>
+            <div class="lt">Hi Thangam!</div>
+            <div class="ls-sub">Unlock your 15 step Birthday Journey</div>
             <div class="clue">
-                <div class="ct">Birth Date (DDMM) please! 🥰</div>
+                <div class="ct">🎂 Enter your Birthday PIN<br><b style="color:#60a5fa;">March 12 → 1203</b></div>
             </div>
             <div class="dots">
                 <div class="dot" id="d0"></div>
@@ -541,7 +667,7 @@
                 <div class="dot" id="d2"></div>
                 <div class="dot" id="d3"></div>
             </div>
-            <div id="lerr" style="color:#ff4d6d;font-size:.8rem;height:1.2rem;margin-bottom:10px;"></div>
+            <div class="lerr" id="lerr"></div>
             <div class="pgrid">
                 <button class="pb" onclick="pp('1')">1</button><button class="pb" onclick="pp('2')">2</button><button
                     class="pb" onclick="pp('3')">3</button>
@@ -554,150 +680,356 @@
         </div>
     </div>
 
-    <!-- ════════════ JOURNEY ════════════ -->
+    <!-- AUDIO -->
     <audio id="bgm" loop>
         <source src="Neelothi Video Song Out Now  Sirai  Vikram Prabhu.mp3" type="audio/mpeg">
     </audio>
+
+    <!-- CARD -->
     <div id="card">
         <div class="prog">
             <div id="pbi"></div>
         </div>
+        <div class="step-badge" id="sbadge">1 / 15</div>
         <div class="sw" id="sw"></div>
     </div>
 
     <script>
+        /* ─── PIN ─── */
         const PIN = '1203'; let pv = '';
         function pp(n) { if (pv.length >= 4) return; pv += n; updD(); if (pv.length === 4) chkPin(); }
-        function pd() { pv = pv.slice(0, -1); updD(); document.getElementById('lerr').innerText = ''; }
+        function pd() { pv = pv.slice(0, -1); updD(); ler(''); }
         function updD() { for (let i = 0; i < 4; i++)document.getElementById('d' + i).classList.toggle('on', i < pv.length); }
-        function chkPin() { if (pv === PIN) { document.getElementById('login').classList.add('out'); setTimeout(() => { document.getElementById('login').style.display = 'none'; document.getElementById('card').classList.add('show'); initSteps(); }, 600); } else { document.getElementById('lerr').innerText = 'Wrong PIN! 😜'; pv = ''; updD(); } }
+        function ler(m) { document.getElementById('lerr').textContent = m; }
+        function chkPin() {
+            if (pv === PIN) {
+                ler('✅ Happy Birthday Thangam! 💙');
+                setTimeout(() => { document.getElementById('login').classList.add('out'); }, 400);
+                setTimeout(() => { document.getElementById('login').style.display = 'none'; document.getElementById('card').classList.add('show'); start(); }, 1000);
+            } else {
+                ler('❌ Wrong PIN! March 12 → 1203 😜');
+                document.getElementById('lerr').style.animation = 'none';
+                void document.getElementById('lerr').offsetWidth;
+                document.getElementById('lerr').style.animation = 'shk .4s ease';
+                pv = ''; updD();
+            }
+        }
 
+        /* ─── 15 STEPS ─── */
+        /* nav types: tap | shake | doubletap | longpress | rotate | puzzle | meter | confetti | finish */
         const ST = [
-            { icon: '💝', title: 'Step 1: Start!', hints: ['Happy Birthday Jenifar!', 'Idhu namma 15-step unique journey!', 'Check the hint below for every step!'], trick: 'Tap anywhere to begin' },
-            { icon: '🎓', head: 'Step 2: 2019 Vibes', hints: ['Nan invisible-ah dhaan irunthen.', 'Corner-la irunthu unna pathutu...', 'Namma college days memory!'], trick: 'Shake your phone to skip!' },
-            { icon: '🎶', head: 'Step 3: Neelothi', hints: ['My voice for my Thangam!', 'Listen to this special song...'], trick: 'Double tap the spinning record!' },
-            { icon: '📞', head: 'Step 4: First Contact', hints: ['August 2021 dhaan start achi!', 'The first "Hi" that changed everything.'], trick: 'Long press (Hold) for 2 seconds!' },
-            { icon: '💖', head: 'Step 5: Nickname', hints: ['"Thangam" - En gold nee!', 'Why I call you my precious.'], trick: 'Swipe UP on this card!' },
-            { icon: '🧩', head: 'Step 6: Memory Puzzle', hints: ['Namma photo reveal panna assemble pannu!'], trick: 'Tap pieces to build the picture!' },
-            { icon: '😁', head: 'Step 7: That Smile', hints: ['Un smile pathu dhaan nan flat aanein!', 'Magical expression...'], trick: 'Shake to see the next memory!' },
-            { icon: '🥊', head: 'Step 8: The Fight Cycle', hints: ['Fight -> Sorry -> Repeat 😂', 'Every fight made us stronger!'], trick: 'Double tap to say "Sorry" 😜' },
-            { icon: '💍', head: 'Step 9: The YES Day!', hints: ['Dec 28, 2021.', 'The day you made me the happiest!'], trick: 'Hold the Pink Heart for 2 seconds!' },
-            { icon: '✈️', head: 'Step 10: Animun Dreams', hints: ['Switzerland? Paris? Maldives?', 'Enga polam Thangam?'], trick: 'Rotate your phone 90 degrees!' },
-            { icon: '🏡', head: 'Step 11: Home', hints: ['You are not just my love.', 'You are my home and my peace.'], trick: 'Shake for some love vibes!' },
-            { icon: '📊', head: 'Step 12: Love Meter', hints: ['Can you show how much?', 'Slide it to the max!'], trick: 'Slide to 100% to continue!' },
-            { icon: '✨', head: 'Step 13: Compliments', hints: ['Nee dhaan en devathai!', 'Walking angel nee.'], trick: 'Shake to shuffle compliments!' },
-            { icon: '🎉', head: 'Step 14: Celebration', hints: ['It\'s 2026 and we are here!', 'Best year is coming for us.'], trick: 'Long press to release confetti!' },
-            { icon: '💍', title: 'Step 15: Forever!', hints: ['Happy Birthday Ammu!', 'Seekiram vaa Thangam!', 'Wait panreinn... 😍'], trick: 'Double Tap to finish!' }
+            {
+                n: 0, icon: '💙', title: 'Hi Thangam!', nav: 'tap',
+                hints: ['Happy Birthday Jenifar! 🎂', 'Idhu namma 15-step unique journey!', 'Oru oru step la oru surprise irukku!'],
+                trick: '👆 Tap anywhere on screen to begin!'
+            },
+
+            {
+                n: 1, icon: '🎓', head: '2019 – College Days', nav: 'shake',
+                img: 'https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&q=80&w=500',
+                hints: ['Same college, same time... 😮', 'Aana nee Bharath-ah notice pannala 😂', 'Corner-la invisible dhaan irunthen!'],
+                trick: '📳 SHAKE YOUR PHONE to go next!'
+            },
+
+            {
+                n: 2, icon: '🎵', head: 'Step 3 – Neelothi 🎶', nav: 'doubletap', music: true,
+                hints: ['My special song for you!', 'Tap the 🎵 to play...', 'Then DOUBLE TAP to continue!'],
+                trick: 'Double Tap anywhere to continue!'
+            },
+
+            {
+                n: 3, icon: '📱', head: 'Step 4 – First "Hi"', nav: 'longpress',
+                hints: ['August 2021 – First message!', 'One small "Hi" that changed everything...', 'That conversation = start of US! 💙'],
+                trick: '👆 Long Press (hold 2 sec) to continue!'
+            },
+
+            {
+                n: 4, icon: '💛', head: 'Step 5 – "Thangam"', nav: 'tap',
+                hints: ['"Thangam" = Gold in Tamil 💛', 'Most precious thing in the world = YOU!', 'Every day I call you that with love.'],
+                trick: '👆 Tap anywhere to continue →'
+            },
+
+            {
+                n: 5, icon: '🧩', head: 'Step 6 – Memory Puzzle', nav: 'puzzle',
+                hints: ['Namma photo assemble pannu!', 'Tap each piece to place it perfectly!'],
+                trick: 'Tap all 9 pieces then press Continue!'
+            },
+
+            {
+                n: 6, icon: '😄', head: 'Step 7 – That Smile 😍', nav: 'shake',
+                img: 'https://images.unsplash.com/photo-1516589174184-e67823dbf48e?auto=format&fit=crop&q=80&w=500',
+                hints: ['Un smile pathu dhaan nan flat aanen! 🥹', 'That first smile = I knew you were different!', 'Still melts me every time! 💙'],
+                trick: '📳 SHAKE YOUR PHONE to go next!'
+            },
+
+            {
+                n: 7, icon: '🥊', head: 'Step 8 – The Fight Formula 😂', nav: 'doubletap',
+                hints: ['Nee: 💢 "Fight mode ON!"', 'Me: 😇 "Sorry Thangam sorry..."', 'Nee: 😤 "Not enough sorry!"', '(This loop has no end 🔁😂)'],
+                trick: 'Double Tap to send SORRY! 😜'
+            },
+
+            {
+                n: 8, icon: '💍', head: 'Step 9 – The YES! Day 🎉', nav: 'longpress',
+                hints: ['Dec 28, 2021... 📅', 'Heart beating like crazy! 💓', 'You said "YES"!! 🥳', 'Best moment of my entire life!'],
+                trick: 'Long Press 2 sec to relive it! 🥰'
+            },
+
+            {
+                n: 9, icon: '✈️', head: 'Step 10 – Animun Dreams 🌍', nav: 'rotate',
+                hints: ['Enga pogalam Thangam? 🗺️', 'Maldives? Switzerland? Paris? Ooty?', 'Ennamo oru place namma pogom! ✈️'],
+                trick: '↺ ROTATE PHONE 90° to continue!'
+            },
+
+            {
+                n: 10, icon: '🏡', head: 'Step 11 – My Home', nav: 'tap',
+                hints: ['Nee dhaan en home 🏡', 'Not just love – en entire life!', 'My calm, my peace, my joy = YOU.'],
+                trick: '👆 Tap anywhere to continue →'
+            },
+
+            {
+                n: 11, icon: '📊', head: 'Step 12 – Love Meter', nav: 'meter',
+                hints: ['Try to show how much!', 'Slide it ALL the way to 100%!', 'I already know the answer 😏'],
+                trick: 'Slide to 100% to unlock next step!'
+            },
+
+            {
+                n: 12, icon: '✨', head: 'Step 13 – You Are...', nav: 'shake',
+                hints: ['A walking angel! 👼', 'My sunshine on dark days ☀️', 'The reason I smile every morning 💙', 'Forever my favourite human!'],
+                trick: '📳 SHAKE to shuffle compliments!'
+            },
+
+            {
+                n: 13, icon: '🎉', head: 'Step 14 – 2026 & Beyond!', nav: 'confetti',
+                hints: ['2026 – we made it together! 🚀', 'Every year better because of you!', 'Best memories still coming for us! 💙'],
+                trick: 'Hold the button to release confetti! 🎊'
+            },
+
+            {
+                n: 14, icon: '💙', title: 'Happy Birthday Ammu! 🎂', nav: 'finish',
+                hints: ['Forever yours, Bharath 💍', 'You are my whole world!', 'Seekiram vaa Thangam! 📞😍'],
+                trick: 'Double Tap to open your gift! 🎁'
+            }
         ];
 
-        let curIdx = 0, pzS = 0, pzPcs = [];
-        const swEl = document.getElementById('sw'), pbi = document.getElementById('pbi');
+        let cur = 0, pzS = 0, pzPcs = [], songReady = false;
+        const swEl = document.getElementById('sw'), pbi = document.getElementById('pbi'), badge = document.getElementById('sbadge');
 
-        function initSteps() {
-            ST.forEach((s, idx) => {
-                const d = document.createElement('div'); d.className = 'stp' + (idx === 0 ? ' active' : ''); d.id = 'stp' + idx;
-                let html = '';
-                if (idx === 2) { // Music
-                    html = `<div class="inner"><span class="vinyl" onclick="handleTrick('doubletap')">🎵</span><div class="s-head">${s.head}</div><div class="hints-wrap" id="hw${idx}"></div></div>`;
-                } else if (idx === 5) { // Puzzle
-                    html = `<div class="inner"><div class="s-head">${s.head}</div><div class="pz-wrap" id="pzWrap" onclick="tp()"></div><div class="pz-stat" id="pzStat">Assemble it!</div><div class="pz-cont" id="pzc" onclick="handleTrick('puzzle')">Continue ❤️</div></div>`;
-                } else if (idx === 11) { // Meter
-                    html = `<div class="inner"><span class="s-icon">📊</span><div class="s-head">${s.head}</div><div class="sw-wrap"><input type="range" min="1" max="100" value="50" class="love-sl" oninput="um(this.value)"></div><div id="mt">Slide it!</div></div>`;
+        /* ─── BUILD ALL STEPS ─── */
+        function start() {
+            ST.forEach((s, i) => {
+                const d = document.createElement('div');
+                d.className = 'stp' + (i === 0 ? ' active' : ''); d.id = 'stp' + i;
+                let body = '', extra = '';
+
+                if (s.music) {
+                    body = `<div class="inner">
+        <span class="vinyl" id="vinyl" onclick="playS()">🎵</span>
+        <div class="s-head">${s.head}</div>
+        <div class="hints-wrap" id="hw${i}"></div>
+        <div class="play-lbl" id="plbl">Tap 🎵 to play the song!</div>
+      </div>`;
+                } else if (s.nav === 'puzzle') {
+                    body = `<div class="inner">
+        <div class="s-head">${s.head}</div>
+        <div class="hints-wrap" id="hw${i}"></div>
+        <div class="pz-wrap" id="pzWrap" onclick="tapPz()"></div>
+        <div class="pz-stat" id="pzStat">Tap the puzzle!</div>
+        <button class="pz-btn" id="pzBtn" onclick="goNext()">Continue ❤️</button>
+      </div>`;
+                } else if (s.nav === 'meter') {
+                    body = `<div class="inner">
+        <span class="s-icon">📊</span>
+        <div class="s-head">${s.head}</div>
+        <div class="hints-wrap" id="hw${i}"></div>
+        <div class="sw-wrap"><input type="range" min="1" max="100" value="1" class="love-sl" id="loveSlide" oninput="updMeter(this.value)"></div>
+        <div class="m-lbl" id="mLbl">Slide to show love! ❤️</div>
+      </div>`;
+                } else if (s.nav === 'confetti') {
+                    body = `<div class="inner">
+        <span class="s-icon">${s.icon}</span>
+        <div class="s-head">${s.head}</div>
+        <div class="hints-wrap" id="hw${i}"></div>
+        <button class="conf-btn" id="confBtn" onmousedown="startConf()" ontouchstart="startConf()" onmouseup="stopConf()" ontouchend="stopConf()">🎊 Hold for Confetti!</button>
+      </div>`;
+                } else if (s.nav === 'finish') {
+                    body = `<div class="inner">
+        <span class="s-icon">${s.icon}</span>
+        <div class="s-title">${s.title || ''}</div>
+        <div class="hints-wrap" id="hw${i}"></div>
+        <a href="https://call.whatsapp.com/video/hdzUkrheCL54ZESXslks2t" class="call-btn" target="_blank">📞 Video Call Thangam!</a>
+      </div>`;
                 } else {
-                    html = `<div class="inner"><span class="s-icon">${s.icon || '💖'}</span>${s.title ? `<div class="s-title">${s.title}</div>` : ''}${s.head ? `<div class="s-head">${s.head}</div>` : ''}<div class="hints-wrap" id="hw${idx}"></div>${idx === 14 ? `<a href="https://call.whatsapp.com/video/hdzUkrheCL54ZESXslks2t" class="call-btn" target="_blank">📞 Video Call!</a>` : ''}</div>`;
+                    body = `<div class="inner">
+        <span class="s-icon">${s.icon || '💙'}</span>
+        ${s.title ? `<div class="s-title">${s.title}</div>` : ''}
+        ${s.head ? `<div class="s-head">${s.head}</div>` : ''}
+        ${s.img ? `<div class="mf"><img src="${s.img}" loading="lazy" alt=""></div>` : ''}
+        <div class="hints-wrap" id="hw${i}"></div>
+      </div>`;
                 }
-                html += `<div class="trick-hint">👉 ${s.trick}</div>`;
-                d.innerHTML = html; swEl.appendChild(d);
-                d.addEventListener('click', e => { if (ST[curIdx].trick.includes('Tap anywhere') && !ST[curIdx].trick.includes('Double')) handleTrick('tap'); });
 
-                // Double Tap detector
-                let lastTap = 0;
-                d.addEventListener('touchstart', e => {
-                    let now = Date.now();
-                    if (now - lastTap < 300) handleTrick('doubletap');
-                    lastTap = now;
-                    // Long press detector
-                    window.lpTimer = setTimeout(() => handleTrick('longpress'), 1500);
-                });
-                d.addEventListener('touchend', () => clearTimeout(window.lpTimer));
-
-                // Swipe detector
-                let startY = 0;
-                d.addEventListener('touchstart', e => startY = e.touches[0].pageY);
-                d.addEventListener('touchend', e => { if (startY - e.changedTouches[0].pageY > 100) handleTrick('swipeup'); });
+                d.innerHTML = body + `<div class="trick-bar">👉 ${s.trick}</div>`;
+                swEl.appendChild(d);
             });
-            sh(0);
-            setupShake();
-            window.addEventListener('orientationchange', () => handleTrick('rotate'));
+
+            showHints(0);
+            setupGestures();
+            mkPetals();
         }
 
-        function handleTrick(t) {
-            const s = ST[curIdx];
-            const tr = s.trick.toLowerCase();
-            if (tr.includes(t)) gn(curIdx);
-        }
-
-        function sh(idx) {
-            const h = ST[idx].hints; if (!h) return;
-            const w = document.getElementById('hw' + idx);
-            h.forEach((t, i) => {
-                const p = document.createElement('div'); p.className = 'hint-line'; p.innerText = t; w.appendChild(p);
-                setTimeout(() => p.classList.add('show'), i * 800 + 200);
+        /* ─── HINT REVEAL ─── */
+        function showHints(idx) {
+            const s = ST[idx]; if (!s.hints) return;
+            const w = document.getElementById('hw' + idx); if (!w) return;
+            s.hints.forEach((t, i) => {
+                const p = document.createElement('div'); p.className = 'hl'; p.innerText = t;
+                w.appendChild(p);
+                setTimeout(() => p.classList.add('show'), i * 750 + 300);
             });
         }
 
-        function gn(i) {
-            if (i !== curIdx) return;
-            const n = i + 1; if (n >= ST.length) return;
-            document.getElementById('stp' + i).classList.remove('active');
-            document.getElementById('stp' + i).classList.add('exit');
-            curIdx = n;
+        /* ─── GO NEXT ─── */
+        function goNext() {
+            if (cur >= ST.length - 1) return;
+            document.getElementById('stp' + cur).classList.add('exit');
+            document.getElementById('stp' + cur).classList.remove('active');
+            cur++;
+            const next = document.getElementById('stp' + cur);
             setTimeout(() => {
-                document.getElementById('stp' + n).classList.add('active');
-                pbi.style.width = `${((n + 1) / ST.length) * 100}%`;
-                if (ST[n].hints) sh(n);
+                next.classList.add('active');
+                pbi.style.width = `${((cur + 1) / ST.length) * 100}%`;
+                badge.textContent = `${cur + 1} / ${ST.length}`;
+                showHints(cur);
+                if (ST[cur].nav === 'puzzle' && pzPcs.length === 0) setTimeout(buildPuzzle, 200);
             }, 500);
         }
 
-        function setupShake() {
-            let lx, ly, lz, lastS = 0;
-            window.addEventListener('devicemotion', e => {
-                const a = e.accelerationIncludingGravity; if (!a) return;
-                if (!lx) { lx = a.x; ly = a.y; lz = a.z; return; }
-                let d = Math.abs(a.x - lx) + Math.abs(a.y - ly) + Math.abs(a.z - lz);
-                lx = a.x; ly = a.y; lz = a.z;
-                if (d > 25 && Date.now() - lastS > 1000) { lastS = Date.now(); handleTrick('shake'); }
+        /* ─── GESTURES ─── */
+        function setupGestures() {
+            // TAP – for step 0, 4, 10 etc
+            swEl.addEventListener('click', () => { if (ST[cur].nav === 'tap') goNext(); });
+
+            // DOUBLE TAP
+            let lastTap = 0;
+            swEl.addEventListener('touchstart', e => {
+                const now = Date.now();
+                if (now - lastTap < 350 && ST[cur].nav === 'doubletap') goNext();
+                lastTap = now;
+            }, { passive: true });
+
+            // LONG PRESS
+            let lpTimer = null;
+            swEl.addEventListener('touchstart', () => {
+                if (ST[cur].nav === 'longpress') lpTimer = setTimeout(() => { goNext(); lpTimer = null; }, 1800);
+            }, { passive: true });
+            swEl.addEventListener('touchend', () => { clearTimeout(lpTimer); lpTimer = null; });
+            swEl.addEventListener('touchmove', () => { clearTimeout(lpTimer); lpTimer = null; });
+
+            // SWIPE UP (legacy kept)
+            let sy = 0;
+            swEl.addEventListener('touchstart', e => { sy = e.touches[0].pageY; }, { passive: true });
+            swEl.addEventListener('touchend', e => {
+                if (ST[cur].nav === 'swipe' && sy - e.changedTouches[0].pageY > 90) goNext();
+            });
+
+            // SHAKE
+            let lx, ly, lz, lastShake = 0;
+            function setupShake() {
+                window.addEventListener('devicemotion', e => {
+                    const a = e.accelerationIncludingGravity; if (!a) return;
+                    if (lx === undefined) { lx = a.x; ly = a.y; lz = a.z; return; }
+                    const delta = Math.abs(a.x - lx) + Math.abs(a.y - ly) + Math.abs(a.z - lz);
+                    lx = a.x; ly = a.y; lz = a.z;
+                    if (delta > 28 && Date.now() - lastShake > 1200) {
+                        lastShake = Date.now();
+                        if (ST[cur].nav === 'shake') goNext();
+                    }
+                });
+            }
+            if (typeof DeviceMotionEvent !== 'undefined' && typeof DeviceMotionEvent.requestPermission === 'function') {
+                // iOS – request on first touch
+                document.addEventListener('touchstart', async function reqPerm() {
+                    document.removeEventListener('touchstart', reqPerm);
+                    try { const p = await DeviceMotionEvent.requestPermission(); if (p === 'granted') setupShake(); } catch (e) { }
+                }, { once: true });
+            } else { setupShake(); }
+
+            // ROTATE (orientation)
+            window.addEventListener('orientationchange', () => {
+                if (ST[cur].nav === 'rotate') setTimeout(goNext, 400);
             });
         }
 
+        /* ─── MUSIC ─── */
+        function playS() {
+            const audio = document.getElementById('bgm');
+            audio.play().then(() => {
+                document.getElementById('plbl').textContent = '🎶 Playing! Double Tap to continue...';
+                document.getElementById('vinyl').style.filter = 'drop-shadow(0 0 25px #60a5fa)';
+                songReady = true;
+            }).catch(() => {
+                document.getElementById('plbl').textContent = '⚠️ Double tap anywhere to continue!';
+                songReady = true;
+            });
+        }
+
+        /* ─── PUZZLE ─── */
         const PIC = 'https://images.unsplash.com/photo-1518199266791-5375a83190b7?auto=format&fit=crop&q=80&w=600';
-        function buildPz() {
-            const w = document.getElementById('pzWrap'); if (!w) return;
-            const sz = Math.floor(Math.min(260, window.innerWidth * 0.7) / 3) * 3, ps = sz / 3;
+        const SCR = [{ tx: '-220%', ty: '-220%', r: '-25deg' }, { tx: '0', ty: '-280%', r: '10deg' }, { tx: '220%', ty: '-220%', r: '22deg' }, { tx: '-280%', ty: '0', r: '18deg' }, { tx: '0', ty: '0', r: '0' }, { tx: '280%', ty: '0', r: '-18deg' }, { tx: '-220%', ty: '220%', r: '22deg' }, { tx: '0', ty: '280%', r: '-10deg' }, { tx: '220%', ty: '220%', r: '-22deg' }];
+
+        function buildPuzzle() {
+            const w = document.getElementById('pzWrap'); if (!w || pzPcs.length > 0) return;
+            const sz = Math.floor(Math.min(252, window.innerWidth * 0.68) / 3) * 3, ps = sz / 3;
             w.style.width = sz + 'px'; w.style.height = sz + 'px';
             for (let i = 0; i < 9; i++) {
-                const r = Math.floor(i / 3), c = i % 3, p = document.createElement('div'); p.className = 'piece';
-                p.style.cssText = `width:${ps}px;height:${ps}px;left:${c * ps}px;top:${r * ps}px;background-image:url('${PIC}');background-size:${sz}px ${sz}px;background-position:${-c * ps}px ${-r * ps}px;transform:translate(${(i - 4) * 100}%,${(i - 4) * 100}%) rotate(${30 * i}deg);opacity:0;`;
+                const r = Math.floor(i / 3), c = i % 3;
+                const p = document.createElement('div'); p.className = 'pz-piece';
+                p.style.cssText = `width:${ps}px;height:${ps}px;left:${c * ps}px;top:${r * ps}px;` +
+                    `background-image:url('${PIC}');background-size:${sz}px ${sz}px;` +
+                    `background-position:${-c * ps}px ${-r * ps}px;` +
+                    `transform:translate(${SCR[i].tx},${SCR[i].ty}) rotate(${SCR[i].r});opacity:0;`;
                 w.appendChild(p); pzPcs.push(p);
             }
         }
-        function tp() {
-            if (pzPcs.length === 0) { buildPz(); return; }
+        function tapPz() {
+            if (pzPcs.length === 0) { buildPuzzle(); return; }
             if (pzS >= 9) return;
             const p = pzPcs[pzS]; p.style.opacity = '1'; p.style.transform = 'none'; pzS++;
-            if (pzS === 9) document.getElementById('pzc').style.display = 'block';
+            document.getElementById('pzStat').textContent = pzS < 9 ? `✨ ${pzS}/9 pieces placed!` : '🎉 Perfect! Press Continue!';
+            if (pzS === 9) { document.getElementById('pzBtn').style.display = 'block'; }
         }
 
-        function um(v) { document.getElementById('mt').innerText = v >= 99 ? 'MAX LOVE! ❤️' : 'Slide more...'; if (v >= 99) handleTrick('slide'); }
-        function pm() { document.getElementById('bgm').play(); }
-
-        function mp() {
-            const p = document.createElement('div'); p.className = 'pt'; p.innerText = ['❤️', '✨', '🌸'][Math.floor(Math.random() * 3)];
-            p.style.left = Math.random() * 100 + 'vw'; p.style.fontSize = (10 + Math.random() * 20) + 'px';
-            p.style.animationDuration = (5 + Math.random() * 5) + 's'; document.body.appendChild(p);
-            setTimeout(() => p.remove(), 7000);
+        /* ─── METER ─── */
+        function updMeter(v) {
+            const l = document.getElementById('mLbl');
+            if (v < 50) l.textContent = `${v}%... ellam code panna mudiyum 😏`;
+            else if (v < 90) l.textContent = `${v}% – konja konjam! 🤭`;
+            else if (v < 100) l.textContent = `Almost! Keep going! 💙`;
+            else { l.textContent = '100%! I knew it! ❤️🎉'; setTimeout(goNext, 800); }
         }
-        setInterval(mp, 800);
+
+        /* ─── CONFETTI STEP ─── */
+        let confTimer = null;
+        function startConf() {
+            let held = 0;
+            confTimer = setInterval(() => {
+                confetti({ particleCount: 12, spread: 70, origin: { x: Math.random(), y: .5 } });
+                held += 200; if (held >= 2000) { stopConf(); goNext(); }
+            }, 200);
+        }
+        function stopConf() { clearInterval(confTimer); confTimer = null; }
+
+        /* ─── PETALS ─── */
+        function mkPetals() {
+            function mk() {
+                const p = document.createElement('div'); p.className = 'pt';
+                p.innerText = ['💙', '✨', '⭐', '🌊', '💫'][Math.floor(Math.random() * 5)];
+                p.style.left = Math.random() * 100 + 'vw'; p.style.fontSize = (10 + Math.random() * 14) + 'px';
+                p.style.animationDuration = (5 + Math.random() * 5) + 's';
+                document.body.appendChild(p); setTimeout(() => p.remove(), 8000);
+            }
+            setInterval(mk, 900);
+        }
     </script>
 </body>
 
