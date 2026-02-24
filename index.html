@@ -4,853 +4,700 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>A Journey of Love - Jenifar ❤️</title>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;400;600;800&family=Great+Vibes&display=swap"
+    <title>Happy Birthday Ammu ❤️</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Great+Vibes&display=swap"
         rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
     <style>
-        :root {
-            --primary: #ff4d6d;
-            --secondary: #ff8fa3;
-            --dark: #590d22;
-        }
-
-        * {
+        *,
+        *::before,
+        *::after {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
             -webkit-tap-highlight-color: transparent;
         }
 
-        html {
+        html,
+        body {
             height: 100%;
-            height: -webkit-fill-available;
+            -webkit-text-size-adjust: 100%;
         }
 
         body {
             font-family: 'Poppins', sans-serif;
-            background: #fff;
-            color: var(--dark);
             min-height: 100vh;
             min-height: 100dvh;
             display: flex;
             justify-content: center;
             align-items: center;
-            overflow: hidden;
             position: relative;
+            background: #0f010a;
+            overflow: hidden;
+            color: #fff;
         }
 
-        /* ===== LIQUID AURORA BG ===== */
-        .bg-wrapper {
+        /* ── DYNAMIC COLORFUL BACKGROUND ── */
+        .bg {
             position: fixed;
             inset: 0;
             z-index: 0;
             filter: blur(80px);
-            opacity: 0.8;
+            opacity: 0.7;
             pointer-events: none;
         }
 
-        .blob {
+        .b {
             position: absolute;
-            width: 500px;
-            height: 500px;
             border-radius: 50%;
-            mix-blend-mode: multiply;
+            transition: all 1s ease;
         }
 
-        .blob1 {
+        .b1 {
+            width: 600px;
+            height: 600px;
             top: -100px;
             left: -100px;
-            background: #ff9a9e;
-            animation: move1 20s infinite alternate linear;
+            background: #d90429;
+            animation: m1 20s infinite alternate;
         }
 
-        .blob2 {
-            bottom: -150px;
+        .b2 {
+            width: 500px;
+            height: 500px;
+            bottom: -100px;
             right: -100px;
-            background: #fad0c4;
-            animation: move2 25s infinite alternate linear;
+            background: #ff4d6d;
+            animation: m2 25s infinite alternate;
         }
 
-        .blob3 {
-            top: 50%;
-            left: 50%;
-            background: #fbc2eb;
-            animation: move3 18s infinite alternate linear;
+        .b3 {
+            width: 400px;
+            height: 400px;
+            top: 30%;
+            left: 30%;
+            background: #800f2f;
+            animation: m3 15s infinite alternate;
         }
 
-        @keyframes move1 {
+        @keyframes m1 {
             to {
-                transform: translate(300px, 400px) scale(1.3);
+                transform: translate(150px, 200px) scale(1.1)
             }
         }
 
-        @keyframes move2 {
+        @keyframes m2 {
             to {
-                transform: translate(-400px, -300px) scale(0.8);
+                transform: translate(-150px, -150px) scale(0.9)
             }
         }
 
-        @keyframes move3 {
+        @keyframes m3 {
             from {
-                transform: translate(-50%, -50%) scale(1);
+                transform: translate(-50%, -50%)
             }
 
             to {
-                transform: translate(0, -450px) scale(1.5);
+                transform: translate(100px, -200px) scale(1.2)
             }
         }
 
-        /* ===== FLOATING HEARTS ===== */
-        .heart-particle {
+        .pt {
             position: fixed;
-            color: var(--primary);
-            opacity: 0.4;
             pointer-events: none;
-            z-index: 1;
-            animation: floatUp 8s linear infinite;
+            z-index: 99;
+            animation: ptr 7s linear infinite;
         }
 
-        @keyframes floatUp {
+        @keyframes ptr {
             0% {
-                transform: translateY(110vh) rotate(0deg) scale(0.8);
-                opacity: 0;
+                transform: translateY(105vh) rotate(0);
+                opacity: 0
             }
 
-            20% {
-                opacity: 0.5;
+            15% {
+                opacity: 0.6
+            }
+
+            90% {
+                opacity: 0.4
             }
 
             100% {
-                transform: translateY(-10vh) rotate(360deg) scale(1.5);
-                opacity: 0;
+                transform: translateY(-15vh) rotate(360deg);
+                opacity: 0
             }
         }
 
-        /* ===========================
-           LOVE LOCK SCREEN
-        =========================== */
-        #lockScreen {
+        /* ════════════ LOGIN ════════════ */
+        #login {
             position: fixed;
             inset: 0;
-            z-index: 100;
+            z-index: 300;
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 20px;
+            padding: 18px;
         }
 
-        .lock-card {
+        .lc {
             width: 100%;
-            max-width: 420px;
-            background: rgba(255, 255, 255, 0.82);
-            backdrop-filter: blur(30px) saturate(180%);
-            -webkit-backdrop-filter: blur(30px) saturate(180%);
-            border-radius: 36px;
-            border: 1px solid rgba(255, 255, 255, 0.9);
-            box-shadow: 0 30px 80px rgba(89, 13, 34, 0.18);
-            padding: 36px 28px 32px;
+            max-width: 360px;
+            background: rgba(20, 2, 10, 0.85);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            border-radius: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
+            padding: 40px 24px 30px;
             text-align: center;
-            animation: popIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+            animation: popIn .7s cubic-bezier(.34, 1.56, .64, 1);
         }
 
         @keyframes popIn {
             from {
-                transform: scale(0.8);
-                opacity: 0;
+                transform: scale(.8);
+                opacity: 0
             }
 
             to {
                 transform: scale(1);
-                opacity: 1;
+                opacity: 1
             }
         }
 
-        .lock-icon {
+        .hrt {
             font-size: 3.5rem;
             display: block;
-            margin-bottom: 10px;
-            animation: float 3s ease-in-out infinite;
+            margin-bottom: 12px;
+            animation: hp 1.4s ease-in-out infinite;
         }
 
-        .lock-card h1 {
-            font-family: 'Great Vibes', cursive;
-            font-size: clamp(2.2rem, 8vw, 3rem);
-            color: var(--primary);
-            margin-bottom: 6px;
-        }
-
-        .lock-card .sub {
-            font-size: 0.9rem;
-            color: #888;
-            margin-bottom: 22px;
-        }
-
-        /* Emoji Puzzle Clues */
-        .puzzle-clue {
-            background: rgba(255, 77, 109, 0.07);
-            border-radius: 18px;
-            padding: 16px 20px;
-            margin-bottom: 20px;
-            border: 1px solid rgba(255, 77, 109, 0.15);
-        }
-
-        .puzzle-clue .emoji-row {
-            font-size: 2rem;
-            letter-spacing: 8px;
-            margin-bottom: 8px;
-        }
-
-        .puzzle-clue .clue-text {
-            font-size: 0.88rem;
-            color: #777;
-            line-height: 1.5;
-        }
-
-        /* PIN Buttons */
-        .pin-display {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-
-        .pin-dot {
-            width: 18px;
-            height: 18px;
-            border-radius: 50%;
-            background: rgba(255, 77, 109, 0.15);
-            border: 2px solid rgba(255, 77, 109, 0.3);
-            transition: all 0.3s;
-        }
-
-        .pin-dot.filled {
-            background: var(--primary);
-            border-color: var(--primary);
-            transform: scale(1.1);
-        }
-
-        .pin-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-            margin-bottom: 16px;
-        }
-
-        .pin-btn {
-            background: rgba(255, 255, 255, 0.8);
-            border: 1.5px solid rgba(255, 77, 109, 0.2);
-            border-radius: 16px;
-            padding: 14px;
-            font-size: 1.4rem;
-            font-weight: 700;
-            font-family: 'Poppins', sans-serif;
-            color: var(--dark);
-            cursor: pointer;
-            transition: all 0.15s ease;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-        }
-
-        .pin-btn:active {
-            transform: scale(0.9);
-            background: var(--primary);
-            color: white;
-        }
-
-        .pin-btn.del {
-            font-size: 1.1rem;
-            color: #aaa;
-        }
-
-        .pin-btn.zero {
-            grid-column: 2;
-        }
-
-        .lock-error {
-            color: var(--primary);
-            font-size: 0.85rem;
-            font-weight: 600;
-            min-height: 20px;
-            margin-bottom: 8px;
-            animation: shake 0.4s ease;
-        }
-
-        @keyframes shake {
+        @keyframes hp {
 
             0%,
             100% {
-                transform: translateX(0);
+                transform: scale(1)
             }
 
-            25% {
-                transform: translateX(-8px);
-            }
-
-            75% {
-                transform: translateX(8px);
+            50% {
+                transform: scale(1.15)
             }
         }
 
-        #lockScreen.fade-out {
-            animation: fadeOut 0.8s ease forwards;
+        .lt {
+            font-family: 'Great Vibes', cursive;
+            font-size: clamp(2rem, 8vw, 2.7rem);
+            color: #ff4d6d;
+            margin-bottom: 5px;
         }
 
-        @keyframes fadeOut {
+        .clue {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 15px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .ct {
+            font-size: .8rem;
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.5;
+        }
+
+        .dots {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 15px;
+        }
+
+        .dot {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            transition: all .2s;
+        }
+
+        .dot.on {
+            background: #ff4d6d;
+            border-color: #ff4d6d;
+            transform: scale(1.2);
+            box-shadow: 0 0 10px #ff4d6d;
+        }
+
+        .pgrid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+
+        .pb {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 18px;
+            padding: 15px 0;
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #fff;
+            cursor: pointer;
+            transition: all .15s;
+        }
+
+        .pb:active {
+            transform: scale(.9);
+            background: rgba(255, 77, 109, 0.3);
+        }
+
+        #login.out {
+            animation: lout .6s ease forwards;
+            pointer-events: none;
+        }
+
+        @keyframes lout {
             to {
                 opacity: 0;
-                transform: scale(1.05);
-                pointer-events: none;
+                transform: scale(1.1)
             }
         }
 
-        /* ===========================
-           MAIN JOURNEY CARD
-        =========================== */
-        .journey-container {
-            width: 92%;
-            max-width: 480px;
-            height: 90vh;
-            height: 90dvh;
-            max-height: 800px;
-            background: rgba(255, 255, 255, 0.75);
-            backdrop-filter: blur(35px) saturate(160%);
-            -webkit-backdrop-filter: blur(35px) saturate(160%);
-            border-radius: 36px;
-            box-shadow: 0 30px 80px rgba(89, 13, 34, 0.15);
-            border: 1px solid rgba(255, 255, 255, 0.85);
+        /* ════════════ MAIN CARD ════════════ */
+        #card {
+            width: 94%;
+            max-width: 440px;
+            height: 88vh;
+            height: 88dvh;
+            max-height: 820px;
+            border-radius: 40px;
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(35px);
+            -webkit-backdrop-filter: blur(35px);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.1) inset;
             position: relative;
             z-index: 10;
             display: flex;
             flex-direction: column;
-            padding: 20px 20px 16px;
-            text-align: center;
-            /* Prevent body scroll bleed */
             overflow: hidden;
-            touch-action: manipulation;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all .8s cubic-bezier(.34, 1.56, .64, 1);
         }
 
-        @media (min-width: 900px) {
-            .journey-container {
-                max-width: 560px;
-                height: 88vh;
-                height: 88dvh;
-                max-height: 860px;
-                padding: 28px 32px 20px;
-                border-radius: 44px;
-            }
+        #card.show {
+            opacity: 1;
+            transform: translateY(0);
         }
 
-        @media (max-width: 380px) {
-            .journey-container {
-                width: 96%;
-                height: 96vh;
-                height: 96dvh;
-                padding: 14px 12px 10px;
-                border-radius: 28px;
-            }
+        .prog {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            z-index: 20;
+            background: rgba(255, 255, 255, 0.05);
         }
 
-        /* ===== PROGRESS BAR ===== */
-        .progress-header {
-            width: 100%;
-            height: 8px;
-            background: rgba(0, 0, 0, 0.06);
-            border-radius: 20px;
-            margin-bottom: 14px;
-            overflow: hidden;
-            flex-shrink: 0;
-        }
-
-        #progressBarInner {
+        #pbi {
             height: 100%;
             width: 0%;
-            background: linear-gradient(90deg, #ff8fa3, #ff4d6d, #d90429);
-            transition: width 0.7s cubic-bezier(0.19, 1, 0.22, 1);
-            border-radius: 20px;
+            background: #ff4d6d;
+            transition: width .6s ease;
         }
 
-        /* ===== STEPS ===== */
-        .steps-wrapper {
+        .sw {
             flex: 1;
             position: relative;
             overflow: hidden;
-            border-radius: 20px;
         }
 
-        .step {
+        .stp {
             position: absolute;
             inset: 0;
             display: flex;
             flex-direction: column;
-            justify-content: flex-start;
             align-items: center;
             opacity: 0;
-            transform: translateY(40px) scale(0.93);
-            transition: all 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
             pointer-events: none;
-            /* Key fix: scroll inside step, NOT the body */
+            transform: translateX(100%);
+            transition: transform .6s cubic-bezier(.4, 1, .2, 1), opacity .4s ease;
             overflow-y: auto;
-            overflow-x: hidden;
-            -webkit-overflow-scrolling: touch;
-            padding: 8px 6px 20px;
             scrollbar-width: none;
-            -ms-overflow-style: none;
         }
 
-        .step::-webkit-scrollbar {
+        .stp::-webkit-scrollbar {
             display: none;
         }
 
-        .step.active {
+        .stp.active {
             opacity: 1;
-            transform: translateY(0) scale(1);
+            transform: translateX(0);
             pointer-events: all;
         }
 
-        .step.exit {
+        .stp.exit {
             opacity: 0;
-            transform: translateY(-40px) scale(0.93);
+            transform: translateX(-100%);
         }
 
-        /* ===== TYPOGRAPHY ===== */
-        h1 {
+        /* ── INNER CONTENT ── */
+        .inner {
+            width: 100%;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 24px 20px;
+            text-align: center;
+        }
+
+        .s-icon {
+            font-size: 4rem;
+            margin-bottom: 15px;
+            animation: flt 3s ease-in-out infinite;
+        }
+
+        @keyframes flt {
+
+            0%,
+            100% {
+                transform: translateY(0)
+            }
+
+            50% {
+                transform: translateY(-15px)
+            }
+        }
+
+        .s-title {
             font-family: 'Great Vibes', cursive;
-            font-size: clamp(2.4rem, 8vw, 3.4rem);
-            color: #d90429;
+            font-size: 3rem;
+            color: #ff4d6d;
             margin-bottom: 10px;
-            line-height: 1.2;
         }
 
-        h2 {
-            font-size: clamp(1.1rem, 4vw, 1.5rem);
-            color: var(--primary);
-            margin-bottom: 8px;
+        .s-head {
+            font-size: 1.2rem;
             font-weight: 700;
+            color: #fff;
+            margin-bottom: 15px;
+            line-height: 1.4;
         }
 
-        p {
-            font-size: clamp(0.88rem, 3.5vw, 1rem);
-            color: #4b4b4b;
-            line-height: 1.75;
-            margin-bottom: 14px;
-            white-space: pre-line;
-            padding: 0 6px;
+        .hints-wrap {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 20px;
         }
 
-        /* ===== ICON ===== */
-        .icon-box {
-            font-size: clamp(2.8rem, 10vw, 4rem);
-            margin-bottom: 10px;
-            display: block;
-            filter: drop-shadow(0 8px 12px rgba(217, 4, 41, 0.2));
-            animation: float 3s ease-in-out infinite;
+        .hint-line {
+            font-size: .9rem;
+            color: rgba(255, 255, 255, 0.7);
+            font-weight: 500;
+            line-height: 1.6;
+            padding: 12px 16px;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            opacity: 0;
+            transform: translateY(15px);
+            transition: all .6s ease;
         }
 
-        @keyframes float {
-
-            0%,
-            100% {
-                transform: translateY(0);
-            }
-
-            50% {
-                transform: translateY(-12px);
-            }
+        .hint-line.show {
+            opacity: 1;
+            transform: translateY(0);
         }
 
-        /* ===== BUTTON ===== */
-        .btn {
-            background: linear-gradient(135deg, #ff4d6d 0%, #d90429 100%);
-            color: white;
-            padding: clamp(11px, 3vw, 15px) clamp(20px, 6vw, 30px);
-            border-radius: 50px;
-            border: none;
-            font-size: clamp(0.85rem, 3.5vw, 1rem);
-            font-weight: 600;
-            font-family: 'Poppins', sans-serif;
-            cursor: pointer;
-            box-shadow: 0 10px 22px rgba(217, 4, 41, 0.3);
-            transition: all 0.25s ease;
-            width: 88%;
-            max-width: 300px;
-            margin-top: 8px;
-            text-decoration: none;
-            display: inline-block;
-            flex-shrink: 0;
-        }
-
-        .btn:active {
-            transform: scale(0.96);
-        }
-
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 14px 28px rgba(217, 4, 41, 0.4);
-        }
-
-        .btn-music {
-            background: linear-gradient(135deg, #a18cd1, #8e44ad);
-            box-shadow: 0 10px 22px rgba(142, 68, 173, 0.3);
-        }
-
-        .btn-call {
-            background: linear-gradient(135deg, #2ecc71, #27ae60);
-            box-shadow: 0 10px 22px rgba(39, 174, 96, 0.3);
-            animation: pulseGreen 2s infinite;
-        }
-
-        @keyframes pulseGreen {
-
-            0%,
-            100% {
-                box-shadow: 0 10px 22px rgba(39, 174, 96, 0.3);
-            }
-
-            50% {
-                box-shadow: 0 10px 35px rgba(39, 174, 96, 0.65);
-            }
-        }
-
-        /* ===== MEMORY FRAME ===== */
-        .memory-frame {
+        .mf {
             width: 90%;
-            height: clamp(130px, 28vw, 190px);
-            margin: 4px auto 14px;
-            border-radius: 18px;
-            padding: 6px;
-            background: white;
-            box-shadow: 0 10px 28px rgba(255, 77, 109, 0.2);
-            position: relative;
-            transform: rotate(-1.5deg);
-            border: 1px solid rgba(255, 77, 109, 0.12);
-            transition: transform 0.5s ease;
+            height: 180px;
+            margin-bottom: 20px;
+            border-radius: 24px;
+            background: rgba(255, 255, 255, 0.1);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
             flex-shrink: 0;
+            transform: rotate(-2deg);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            overflow: hidden;
         }
 
-        .memory-frame::before {
-            content: '❤️';
-            position: absolute;
-            top: -13px;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 1.3rem;
-            z-index: 2;
-        }
-
-        .memory-frame:active {
-            transform: rotate(0deg) scale(1.04);
-        }
-
-        .memory-img {
+        .mf img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            border-radius: 12px;
             display: block;
         }
 
-        /* ===== SLIDER ===== */
-        .slider-wrap {
-            width: 90%;
-            margin: 12px 0;
+        /* ── TRICK HINT (BOTTOM) ── */
+        .trick-hint {
+            width: 100%;
+            padding: 15px;
+            background: rgba(255, 77, 109, 0.1);
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: #ff8fa3;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-top: 1px solid rgba(255, 77, 109, 0.2);
         }
 
-        .love-slider {
+        /* ── PUZZLE ── */
+        .pz-wrap {
+            position: relative;
+            border-radius: 24px;
+            overflow: hidden;
+            cursor: pointer;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .piece {
+            position: absolute;
+            background-repeat: no-repeat;
+            transition: all .6s cubic-bezier(.34, 1.56, .64, 1);
+        }
+
+        /* ── METER ── */
+        .sw-wrap {
+            width: 90%;
+            margin: 20px 0;
+        }
+
+        .love-sl {
             -webkit-appearance: none;
-            appearance: none;
             width: 100%;
-            height: 10px;
+            height: 8px;
             border-radius: 10px;
-            background: #ffe5ec;
+            background: rgba(255, 255, 255, 0.1);
             outline: none;
         }
 
-        .love-slider::-webkit-slider-thumb {
+        .love-sl::-webkit-slider-thumb {
             -webkit-appearance: none;
-            width: 26px;
-            height: 26px;
-            background: var(--primary);
+            width: 28px;
+            height: 28px;
+            background: #ff4d6d;
             border-radius: 50%;
-            border: 3px solid white;
+            border: 3px solid #fff;
             cursor: pointer;
-            box-shadow: 0 4px 10px rgba(255, 77, 109, 0.4);
         }
 
-        /* ===== COMPLIMENT BOX ===== */
-        .compliment-box {
-            font-weight: 700;
-            color: #d90429;
-            font-size: clamp(0.95rem, 3.5vw, 1.15rem);
-            min-height: 52px;
-            padding: 14px;
-            background: rgba(255, 77, 109, 0.07);
-            border-radius: 14px;
-            margin-bottom: 12px;
-            width: 90%;
+        /* ── VINYL ── */
+        .vinyl {
+            font-size: 5rem;
+            animation: spin 4s linear infinite;
+            display: block;
+            margin-bottom: 15px;
+            cursor: pointer;
         }
 
-        /* Tablet */
-        @media (min-width: 600px) and (max-width: 899px) {
-            .journey-container {
-                max-width: 520px;
+        @keyframes spin {
+            to {
+                transform: rotate(360deg)
             }
+        }
+
+        /* ── FINISH ── */
+        .call-btn {
+            background: #ff4d6d;
+            color: #fff;
+            padding: 16px 40px;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 800;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 20px;
         }
     </style>
 </head>
 
 <body>
-
-    <!-- Aurora Background -->
-    <div class="bg-wrapper">
-        <div class="blob blob1"></div>
-        <div class="blob blob2"></div>
-        <div class="blob blob3"></div>
+    <div class="bg">
+        <div class="b b1"></div>
+        <div class="b b2"></div>
+        <div class="b b3"></div>
     </div>
 
-    <!-- ====== LOVE LOCK SCREEN ====== -->
-    <div id="lockScreen">
-        <div class="lock-card">
-            <span class="lock-icon">🔐</span>
-            <h1>Love Lock</h1>
-            <p class="sub">Only ONE person can open this... Is that you? 🥰</p>
-
-            <div class="puzzle-clue">
-                <div class="emoji-row">🎂 + 🎉 + 💝</div>
-                <div class="clue-text">Unga special day, unga special feeling...<br>Enter the PIN to unlock! 💌</div>
+    <!-- ════════════ LOGIN ════════════ -->
+    <div id="login">
+        <div class="lc">
+            <span class="hrt">💝</span>
+            <div class="lt">Happy Birthday!</div>
+            <div class="ls">Unlock your special 15-step journey Ammu!</div>
+            <div class="clue">
+                <div class="ct">Birth Date (DDMM) please! 🥰</div>
             </div>
-
-            <!-- PIN hint: 1212 (Jenifar's birthday: March 12 → 12, Month 03... using day 12 twice as a fun personal pin) -->
-            <!-- Hint shown below: "Hint: Andha special date! 😉" -->
-            <div class="pin-display">
-                <div class="pin-dot" id="dot0"></div>
-                <div class="pin-dot" id="dot1"></div>
-                <div class="pin-dot" id="dot2"></div>
-                <div class="pin-dot" id="dot3"></div>
+            <div class="dots">
+                <div class="dot" id="d0"></div>
+                <div class="dot" id="d1"></div>
+                <div class="dot" id="d2"></div>
+                <div class="dot" id="d3"></div>
             </div>
-
-            <div class="lock-error" id="lockError"></div>
-
-            <div class="pin-grid">
-                <button class="pin-btn" onclick="pinPress('1')">1</button>
-                <button class="pin-btn" onclick="pinPress('2')">2</button>
-                <button class="pin-btn" onclick="pinPress('3')">3</button>
-                <button class="pin-btn" onclick="pinPress('4')">4</button>
-                <button class="pin-btn" onclick="pinPress('5')">5</button>
-                <button class="pin-btn" onclick="pinPress('6')">6</button>
-                <button class="pin-btn" onclick="pinPress('7')">7</button>
-                <button class="pin-btn" onclick="pinPress('8')">8</button>
-                <button class="pin-btn" onclick="pinPress('9')">9</button>
-                <button class="pin-btn zero" onclick="pinPress('0')">0</button>
-                <button class="pin-btn del" onclick="pinDel()">⌫</button>
+            <div id="lerr" style="color:#ff4d6d;font-size:.8rem;height:1.2rem;margin-bottom:10px;"></div>
+            <div class="pgrid">
+                <button class="pb" onclick="pp('1')">1</button><button class="pb" onclick="pp('2')">2</button><button
+                    class="pb" onclick="pp('3')">3</button>
+                <button class="pb" onclick="pp('4')">4</button><button class="pb" onclick="pp('5')">5</button><button
+                    class="pb" onclick="pp('6')">6</button>
+                <button class="pb" onclick="pp('7')">7</button><button class="pb" onclick="pp('8')">8</button><button
+                    class="pb" onclick="pp('9')">9</button>
+                <button class="pb z" onclick="pp('0')">0</button><button class="pb del" onclick="pd()">⌫</button>
             </div>
-
-            <p style="font-size:0.78rem; color:#bbb; margin-top:4px;">💡 Hint: Nee porandha date! (DDMM)</p>
         </div>
     </div>
 
-    <!-- ====== JOURNEY ====== -->
-    <audio id="bgMusic" loop>
+    <!-- ════════════ JOURNEY ════════════ -->
+    <audio id="bgm" loop>
         <source src="Neelothi Video Song Out Now  Sirai  Vikram Prabhu.mp3" type="audio/mpeg">
     </audio>
-
-    <div class="journey-container">
-        <div class="progress-header">
-            <div id="progressBarInner"></div>
+    <div id="card">
+        <div class="prog">
+            <div id="pbi"></div>
         </div>
-        <div class="steps-wrapper" id="stepsWrapper"></div>
+        <div class="sw" id="sw"></div>
     </div>
 
     <script>
-        // ===== LOCK SCREEN LOGIC =====
-        const SECRET_PIN = '1203'; // Jenifar birthday: March 12 → 1203
-        let pinEntered = '';
+        const PIN = '1203'; let pv = '';
+        function pp(n) { if (pv.length >= 4) return; pv += n; updD(); if (pv.length === 4) chkPin(); }
+        function pd() { pv = pv.slice(0, -1); updD(); document.getElementById('lerr').innerText = ''; }
+        function updD() { for (let i = 0; i < 4; i++)document.getElementById('d' + i).classList.toggle('on', i < pv.length); }
+        function chkPin() { if (pv === PIN) { document.getElementById('login').classList.add('out'); setTimeout(() => { document.getElementById('login').style.display = 'none'; document.getElementById('card').classList.add('show'); initSteps(); }, 600); } else { document.getElementById('lerr').innerText = 'Wrong PIN! 😜'; pv = ''; updD(); } }
 
-        function pinPress(num) {
-            if (pinEntered.length >= 4) return;
-            pinEntered += num;
-            updateDots();
-            if (pinEntered.length === 4) checkPin();
-        }
-
-        function pinDel() {
-            pinEntered = pinEntered.slice(0, -1);
-            updateDots();
-            document.getElementById('lockError').textContent = '';
-        }
-
-        function updateDots() {
-            for (let i = 0; i < 4; i++) {
-                document.getElementById('dot' + i).classList.toggle('filled', i < pinEntered.length);
-            }
-        }
-
-        function checkPin() {
-            if (pinEntered === SECRET_PIN) {
-                document.getElementById('lockError').textContent = '✅ Correct! Welcome Ammu! 💝';
-                document.getElementById('lockError').style.color = '#27ae60';
-                setTimeout(() => {
-                    const ls = document.getElementById('lockScreen');
-                    ls.classList.add('fade-out');
-                    setTimeout(() => ls.remove(), 800);
-                }, 700);
-            } else {
-                document.getElementById('lockError').textContent = '❌ Wrong PIN! Try again 😜';
-                document.getElementById('lockError').style.color = '#ff4d6d';
-                pinEntered = '';
-                updateDots();
-            }
-        }
-
-        // ===== JOURNEY STEPS =====
-        const stepsData = [
-            { id: 1, icon: '💝', h1: 'Hi Ammu!', p: 'Happy Birthday Jenifar! 🎉\nNamakkaga indha journey ready panni vechirukan.\nIdhu namma life-oda real story. Full-ah paaru ok-va?', btn: 'Sari, Paakalam! ❤️' },
-            { id: 2, icon: '📅', h2: 'March 12, 2002', p: 'Andha special day dhaan oru azhagana angel\nmannula vandhu porandhuta! ✨\nThat angel is YOU, Jenifar Ammu.', img: 'https://images.unsplash.com/photo-1513151233558-d860c5398176?auto=format&fit=crop&q=80&w=500', btn: 'Next enna? 😍' },
-            { id: 3, icon: '👦', h2: 'May 01, 2002', p: 'Adhuthu konja naal laye unakaaga dhaan\nnaanum porandhu vandhen! 😜\nTwo 2002 legends ready-aagittu irundhom.', img: 'https://images.unsplash.com/photo-1504196606672-aef5c9cefc92?auto=format&fit=crop&q=80&w=500', btn: 'Sollu, Apuram? 👀' },
-            { id: 4, icon: '🎓', h2: 'College: 2019', p: 'Namma rendu perum college-la orey time-la dhaan irundhom.\nAana appo unaku na yaru nu kooda theriyadhu,\nnaanum edhum kandukala! 😂', img: 'https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&q=80&w=500', btn: 'True dhan! 🧐' },
-            { id: 5, icon: '⏳', h2: 'The Blank Years', p: '2019 to 2021 varaiku namma pesunadhe illa 😂\nRandom strangers mathiri irundhom!\nAana destiny vera plan vachundhu! 🎯', img: 'https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&q=80&w=500', btn: 'Sari, Puridhu! 🤩' },
-            { id: 6, icon: '🕰️', h2: 'Start: 2021', p: 'Finally, 2021-la dhaan namma pesa start pannom.\nAndha spark-um appo dhaan correct-ah start aachi! ✨', img: 'https://images.unsplash.com/photo-1516589174184-e67823dbf48e?auto=format&fit=crop&q=80&w=500', btn: 'August 2021... ✨' },
-            { id: 7, icon: '💘', h2: 'Proposal 💌', p: 'August 2021... un kitta first time\nnaan en love-ah sonnen! 🙈\nHeart beat 200-ku pona mari irundhuchi! 💓', img: 'https://images.unsplash.com/photo-1518621736915-f3b1c41bfd00?auto=format&fit=crop&q=80&w=500', btn: 'Nee enna sonna? 👀' },
-            { id: 8, icon: '🔥', h2: 'Dec 28, 2021 🎊', p: 'Nee "YES" sonna andha miracle day! 🥳\nBharath life-ae andha one second dhaan full-ah maarichi!\nBest day ever! 🏆', img: 'https://images.unsplash.com/photo-1530103862676-de8c9debad1d?auto=format&fit=crop&q=80&w=500', btn: 'Surprise Time! 🎁' },
-            { id: 9, icon: '🎤', h2: 'Special for You!', p: 'Indha "Neelothi" song unakaga naan padunadhu Ammu!\nSurprise-ah irukka? Play panni kelu... 🎵', type: 'music', btn: 'Semma! Next 👉' },
-            { id: 10, icon: '🏠', h2: 'Happy Years', p: '2022 and 2023 namma semma happy-ah irundhom.\nEn ulagame unna suthi dhaan irundhuchi. 🥰', img: 'https://images.unsplash.com/photo-1511895426328-dc8714191300?auto=format&fit=crop&q=80&w=500', btn: 'Apuram enna? ❤️' },
-            { id: 11, icon: '🌧️', h2: 'July 11, 2024', p: 'Andha time konjam gap vandhuchu...\nAana naan un mela ulla love-ah poklam nu nenaikala! 🫶', img: 'https://images.unsplash.com/photo-1519692933481-e162a57d6721?auto=format&fit=crop&q=80&w=500', btn: 'Apuram? 🌤️' },
-            { id: 12, icon: '🤡', h2: 'That 1 Year 😅', p: 'Oru full year naan romba "try hard" mode-la irundhein! 😂\nEveryone saw me... except you! 🫣\nAana give up? Never! 😤', img: 'https://images.unsplash.com/photo-1531427186611-ecfd6d936c79?auto=format&fit=crop&q=80&w=500', btn: 'Apuram? 😏' },
-            { id: 13, icon: '🎭', h2: 'The Yes/No Game 😂', p: 'Seri nu sonna... illa nu sonna... again seri...\nActually nee en heart-ah vachi\nCricket match vilayadite!! 🏏😂', img: 'https://images.unsplash.com/photo-1513346940221-6f673d962e97?auto=format&fit=crop&q=80&w=500', btn: 'Aug 28, 2025... ✨' },
-            { id: 14, icon: '✨', h2: 'The Miracle', p: 'Finally Aug 28, 2025-la namma close aanom.\nAndha second-la dhaan en life thirumba vandhuchi. 🌈', img: 'https://images.unsplash.com/photo-1494774157365-9e04c6720e47?auto=format&fit=crop&q=80&w=500', btn: 'So Happy! 😍' },
-            { id: 15, icon: '🥺', h2: 'Finally! 😮', p: 'Just 1 week laye nee enna full-ah purinjikita! 🎉\nEn patience, en care, en love...\nEverything certified by Jenifar! ✅😄', img: 'https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&q=80&w=500', btn: 'Strong-ah irukkom! 🛡️' },
-            { id: 16, icon: '🦁', h2: 'Unbeatable! 💪', p: 'Problems vanthu paakanum... namma love-ku\nena pannum! 😎 Nee + Naan = Unstoppable! 🔥\nNee dhaan en power-up! 🎮', img: 'https://images.unsplash.com/photo-1522529599102-193c0d76b5b6?auto=format&fit=crop&q=80&w=500', btn: 'Namma Sandaigal 🥊' },
-            { id: 17, icon: '🥊', h2: 'Namma Fight Club! 😂', p: 'Nee fight start pannuva... 💥\nNaan sorry solluven... 😇\nNee again ready... naan again sorry! 🔁\nIndha cycle-ku end-e illai! 🤣', img: 'https://images.unsplash.com/photo-1516589091380-5d8e87df6999?auto=format&fit=crop&q=80&w=500', btn: 'Lol, True dhan! 🤣' },
-            { id: 18, icon: '🏡', h2: 'My Happiness', p: 'Nee dhaan en home, en safety, en life.\nUnna epovume vitta kodukka maaten. 💖', img: 'https://images.unsplash.com/photo-1516589174184-e67823dbf48e?auto=format&fit=crop&q=80&w=500', btn: 'Love Test! 🌡️' },
-            { id: 19, icon: '🤞', h2: 'My Promise 💍', p: 'Naan engaiyum poga maaten Ammu...\nUn kittaye iruppan, always! 🥰\nForever yours, Bharath. ❤️', img: 'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?auto=format&fit=crop&q=80&w=500', btn: 'Un Love Meter 📊' },
-            { id: 20, icon: '📊', h2: 'Love Meter', p: 'Oru chinna game Ammu. Slider-ah move pannu.\nEn mela unaku evlo love iruku?', type: 'meter', btn: 'Check Result! 👉' },
-            { id: 21, icon: '✨', h2: 'Thinking...', p: 'Check panni paaru, naan unna pathi enna nenaikiran nu.', type: 'compliment', btn: 'Final one? 💍' },
-            { id: 22, icon: '🎉', h1: 'I Love You!', p: 'Namma love win aayiduchi Ammu!\nIppo na unna paakanum pola iruku.\nSeekiram Video call vaa! 📞😍', type: 'finish' }
+        const ST = [
+            { icon: '💝', title: 'Step 1: Start!', hints: ['Happy Birthday Jenifar!', 'Idhu namma 15-step unique journey!', 'Check the hint below for every step!'], trick: 'Tap anywhere to begin' },
+            { icon: '🎓', head: 'Step 2: 2019 Vibes', hints: ['Nan invisible-ah dhaan irunthen.', 'Corner-la irunthu unna pathutu...', 'Namma college days memory!'], trick: 'Shake your phone to skip!' },
+            { icon: '🎶', head: 'Step 3: Neelothi', hints: ['My voice for my Thangam!', 'Listen to this special song...'], trick: 'Double tap the spinning record!' },
+            { icon: '📞', head: 'Step 4: First Contact', hints: ['August 2021 dhaan start achi!', 'The first "Hi" that changed everything.'], trick: 'Long press (Hold) for 2 seconds!' },
+            { icon: '💖', head: 'Step 5: Nickname', hints: ['"Thangam" - En gold nee!', 'Why I call you my precious.'], trick: 'Swipe UP on this card!' },
+            { icon: '🧩', head: 'Step 6: Memory Puzzle', hints: ['Namma photo reveal panna assemble pannu!'], trick: 'Tap pieces to build the picture!' },
+            { icon: '😁', head: 'Step 7: That Smile', hints: ['Un smile pathu dhaan nan flat aanein!', 'Magical expression...'], trick: 'Shake to see the next memory!' },
+            { icon: '🥊', head: 'Step 8: The Fight Cycle', hints: ['Fight -> Sorry -> Repeat 😂', 'Every fight made us stronger!'], trick: 'Double tap to say "Sorry" 😜' },
+            { icon: '💍', head: 'Step 9: The YES Day!', hints: ['Dec 28, 2021.', 'The day you made me the happiest!'], trick: 'Hold the Pink Heart for 2 seconds!' },
+            { icon: '✈️', head: 'Step 10: Animun Dreams', hints: ['Switzerland? Paris? Maldives?', 'Enga polam Thangam?'], trick: 'Rotate your phone 90 degrees!' },
+            { icon: '🏡', head: 'Step 11: Home', hints: ['You are not just my love.', 'You are my home and my peace.'], trick: 'Shake for some love vibes!' },
+            { icon: '📊', head: 'Step 12: Love Meter', hints: ['Can you show how much?', 'Slide it to the max!'], trick: 'Slide to 100% to continue!' },
+            { icon: '✨', head: 'Step 13: Compliments', hints: ['Nee dhaan en devathai!', 'Walking angel nee.'], trick: 'Shake to shuffle compliments!' },
+            { icon: '🎉', head: 'Step 14: Celebration', hints: ['It\'s 2026 and we are here!', 'Best year is coming for us.'], trick: 'Long press to release confetti!' },
+            { icon: '💍', title: 'Step 15: Forever!', hints: ['Happy Birthday Ammu!', 'Seekiram vaa Thangam!', 'Wait panreinn... 😍'], trick: 'Double Tap to finish!' }
         ];
 
-        let currentStep = 1;
-        const stepsWrapper = document.getElementById('stepsWrapper');
-        const progressInner = document.getElementById('progressBarInner');
+        let curIdx = 0, pzS = 0, pzPcs = [];
+        const swEl = document.getElementById('sw'), pbi = document.getElementById('pbi');
 
         function initSteps() {
-            stepsData.forEach((step, index) => {
-                const stepDiv = document.createElement('div');
-                stepDiv.className = `step ${index === 0 ? 'active' : ''}`;
-                stepDiv.id = `step${step.id}`;
-
-                let content = '';
-
-                if (step.img) {
-                    content += `<div class="memory-frame"><img src="${step.img}" class="memory-img" alt="Memory" loading="lazy"></div>`;
+            ST.forEach((s, idx) => {
+                const d = document.createElement('div'); d.className = 'stp' + (idx === 0 ? ' active' : ''); d.id = 'stp' + idx;
+                let html = '';
+                if (idx === 2) { // Music
+                    html = `<div class="inner"><span class="vinyl" onclick="handleTrick('doubletap')">🎵</span><div class="s-head">${s.head}</div><div class="hints-wrap" id="hw${idx}"></div></div>`;
+                } else if (idx === 5) { // Puzzle
+                    html = `<div class="inner"><div class="s-head">${s.head}</div><div class="pz-wrap" id="pzWrap" onclick="tp()"></div><div class="pz-stat" id="pzStat">Assemble it!</div><div class="pz-cont" id="pzc" onclick="handleTrick('puzzle')">Continue ❤️</div></div>`;
+                } else if (idx === 11) { // Meter
+                    html = `<div class="inner"><span class="s-icon">📊</span><div class="s-head">${s.head}</div><div class="sw-wrap"><input type="range" min="1" max="100" value="50" class="love-sl" oninput="um(this.value)"></div><div id="mt">Slide it!</div></div>`;
                 } else {
-                    content += `<span class="icon-box">${step.icon}</span>`;
+                    html = `<div class="inner"><span class="s-icon">${s.icon || '💖'}</span>${s.title ? `<div class="s-title">${s.title}</div>` : ''}${s.head ? `<div class="s-head">${s.head}</div>` : ''}<div class="hints-wrap" id="hw${idx}"></div>${idx === 14 ? `<a href="https://call.whatsapp.com/video/hdzUkrheCL54ZESXslks2t" class="call-btn" target="_blank">📞 Video Call!</a>` : ''}</div>`;
                 }
+                html += `<div class="trick-hint">👉 ${s.trick}</div>`;
+                d.innerHTML = html; swEl.appendChild(d);
+                d.addEventListener('click', e => { if (ST[curIdx].trick.includes('Tap anywhere') && !ST[curIdx].trick.includes('Double')) handleTrick('tap'); });
 
-                content += `
-                    ${step.h1 ? `<h1>${step.h1}</h1>` : ''}
-                    ${step.h2 ? `<h2>${step.h2}</h2>` : ''}
-                    <p>${step.p}</p>
-                `;
+                // Double Tap detector
+                let lastTap = 0;
+                d.addEventListener('touchstart', e => {
+                    let now = Date.now();
+                    if (now - lastTap < 300) handleTrick('doubletap');
+                    lastTap = now;
+                    // Long press detector
+                    window.lpTimer = setTimeout(() => handleTrick('longpress'), 1500);
+                });
+                d.addEventListener('touchend', () => clearTimeout(window.lpTimer));
 
-                if (step.type === 'music') {
-                    content += `<button class="btn btn-music" onclick="playMusic()">▶️ Play 'Neelothi'</button>`;
-                } else if (step.type === 'meter') {
-                    content += `
-                        <div class="slider-wrap">
-                            <input type="range" min="1" max="100" value="50" class="love-slider" oninput="updateMeter(this.value)">
-                        </div>
-                        <p id="meterText" style="font-weight:700; color:var(--primary);">Oru 50% ah? 🤨</p>
-                    `;
-                } else if (step.type === 'compliment') {
-                    content += `
-                        <div class="compliment-box" id="compBox">Nee dhaan en ulagam! 🌍</div>
-                        <button class="btn" style="background:linear-gradient(135deg,#667eea,#764ba2); margin-bottom:6px;" onclick="newCompliment()">More... ✨</button>
-                    `;
-                } else if (step.type === 'finish') {
-                    content += `
-                        <a href="https://call.whatsapp.com/video/hdzUkrheCL54ZESXslks2t" class="btn btn-call" target="_blank">
-                            📞 Video Call Vaa!
-                        </a>
-                    `;
-                }
+                // Swipe detector
+                let startY = 0;
+                d.addEventListener('touchstart', e => startY = e.touches[0].pageY);
+                d.addEventListener('touchend', e => { if (startY - e.changedTouches[0].pageY > 100) handleTrick('swipeup'); });
+            });
+            sh(0);
+            setupShake();
+            window.addEventListener('orientationchange', () => handleTrick('rotate'));
+        }
 
-                if (index < stepsData.length - 1) {
-                    const nextId = stepsData[index + 1].id;
-                    content += `<button class="btn" onclick="nextStep(${nextId})">${step.btn || 'Next'} ➡️</button>`;
-                }
+        function handleTrick(t) {
+            const s = ST[curIdx];
+            const tr = s.trick.toLowerCase();
+            if (tr.includes(t)) gn(curIdx);
+        }
 
-                stepDiv.innerHTML = content;
-                stepsWrapper.appendChild(stepDiv);
+        function sh(idx) {
+            const h = ST[idx].hints; if (!h) return;
+            const w = document.getElementById('hw' + idx);
+            h.forEach((t, i) => {
+                const p = document.createElement('div'); p.className = 'hint-line'; p.innerText = t; w.appendChild(p);
+                setTimeout(() => p.classList.add('show'), i * 800 + 200);
             });
         }
 
-        function nextStep(id) {
-            const current = document.querySelector('.step.active');
-            if (current) {
-                current.classList.remove('active');
-                current.classList.add('exit');
-            }
+        function gn(i) {
+            if (i !== curIdx) return;
+            const n = i + 1; if (n >= ST.length) return;
+            document.getElementById('stp' + i).classList.remove('active');
+            document.getElementById('stp' + i).classList.add('exit');
+            curIdx = n;
             setTimeout(() => {
-                if (current) current.classList.remove('exit');
-                const next = document.getElementById(`step${id}`);
-                if (next) {
-                    next.classList.add('active');
-                    next.scrollTop = 0; // reset scroll on each step
-                    currentStep = id;
-                    const idx = stepsData.findIndex(s => s.id === id);
-                    progressInner.style.width = `${((idx + 1) / stepsData.length) * 100}%`;
-                }
-                if (id === 22) triggerConfetti();
-            }, 600);
+                document.getElementById('stp' + n).classList.add('active');
+                pbi.style.width = `${((n + 1) / ST.length) * 100}%`;
+                if (ST[n].hints) sh(n);
+            }, 500);
         }
 
-        function playMusic() {
-            const audio = document.getElementById('bgMusic');
-            audio.play().catch(() => { });
-            alert('🎤 Naan dhaan padunan Ammu! Neelothi... 🎶');
+        function setupShake() {
+            let lx, ly, lz, lastS = 0;
+            window.addEventListener('devicemotion', e => {
+                const a = e.accelerationIncludingGravity; if (!a) return;
+                if (!lx) { lx = a.x; ly = a.y; lz = a.z; return; }
+                let d = Math.abs(a.x - lx) + Math.abs(a.y - ly) + Math.abs(a.z - lz);
+                lx = a.x; ly = a.y; lz = a.z;
+                if (d > 25 && Date.now() - lastS > 1000) { lastS = Date.now(); handleTrick('shake'); }
+            });
         }
 
-        function updateMeter(val) {
-            const text = document.getElementById('meterText');
-            if (val < 30) text.innerText = 'Evlo kammi? 🥺 Increase panna!!';
-            else if (val < 60) text.innerText = 'Konjam konjam... 💛 nalla iruku!';
-            else if (val < 90) text.innerText = 'Nalla love dhan! 🥰 Almost there!';
-            else text.innerText = 'SEMMA LOVE! ❤️❤️❤️ Correct answer!';
+        const PIC = 'https://images.unsplash.com/photo-1518199266791-5375a83190b7?auto=format&fit=crop&q=80&w=600';
+        function buildPz() {
+            const w = document.getElementById('pzWrap'); if (!w) return;
+            const sz = Math.floor(Math.min(260, window.innerWidth * 0.7) / 3) * 3, ps = sz / 3;
+            w.style.width = sz + 'px'; w.style.height = sz + 'px';
+            for (let i = 0; i < 9; i++) {
+                const r = Math.floor(i / 3), c = i % 3, p = document.createElement('div'); p.className = 'piece';
+                p.style.cssText = `width:${ps}px;height:${ps}px;left:${c * ps}px;top:${r * ps}px;background-image:url('${PIC}');background-size:${sz}px ${sz}px;background-position:${-c * ps}px ${-r * ps}px;transform:translate(${(i - 4) * 100}%,${(i - 4) * 100}%) rotate(${30 * i}deg);opacity:0;`;
+                w.appendChild(p); pzPcs.push(p);
+            }
+        }
+        function tp() {
+            if (pzPcs.length === 0) { buildPz(); return; }
+            if (pzS >= 9) return;
+            const p = pzPcs[pzS]; p.style.opacity = '1'; p.style.transform = 'none'; pzS++;
+            if (pzS === 9) document.getElementById('pzc').style.display = 'block';
         }
 
-        const compliments = [
-            'Nee oru angel! ✨', 'Semma azhagu! 😍',
-            'My soulmate! ❤️', 'Best Ammu! 🏆',
-            'Gold heart! 💎', 'En uyir nee! 💓',
-            'Nee illama en life illai! 🌟', 'Cutest person ever! 🥰'
-        ];
-        function newCompliment() {
-            const box = document.getElementById('compBox');
-            box.innerText = compliments[Math.floor(Math.random() * compliments.length)];
-        }
+        function um(v) { document.getElementById('mt').innerText = v >= 99 ? 'MAX LOVE! ❤️' : 'Slide more...'; if (v >= 99) handleTrick('slide'); }
+        function pm() { document.getElementById('bgm').play(); }
 
-        function triggerConfetti() {
-            const duration = 5000, end = Date.now() + duration;
-            (function frame() {
-                confetti({ particleCount: 5, angle: 60, spread: 55, origin: { x: 0 } });
-                confetti({ particleCount: 5, angle: 120, spread: 55, origin: { x: 1 } });
-                if (Date.now() < end) requestAnimationFrame(frame);
-            }());
+        function mp() {
+            const p = document.createElement('div'); p.className = 'pt'; p.innerText = ['❤️', '✨', '🌸'][Math.floor(Math.random() * 3)];
+            p.style.left = Math.random() * 100 + 'vw'; p.style.fontSize = (10 + Math.random() * 20) + 'px';
+            p.style.animationDuration = (5 + Math.random() * 5) + 's'; document.body.appendChild(p);
+            setTimeout(() => p.remove(), 7000);
         }
-
-        function createHeart() {
-            const heart = document.createElement('div');
-            heart.className = 'heart-particle';
-            heart.innerText = ['❤️', '💖', '✨', '😍', '💕'][Math.floor(Math.random() * 5)];
-            heart.style.left = Math.random() * 100 + 'vw';
-            heart.style.fontSize = (12 + Math.random() * 16) + 'px';
-            heart.style.animationDuration = (5 + Math.random() * 5) + 's';
-            document.body.appendChild(heart);
-            setTimeout(() => heart.remove(), 10000);
-        }
-
-        setInterval(createHeart, 700);
-        initSteps();
+        setInterval(mp, 800);
     </script>
 </body>
 
