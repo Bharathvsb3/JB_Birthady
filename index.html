@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
     <title>Happy Birthday Jenifar 💙</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Great+Vibes&display=swap"
         rel="stylesheet">
@@ -30,9 +30,10 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            background: #030a1f;
+            background: #020c22;
             overflow: hidden;
             color: #fff;
+            user-select: none;
         }
 
         /* BLUE AURORA */
@@ -40,8 +41,8 @@
             position: fixed;
             inset: 0;
             z-index: 0;
-            filter: blur(90px);
-            opacity: .7;
+            filter: blur(100px);
+            opacity: .75;
             pointer-events: none;
         }
 
@@ -51,41 +52,41 @@
         }
 
         .b1 {
-            width: 600px;
-            height: 600px;
+            width: 650px;
+            height: 650px;
             top: -150px;
             left: -150px;
-            background: radial-gradient(circle, #1d4ed8 0%, transparent 70%);
-            animation: m1 18s infinite alternate;
+            background: radial-gradient(circle, #1e40af 0%, transparent 70%);
+            animation: m1 20s ease-in-out infinite alternate;
         }
 
         .b2 {
             width: 550px;
             height: 550px;
-            bottom: -120px;
-            right: -120px;
-            background: radial-gradient(circle, #0ea5e9 0%, transparent 70%);
-            animation: m2 22s infinite alternate;
+            bottom: -130px;
+            right: -130px;
+            background: radial-gradient(circle, #0284c7 0%, transparent 70%);
+            animation: m2 24s ease-in-out infinite alternate;
         }
 
         .b3 {
-            width: 400px;
-            height: 400px;
-            top: 40%;
+            width: 450px;
+            height: 450px;
+            top: 35%;
             left: 20%;
-            background: radial-gradient(circle, #7c3aed 0%, transparent 70%);
-            animation: m3 14s infinite alternate;
+            background: radial-gradient(circle, #4f46e5 0%, transparent 70%);
+            animation: m3 16s ease-in-out infinite alternate;
         }
 
         @keyframes m1 {
             to {
-                transform: translate(200px, 250px)scale(1.15)
+                transform: translate(200px, 250px)scale(1.2)
             }
         }
 
         @keyframes m2 {
             to {
-                transform: translate(-200px, -200px)scale(.85)
+                transform: translate(-220px, -200px)scale(.8)
             }
         }
 
@@ -95,10 +96,11 @@
             }
 
             to {
-                transform: translate(100px, -200px)scale(1.2)
+                transform: translate(110px, -220px)scale(1.25)
             }
         }
 
+        /* PETALS */
         .pt {
             position: fixed;
             pointer-events: none;
@@ -108,25 +110,25 @@
 
         @keyframes ptr {
             0% {
-                transform: translateY(105vh)rotate(0);
+                transform: translateY(106vh)rotate(0);
                 opacity: 0
             }
 
-            15% {
-                opacity: .5
+            12% {
+                opacity: .55
             }
 
-            90% {
+            88% {
                 opacity: .4
             }
 
             100% {
-                transform: translateY(-12vh)rotate(360deg);
+                transform: translateY(-13vh)rotate(380deg);
                 opacity: 0
             }
         }
 
-        /* LOGIN */
+        /* ═══ LOGIN ═══ */
         #login {
             position: fixed;
             inset: 0;
@@ -139,21 +141,21 @@
 
         .lc {
             width: 100%;
-            max-width: 360px;
-            background: rgba(5, 15, 50, .85);
-            backdrop-filter: blur(30px);
-            -webkit-backdrop-filter: blur(30px);
+            max-width: 370px;
+            background: rgba(2, 8, 30, .88);
+            backdrop-filter: blur(35px);
+            -webkit-backdrop-filter: blur(35px);
             border-radius: 40px;
-            border: 1px solid rgba(96, 165, 250, .25);
-            box-shadow: 0 30px 70px rgba(0, 0, 0, .6), 0 0 40px rgba(29, 78, 216, .15);
-            padding: 40px 24px 30px;
+            border: 1px solid rgba(96, 165, 250, .22);
+            box-shadow: 0 35px 80px rgba(0, 0, 0, .65), 0 0 45px rgba(30, 64, 175, .18);
+            padding: 44px 26px 34px;
             text-align: center;
-            animation: popIn .7s cubic-bezier(.34, 1.56, .64, 1);
+            animation: popIn .75s cubic-bezier(.34, 1.56, .64, 1);
         }
 
         @keyframes popIn {
             from {
-                transform: scale(.8);
+                transform: scale(.78);
                 opacity: 0
             }
 
@@ -163,22 +165,22 @@
             }
         }
 
-        @keyframes lout {
-            to {
-                opacity: 0;
-                transform: scale(1.1)
-            }
-        }
-
         #login.out {
-            animation: lout .6s forwards;
+            animation: lout .6s ease forwards;
             pointer-events: none;
         }
 
+        @keyframes lout {
+            to {
+                opacity: 0;
+                transform: scale(1.08)
+            }
+        }
+
         .hrt {
-            font-size: 3.6rem;
+            font-size: 3.8rem;
             display: block;
-            margin-bottom: 12px;
+            margin-bottom: 14px;
             animation: hp 1.6s ease-in-out infinite;
         }
 
@@ -187,71 +189,77 @@
             0%,
             100% {
                 transform: scale(1);
-                filter: drop-shadow(0 0 8px #3b82f6)
+                filter: drop-shadow(0 0 10px #3b82f6)
             }
 
             50% {
-                transform: scale(1.12);
-                filter: drop-shadow(0 0 22px #60a5fa)
+                transform: scale(1.14);
+                filter: drop-shadow(0 0 24px #60a5fa)
             }
         }
 
         .lt {
             font-family: 'Great Vibes', cursive;
-            font-size: clamp(2rem, 8vw, 2.8rem);
+            font-size: clamp(2.1rem, 8vw, 2.9rem);
             color: #60a5fa;
             margin-bottom: 6px;
+            text-shadow: 0 0 25px rgba(96, 165, 250, .4);
         }
 
-        .ls-sub {
-            font-size: .8rem;
-            color: rgba(255, 255, 255, .4);
-            margin-bottom: 20px;
+        .ls {
+            font-size: .82rem;
+            color: rgba(255, 255, 255, .38);
+            margin-bottom: 22px;
         }
 
         .clue {
-            background: rgba(59, 130, 246, .08);
-            border: 1px solid rgba(59, 130, 246, .2);
-            border-radius: 18px;
-            padding: 14px;
-            margin-bottom: 20px;
+            background: rgba(59, 130, 246, .07);
+            border: 1px solid rgba(59, 130, 246, .18);
+            border-radius: 20px;
+            padding: 15px 18px;
+            margin-bottom: 22px;
         }
 
         .ct {
-            font-size: .8rem;
-            color: rgba(255, 255, 255, .65);
+            font-size: .82rem;
+            color: rgba(255, 255, 255, .6);
             line-height: 1.6;
+        }
+
+        .ct b {
+            color: #60a5fa;
         }
 
         .dots {
             display: flex;
             justify-content: center;
-            gap: 12px;
-            margin-bottom: 14px;
+            gap: 13px;
+            margin-bottom: 16px;
         }
 
         .dot {
-            width: 16px;
-            height: 16px;
+            width: 17px;
+            height: 17px;
             border-radius: 50%;
-            background: rgba(255, 255, 255, .08);
-            border: 2px solid rgba(59, 130, 246, .2);
+            background: rgba(255, 255, 255, .07);
+            border: 2px solid rgba(59, 130, 246, .22);
             transition: all .22s;
         }
 
         .dot.on {
             background: #3b82f6;
             border-color: #60a5fa;
-            box-shadow: 0 0 12px #3b82f6;
-            transform: scale(1.2);
+            box-shadow: 0 0 14px #3b82f6;
+            transform: scale(1.22);
         }
 
         .lerr {
-            font-size: .8rem;
+            font-size: .82rem;
             font-weight: 700;
-            height: 22px;
-            margin-bottom: 8px;
+            min-height: 22px;
+            margin-bottom: 10px;
             color: #f87171;
+            transition: all .3s;
         }
 
         @keyframes shk {
@@ -270,19 +278,23 @@
             }
         }
 
+        .shk {
+            animation: shk .4s ease;
+        }
+
         .pgrid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-            margin-bottom: 10px;
+            gap: 11px;
+            margin-bottom: 12px;
         }
 
         .pb {
-            background: rgba(59, 130, 246, .08);
+            background: rgba(59, 130, 246, .07);
             border: 1px solid rgba(59, 130, 246, .18);
             border-radius: 18px;
             padding: 15px 0;
-            font-size: 1.25rem;
+            font-size: 1.28rem;
             font-weight: 700;
             color: #fff;
             cursor: pointer;
@@ -291,11 +303,12 @@
 
         .pb:active {
             transform: scale(.88);
-            background: rgba(59, 130, 246, .35);
+            background: rgba(59, 130, 246, .3);
+            border-color: #60a5fa;
         }
 
         .pb.del {
-            color: rgba(255, 255, 255, .4);
+            color: rgba(255, 255, 255, .38);
             font-size: 1rem;
         }
 
@@ -303,25 +316,31 @@
             grid-column: 2;
         }
 
-        /* MAIN CARD */
+        .xh {
+            font-size: .72rem;
+            color: rgba(255, 255, 255, .28);
+            margin-top: 4px;
+        }
+
+        /* ═══ CARD ═══ */
         #card {
             width: 94%;
             max-width: 440px;
             height: 90dvh;
-            max-height: 820px;
-            border-radius: 40px;
-            background: rgba(5, 12, 40, .65);
-            backdrop-filter: blur(35px);
-            -webkit-backdrop-filter: blur(35px);
-            box-shadow: 0 30px 70px rgba(0, 0, 0, .55), 0 0 0 1px rgba(96, 165, 250, .15) inset;
+            max-height: 830px;
+            border-radius: 42px;
+            background: rgba(2, 10, 35, .6);
+            backdrop-filter: blur(40px);
+            -webkit-backdrop-filter: blur(40px);
+            box-shadow: 0 35px 80px rgba(0, 0, 0, .6), 0 0 0 1px rgba(96, 165, 250, .13) inset;
             position: relative;
             z-index: 10;
             display: flex;
             flex-direction: column;
             overflow: hidden;
             opacity: 0;
-            transform: translateY(30px);
-            transition: all .8s cubic-bezier(.34, 1.56, .64, 1);
+            transform: translateY(32px);
+            transition: all .85s cubic-bezier(.34, 1.56, .64, 1);
         }
 
         #card.show {
@@ -336,31 +355,30 @@
             right: 0;
             height: 4px;
             z-index: 20;
-            background: rgba(255, 255, 255, .06);
+            background: rgba(255, 255, 255, .05);
         }
 
         #pbi {
             height: 100%;
             width: 0%;
-            background: linear-gradient(90deg, #1d4ed8, #38bdf8);
-            transition: width .6s ease;
+            background: linear-gradient(90deg, #1d4ed8, #38bdf8, #818cf8);
+            transition: width .7s ease;
             border-radius: 2px;
         }
 
-        /* STEP COUNTER BADGE */
-        .step-badge {
+        .sbadge {
             position: absolute;
-            top: 12px;
-            right: 16px;
+            top: 14px;
+            right: 18px;
             z-index: 20;
-            background: rgba(59, 130, 246, .15);
-            border: 1px solid rgba(59, 130, 246, .3);
+            background: rgba(59, 130, 246, .14);
+            border: 1px solid rgba(59, 130, 246, .28);
             border-radius: 50px;
-            padding: 4px 14px;
-            font-size: .72rem;
+            padding: 5px 15px;
+            font-size: .7rem;
             font-weight: 700;
             color: #60a5fa;
-            letter-spacing: .5px;
+            letter-spacing: .6px;
         }
 
         .sw {
@@ -377,8 +395,8 @@
             align-items: center;
             opacity: 0;
             pointer-events: none;
-            transform: translateX(100%);
-            transition: transform .55s cubic-bezier(.4, 1, .2, 1), opacity .35s ease;
+            transform: translateX(105%);
+            transition: transform .6s cubic-bezier(.4, 1, .2, 1), opacity .38s ease;
             overflow-y: auto;
             scrollbar-width: none;
         }
@@ -395,7 +413,7 @@
 
         .stp.exit {
             opacity: 0;
-            transform: translateX(-100%);
+            transform: translateX(-105%);
         }
 
         /* INNER */
@@ -406,15 +424,16 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 44px 22px 16px;
+            padding: 48px 22px 16px;
             text-align: center;
+            gap: 10px;
         }
 
         .s-icon {
-            font-size: clamp(3rem, 10vw, 4rem);
-            margin-bottom: 14px;
-            animation: flt 3s ease-in-out infinite;
+            font-size: clamp(3.2rem, 11vw, 4.5rem);
+            animation: flt 3.2s ease-in-out infinite;
             display: block;
+            filter: drop-shadow(0 0 16px rgba(96, 165, 250, .35));
         }
 
         @keyframes flt {
@@ -425,63 +444,41 @@
             }
 
             50% {
-                transform: translateY(-14px)
+                transform: translateY(-16px)
             }
         }
 
         .s-title {
             font-family: 'Great Vibes', cursive;
-            font-size: clamp(2.2rem, 8vw, 3rem);
+            font-size: clamp(2.3rem, 9vw, 3.2rem);
             color: #60a5fa;
-            margin-bottom: 10px;
-            text-shadow: 0 0 30px rgba(96, 165, 250, .4);
+            text-shadow: 0 0 30px rgba(96, 165, 250, .35);
+            line-height: 1.2;
         }
 
         .s-head {
-            font-size: 1rem;
+            font-size: 1.05rem;
             font-weight: 700;
-            color: rgba(255, 255, 255, .85);
-            margin-bottom: 14px;
+            color: rgba(255, 255, 255, .88);
             line-height: 1.45;
         }
 
-        /* HINT LINES */
-        .hints-wrap {
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            margin-bottom: 18px;
-        }
-
-        .hl {
-            font-size: .88rem;
-            color: rgba(255, 255, 255, .7);
-            line-height: 1.65;
-            padding: 11px 16px;
-            border-radius: 18px;
-            background: rgba(255, 255, 255, .04);
-            border: 1px solid rgba(255, 255, 255, .08);
-            opacity: 0;
-            transform: translateY(14px);
-            transition: all .55s ease;
-        }
-
-        .hl.show {
-            opacity: 1;
-            transform: translateY(0);
+        .s-txt {
+            font-size: .9rem;
+            color: rgba(255, 255, 255, .6);
+            line-height: 1.7;
+            max-width: 340px;
         }
 
         .mf {
             width: 90%;
-            height: 160px;
-            margin-bottom: 18px;
-            border-radius: 22px;
+            height: 165px;
+            border-radius: 24px;
             overflow: hidden;
             flex-shrink: 0;
             transform: rotate(-1.5deg);
-            box-shadow: 0 12px 35px rgba(0, 0, 0, .3);
-            border: 1px solid rgba(255, 255, 255, .12);
+            box-shadow: 0 14px 40px rgba(0, 0, 0, .35);
+            border: 2px solid rgba(255, 255, 255, .1);
         }
 
         .mf img {
@@ -491,28 +488,26 @@
             display: block;
         }
 
-        /* TRICK HINT BAR */
+        /* TRICK BAR */
         .trick-bar {
             flex-shrink: 0;
-            padding: 14px 20px;
-            background: rgba(59, 130, 246, .1);
-            border-top: 1px solid rgba(59, 130, 246, .2);
+            padding: 13px 18px;
+            background: rgba(30, 64, 175, .12);
+            border-top: 1px solid rgba(59, 130, 246, .18);
             font-size: .75rem;
             font-weight: 700;
-            color: #60a5fa;
-            letter-spacing: .8px;
-            text-transform: uppercase;
+            color: #7dd3fc;
+            letter-spacing: .6px;
             text-align: center;
         }
 
-        /* MUSIC STEP */
+        /* MUSIC */
         .vinyl {
-            font-size: 5.5rem;
+            font-size: 6rem;
             display: block;
-            margin-bottom: 16px;
-            animation: spin 4s linear infinite;
             cursor: pointer;
-            filter: drop-shadow(0 0 20px rgba(96, 165, 250, .5));
+            animation: spin 4s linear infinite;
+            filter: drop-shadow(0 0 22px rgba(96, 165, 250, .55));
         }
 
         @keyframes spin {
@@ -521,46 +516,44 @@
             }
         }
 
-        .vinyl:active {
-            transform: scale(.95);
-        }
-
-        .play-lbl {
+        .plbl {
             font-size: .85rem;
-            color: rgba(255, 255, 255, .5);
-            margin-top: 8px;
+            color: rgba(255, 255, 255, .45);
+            margin-top: 6px;
+            transition: color .3s;
         }
 
         /* PUZZLE */
         .pz-wrap {
             position: relative;
-            border-radius: 20px;
+            border-radius: 22px;
             overflow: hidden;
             cursor: pointer;
             border: 2px solid rgba(59, 130, 246, .25);
+            flex-shrink: 0;
         }
 
         .pz-piece {
             position: absolute;
             background-repeat: no-repeat;
-            transition: all .55s cubic-bezier(.34, 1.56, .64, 1);
+            transition: all .58s cubic-bezier(.34, 1.56, .64, 1);
         }
 
         .pz-stat {
-            font-size: .8rem;
+            font-size: .82rem;
             color: #60a5fa;
             font-weight: 700;
-            margin-top: 14px;
-            min-height: 20px;
+            margin-top: 12px;
+            min-height: 22px;
         }
 
         .pz-btn {
             display: none;
-            margin-top: 16px;
+            margin-top: 14px;
             background: rgba(59, 130, 246, .18);
-            border: 1px solid rgba(59, 130, 246, .4);
+            border: 1.5px solid rgba(59, 130, 246, .4);
             border-radius: 50px;
-            padding: 13px 32px;
+            padding: 13px 30px;
             font-weight: 700;
             font-size: .88rem;
             color: #fff;
@@ -569,8 +562,8 @@
 
         /* METER */
         .sw-wrap {
-            width: 90%;
-            margin: 20px 0;
+            width: 92%;
+            margin: 6px 0;
         }
 
         .love-sl {
@@ -591,28 +584,27 @@
             border-radius: 50%;
             border: 4px solid #fff;
             cursor: pointer;
-            box-shadow: 0 0 12px rgba(59, 130, 246, .6);
+            box-shadow: 0 0 14px rgba(59, 130, 246, .6);
         }
 
         .m-lbl {
-            font-size: .9rem;
+            font-size: .92rem;
             font-weight: 700;
             color: #60a5fa;
-            margin-top: 8px;
             min-height: 24px;
+            transition: color .3s;
         }
 
         /* CONFETTI BTN */
         .conf-btn {
-            background: rgba(59, 130, 246, .15);
-            border: 1px solid rgba(59, 130, 246, .4);
+            background: rgba(59, 130, 246, .14);
+            border: 1.5px solid rgba(59, 130, 246, .35);
             border-radius: 50px;
             padding: 14px 32px;
             font-weight: 700;
-            font-size: .88rem;
+            font-size: .9rem;
             color: #fff;
             cursor: pointer;
-            margin-top: 16px;
             letter-spacing: .5px;
         }
 
@@ -620,27 +612,50 @@
         .call-btn {
             background: #3b82f6;
             color: #fff;
-            padding: 16px 40px;
+            padding: 17px 42px;
             border-radius: 50px;
             font-size: 1rem;
             font-weight: 800;
             text-decoration: none;
             display: inline-block;
-            margin-top: 20px;
-            box-shadow: 0 12px 30px rgba(59, 130, 246, .4);
-            animation: cpulse 2s infinite;
+            margin-top: 12px;
+            box-shadow: 0 12px 32px rgba(59, 130, 246, .45);
+            animation: cpulse 2.2s infinite;
         }
 
         @keyframes cpulse {
 
             0%,
             100% {
-                box-shadow: 0 12px 30px rgba(59, 130, 246, .4), 0 0 0 0 rgba(59, 130, 246, .3)
+                box-shadow: 0 12px 32px rgba(59, 130, 246, .45), 0 0 0 0 rgba(59, 130, 246, .25)
             }
 
             50% {
-                box-shadow: 0 12px 30px rgba(59, 130, 246, .4), 0 0 0 12px rgba(59, 130, 246, 0)
+                box-shadow: 0 12px 32px rgba(59, 130, 246, .45), 0 0 0 14px rgba(59, 130, 246, 0)
             }
+        }
+
+        /* TAP-COUNT FEEDBACK */
+        .tap-ring {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            pointer-events: none;
+            z-index: 50;
+        }
+
+        .tap-count {
+            font-size: 5rem;
+            font-weight: 800;
+            color: rgba(96, 165, 250, .6);
+            opacity: 0;
+            transition: opacity .2s;
+        }
+
+        .tap-count.show {
+            opacity: 1;
         }
     </style>
 </head>
@@ -657,9 +672,10 @@
         <div class="lc">
             <span class="hrt">💙</span>
             <div class="lt">Hi Thangam!</div>
-            <div class="ls-sub">Unlock your 15 step Birthday Journey</div>
+            <div class="ls">Unlock your Birthday Surprise 🎁</div>
             <div class="clue">
-                <div class="ct">🎂 Enter your Birthday PIN<br><b style="color:#60a5fa;">March 12 → 1203</b></div>
+                <div class="ct">Enter your secret PIN!<br><b>Clue: December 01 → 0112</b><br><b
+                        style="color:#7dd3fc;font-size:.75rem;">(PIN = 1201)</b></div>
             </div>
             <div class="dots">
                 <div class="dot" id="d0"></div>
@@ -677,6 +693,7 @@
                     class="pb" onclick="pp('9')">9</button>
                 <button class="pb z" onclick="pp('0')">0</button><button class="pb del" onclick="pd()">⌫</button>
             </div>
+            <div class="xh">💡 Think about the PIN above!</div>
         </div>
     </div>
 
@@ -690,173 +707,166 @@
         <div class="prog">
             <div id="pbi"></div>
         </div>
-        <div class="step-badge" id="sbadge">1 / 15</div>
+        <div class="sbadge" id="sbadge">1 / 15</div>
         <div class="sw" id="sw"></div>
     </div>
 
     <script>
-        /* ─── PIN ─── */
-        const PIN = '1203'; let pv = '';
+        /* ═══ PIN ═══ */
+        const PIN = '1201'; let pv = '';
         function pp(n) { if (pv.length >= 4) return; pv += n; updD(); if (pv.length === 4) chkPin(); }
         function pd() { pv = pv.slice(0, -1); updD(); ler(''); }
         function updD() { for (let i = 0; i < 4; i++)document.getElementById('d' + i).classList.toggle('on', i < pv.length); }
-        function ler(m) { document.getElementById('lerr').textContent = m; }
+        function ler(m, c) { const e = document.getElementById('lerr'); e.textContent = m; if (c) e.style.color = c; }
         function chkPin() {
             if (pv === PIN) {
-                ler('✅ Happy Birthday Thangam! 💙');
-                setTimeout(() => { document.getElementById('login').classList.add('out'); }, 400);
-                setTimeout(() => { document.getElementById('login').style.display = 'none'; document.getElementById('card').classList.add('show'); start(); }, 1000);
+                ler('✅ Welcome Thangam! 💙', '#4ade80');
+                setTimeout(() => document.getElementById('login').classList.add('out'), 350);
+                setTimeout(() => { document.getElementById('login').style.display = 'none'; document.getElementById('card').classList.add('show'); startJourney(); }, 900);
             } else {
-                ler('❌ Wrong PIN! March 12 → 1203 😜');
-                document.getElementById('lerr').style.animation = 'none';
-                void document.getElementById('lerr').offsetWidth;
-                document.getElementById('lerr').style.animation = 'shk .4s ease';
+                ler('Wrong PIN! Try again 😜', '#f87171');
+                const e = document.getElementById('lerr'); e.classList.remove('shk'); void e.offsetWidth; e.classList.add('shk');
                 pv = ''; updD();
             }
         }
 
-        /* ─── 15 STEPS ─── */
-        /* nav types: tap | shake | doubletap | longpress | rotate | puzzle | meter | confetti | finish */
+        /* ═══ 15 STEPS (no hints array – content shown directly) ═══
+           nav types: tap | shake | doubletap | longpress | swipeup | swipeleft |
+                      tap3 | tap5 | pinch | spread | tilt | rotate | blow | puzzle | meter | finish
+        */
         const ST = [
             {
-                n: 0, icon: '💙', title: 'Hi Thangam!', nav: 'tap',
-                hints: ['Happy Birthday Jenifar! 🎂', 'Idhu namma 15-step unique journey!', 'Oru oru step la oru surprise irukku!'],
-                trick: '👆 Tap anywhere on screen to begin!'
+                icon: '💙', title: 'Hi Thangam! 💙', nav: 'tap',
+                txt: 'Happy Birthday Jenifar! 🎂\nIdhu namma special 15-step journey!\nEvery step la oru unique action irukku!',
+                trick: '👆 TAP anywhere on screen to begin!'
             },
 
             {
-                n: 1, icon: '🎓', head: '2019 – College Days', nav: 'shake',
+                icon: '🎓', head: '2019 – College Days 📚', nav: 'shake',
                 img: 'https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&q=80&w=500',
-                hints: ['Same college, same time... 😮', 'Aana nee Bharath-ah notice pannala 😂', 'Corner-la invisible dhaan irunthen!'],
-                trick: '📳 SHAKE YOUR PHONE to go next!'
+                txt: 'Same college same time... but nee Bharath-ah notice pannala! 😂\nNan corner-la invisible mathiri irunthen... waiting!',
+                trick: '📳 SHAKE your phone to go to next!'
             },
 
             {
-                n: 2, icon: '🎵', head: 'Step 3 – Neelothi 🎶', nav: 'doubletap', music: true,
-                hints: ['My special song for you!', 'Tap the 🎵 to play...', 'Then DOUBLE TAP to continue!'],
-                trick: 'Double Tap anywhere to continue!'
-            },
-
-            {
-                n: 3, icon: '📱', head: 'Step 4 – First "Hi"', nav: 'longpress',
-                hints: ['August 2021 – First message!', 'One small "Hi" that changed everything...', 'That conversation = start of US! 💙'],
-                trick: '👆 Long Press (hold 2 sec) to continue!'
-            },
-
-            {
-                n: 4, icon: '💛', head: 'Step 5 – "Thangam"', nav: 'tap',
-                hints: ['"Thangam" = Gold in Tamil 💛', 'Most precious thing in the world = YOU!', 'Every day I call you that with love.'],
-                trick: '👆 Tap anywhere to continue →'
-            },
-
-            {
-                n: 5, icon: '🧩', head: 'Step 6 – Memory Puzzle', nav: 'puzzle',
-                hints: ['Namma photo assemble pannu!', 'Tap each piece to place it perfectly!'],
-                trick: 'Tap all 9 pieces then press Continue!'
-            },
-
-            {
-                n: 6, icon: '😄', head: 'Step 7 – That Smile 😍', nav: 'shake',
+                icon: '😄', head: 'Step 3 – That First Smile!', nav: 'doubletap',
                 img: 'https://images.unsplash.com/photo-1516589174184-e67823dbf48e?auto=format&fit=crop&q=80&w=500',
-                hints: ['Un smile pathu dhaan nan flat aanen! 🥹', 'That first smile = I knew you were different!', 'Still melts me every time! 💙'],
-                trick: '📳 SHAKE YOUR PHONE to go next!'
+                txt: 'Un smile pathu dhaan nan flat aanen! 🥹\nEven now – same feeling every single time!',
+                trick: '✌️ DOUBLE TAP anywhere to continue!'
             },
 
             {
-                n: 7, icon: '🥊', head: 'Step 8 – The Fight Formula 😂', nav: 'doubletap',
-                hints: ['Nee: 💢 "Fight mode ON!"', 'Me: 😇 "Sorry Thangam sorry..."', 'Nee: 😤 "Not enough sorry!"', '(This loop has no end 🔁😂)'],
-                trick: 'Double Tap to send SORRY! 😜'
+                icon: '📱', head: 'Step 4 – August 2021', nav: 'swipeup',
+                txt: 'First conversation – nervous-ah type pannen! 😅\nOne "Hi" that changed our entire world! 💙',
+                trick: '⬆️ SWIPE UP to go to next step!'
             },
 
             {
-                n: 8, icon: '💍', head: 'Step 9 – The YES! Day 🎉', nav: 'longpress',
-                hints: ['Dec 28, 2021... 📅', 'Heart beating like crazy! 💓', 'You said "YES"!! 🥳', 'Best moment of my entire life!'],
-                trick: 'Long Press 2 sec to relive it! 🥰'
+                icon: '💛', head: 'Step 5 – "Thangam" 💛', nav: 'longpress',
+                txt: '"Thangam" = Gold in Tamil 💛\nMost precious thing = YOU!\nEvery time I say it, I mean it with full heart!',
+                trick: '👆 HOLD (Long Press 2 sec) anywhere!'
             },
 
             {
-                n: 9, icon: '✈️', head: 'Step 10 – Animun Dreams 🌍', nav: 'rotate',
-                hints: ['Enga pogalam Thangam? 🗺️', 'Maldives? Switzerland? Paris? Ooty?', 'Ennamo oru place namma pogom! ✈️'],
-                trick: '↺ ROTATE PHONE 90° to continue!'
+                icon: '💘', head: 'Step 6 – I Said It! 💘', nav: 'swipeleft',
+                txt: 'Heart 200 bpm-la odichuchu! 🙈\nFinally sonnein – "I love you Thangam!"\nAnd you just... SMILED! 🥹',
+                trick: '⬅️ SWIPE LEFT to continue!'
             },
 
             {
-                n: 10, icon: '🏡', head: 'Step 11 – My Home', nav: 'tap',
-                hints: ['Nee dhaan en home 🏡', 'Not just love – en entire life!', 'My calm, my peace, my joy = YOU.'],
-                trick: '👆 Tap anywhere to continue →'
+                icon: '🎉', head: 'Step 7 – The YES Day! 🎉', nav: 'tap3',
+                txt: 'December 28, 2021... 📅\nYou said "YES"!! 🥳\nBest moment of my entire life – no competition!',
+                trick: '👆 TAP 3 TIMES quickly to celebrate!'
             },
 
             {
-                n: 11, icon: '📊', head: 'Step 12 – Love Meter', nav: 'meter',
-                hints: ['Try to show how much!', 'Slide it ALL the way to 100%!', 'I already know the answer 😏'],
+                icon: '🥊', head: 'Step 8 – The Fight Formula 😂', nav: 'pinch',
+                txt: 'Nee: 💢 "Fight mode ON!"\nNaan: 😇 "Sorry Thangam..."\nNee: 😤 "NOT ENOUGH!"\n(Infinite loop 🔁 love you still! 😂)',
+                trick: '🤏 PINCH fingers IN on screen!'
+            },
+
+            {
+                icon: '🎵', head: 'Step 9 – Our Song 🎶', nav: 'blow', music: true,
+                txt: 'Neelothi – nan unakkaaga paadinen! 💙\nTap 🎵 to play the song first!\nThen BLOW into the phone mic!',
+                trick: '💨 TAP 🎵 to play then BLOW into mic!'
+            },
+
+            {
+                icon: '✈️', head: 'Step 10 – Animun Dreams ✈️', nav: 'spread',
+                txt: 'Enga pogalam Thangam? 🗺️\nMaldives? Switzerland? Paris?\nEnna aanalum un kooda = Paradise! 💙',
+                trick: '🤲 SPREAD fingers OUT on screen!'
+            },
+
+            {
+                icon: '🏡', head: 'Step 11 – My Home 🏡', nav: 'tilt',
+                txt: 'Nee dhaan en home, en peace, en world! 🏡\nEvery day is better because of YOU!\nMy calm in every storm. 💙',
+                trick: '📱 TILT phone to the LEFT side!'
+            },
+
+            {
+                icon: '🧩', head: 'Step 12 – Memory Puzzle', nav: 'puzzle',
+                txt: 'Assemble namma photo! 🧩\nTap each piece to place it perfectly!',
+                trick: 'Tap all 9 pieces to build the picture!'
+            },
+
+            {
+                icon: '✨', head: 'Step 13 – You Are...', nav: 'tap5',
+                txt: 'Walking angel! 👼\nMy sunshine on dark days ☀️\nMy favourite human forever! 💙',
+                trick: '👆 TAP 5 TIMES quickly to continue!'
+            },
+
+            {
+                icon: '📊', head: 'Step 14 – Love Meter 💙', nav: 'meter',
+                txt: 'How much do you love me?\nSlide it ALL the way to 100%!\n(I already know the answer 😏)',
                 trick: 'Slide to 100% to unlock next step!'
             },
 
             {
-                n: 12, icon: '✨', head: 'Step 13 – You Are...', nav: 'shake',
-                hints: ['A walking angel! 👼', 'My sunshine on dark days ☀️', 'The reason I smile every morning 💙', 'Forever my favourite human!'],
-                trick: '📳 SHAKE to shuffle compliments!'
-            },
-
-            {
-                n: 13, icon: '🎉', head: 'Step 14 – 2026 & Beyond!', nav: 'confetti',
-                hints: ['2026 – we made it together! 🚀', 'Every year better because of you!', 'Best memories still coming for us! 💙'],
-                trick: 'Hold the button to release confetti! 🎊'
-            },
-
-            {
-                n: 14, icon: '💙', title: 'Happy Birthday Ammu! 🎂', nav: 'finish',
-                hints: ['Forever yours, Bharath 💍', 'You are my whole world!', 'Seekiram vaa Thangam! 📞😍'],
-                trick: 'Double Tap to open your gift! 🎁'
+                icon: '💙', title: 'Happy Birthday Ammu! 🎂', nav: 'finish',
+                txt: 'Forever yours, Bharath 💍\nYou are my whole world!\nSeekiram vaa Thangam! 📞😍',
+                trick: '🎁 Your final gift is below! 💙'
             }
         ];
 
-        let cur = 0, pzS = 0, pzPcs = [], songReady = false;
-        const swEl = document.getElementById('sw'), pbi = document.getElementById('pbi'), badge = document.getElementById('sbadge');
+        let cur = 0, pzS = 0, pzPcs = [];
+        const swEl = document.getElementById('sw'), pbi = document.getElementById('pbi'), sbadge = document.getElementById('sbadge');
 
-        /* ─── BUILD ALL STEPS ─── */
-        function start() {
+        /* ═══ BUILD STEPS ═══ */
+        function startJourney() {
             ST.forEach((s, i) => {
                 const d = document.createElement('div');
                 d.className = 'stp' + (i === 0 ? ' active' : ''); d.id = 'stp' + i;
-                let body = '', extra = '';
+                let body = '';
 
                 if (s.music) {
                     body = `<div class="inner">
         <span class="vinyl" id="vinyl" onclick="playS()">🎵</span>
         <div class="s-head">${s.head}</div>
-        <div class="hints-wrap" id="hw${i}"></div>
-        <div class="play-lbl" id="plbl">Tap 🎵 to play the song!</div>
+        <div class="s-txt" style="white-space:pre-line">${s.txt}</div>
+        <div class="plbl" id="plbl">👆 Tap 🎵 to play song first!</div>
       </div>`;
                 } else if (s.nav === 'puzzle') {
                     body = `<div class="inner">
         <div class="s-head">${s.head}</div>
-        <div class="hints-wrap" id="hw${i}"></div>
+        <div class="s-txt">${s.txt}</div>
         <div class="pz-wrap" id="pzWrap" onclick="tapPz()"></div>
-        <div class="pz-stat" id="pzStat">Tap the puzzle!</div>
+        <div class="pz-stat" id="pzStat">👆 Tap the puzzle!</div>
         <button class="pz-btn" id="pzBtn" onclick="goNext()">Continue ❤️</button>
       </div>`;
                 } else if (s.nav === 'meter') {
                     body = `<div class="inner">
-        <span class="s-icon">📊</span>
-        <div class="s-head">${s.head}</div>
-        <div class="hints-wrap" id="hw${i}"></div>
-        <div class="sw-wrap"><input type="range" min="1" max="100" value="1" class="love-sl" id="loveSlide" oninput="updMeter(this.value)"></div>
-        <div class="m-lbl" id="mLbl">Slide to show love! ❤️</div>
-      </div>`;
-                } else if (s.nav === 'confetti') {
-                    body = `<div class="inner">
         <span class="s-icon">${s.icon}</span>
         <div class="s-head">${s.head}</div>
-        <div class="hints-wrap" id="hw${i}"></div>
-        <button class="conf-btn" id="confBtn" onmousedown="startConf()" ontouchstart="startConf()" onmouseup="stopConf()" ontouchend="stopConf()">🎊 Hold for Confetti!</button>
+        <div class="s-txt">${s.txt}</div>
+        <div class="sw-wrap"><input type="range" min="1" max="100" value="1" class="love-sl" id="loveSl" oninput="updMeter(this.value)"></div>
+        <div class="m-lbl" id="mLbl">Slide it! ❤️</div>
       </div>`;
                 } else if (s.nav === 'finish') {
                     body = `<div class="inner">
         <span class="s-icon">${s.icon}</span>
         <div class="s-title">${s.title || ''}</div>
-        <div class="hints-wrap" id="hw${i}"></div>
-        <a href="https://call.whatsapp.com/video/hdzUkrheCL54ZESXslks2t" class="call-btn" target="_blank">📞 Video Call Thangam!</a>
+        <div class="s-txt" style="white-space:pre-line">${s.txt}</div>
+        <a href="https://call.whatsapp.com/video/hdzUkrheCL54ZESXslks2t" class="call-btn" target="_blank">📞 Video Call Now!</a>
       </div>`;
                 } else {
                     body = `<div class="inner">
@@ -864,130 +874,192 @@
         ${s.title ? `<div class="s-title">${s.title}</div>` : ''}
         ${s.head ? `<div class="s-head">${s.head}</div>` : ''}
         ${s.img ? `<div class="mf"><img src="${s.img}" loading="lazy" alt=""></div>` : ''}
-        <div class="hints-wrap" id="hw${i}"></div>
+        ${s.txt ? `<div class="s-txt" style="white-space:pre-line">${s.txt}</div>` : ''}
       </div>`;
                 }
 
-                d.innerHTML = body + `<div class="trick-bar">👉 ${s.trick}</div>`;
+                // Tap counter ring
+                if (s.nav === 'tap3' || s.nav === 'tap5') {
+                    body += `<div class="tap-ring"><div class="tap-count" id="tc${i}">0</div></div>`;
+                }
+
+                d.innerHTML = body + `<div class="trick-bar" id="tb${i}">👉 ${s.trick}</div>`;
                 swEl.appendChild(d);
             });
 
-            showHints(0);
-            setupGestures();
-            mkPetals();
+            setupAllGestures();
+            startPetals();
         }
 
-        /* ─── HINT REVEAL ─── */
-        function showHints(idx) {
-            const s = ST[idx]; if (!s.hints) return;
-            const w = document.getElementById('hw' + idx); if (!w) return;
-            s.hints.forEach((t, i) => {
-                const p = document.createElement('div'); p.className = 'hl'; p.innerText = t;
-                w.appendChild(p);
-                setTimeout(() => p.classList.add('show'), i * 750 + 300);
-            });
-        }
-
-        /* ─── GO NEXT ─── */
+        /* ═══ GO NEXT ═══ */
         function goNext() {
             if (cur >= ST.length - 1) return;
-            document.getElementById('stp' + cur).classList.add('exit');
-            document.getElementById('stp' + cur).classList.remove('active');
+            const old = document.getElementById('stp' + cur);
+            old.classList.remove('active'); old.classList.add('exit');
             cur++;
-            const next = document.getElementById('stp' + cur);
             setTimeout(() => {
-                next.classList.add('active');
+                const nxt = document.getElementById('stp' + cur);
+                nxt.classList.add('active');
                 pbi.style.width = `${((cur + 1) / ST.length) * 100}%`;
-                badge.textContent = `${cur + 1} / ${ST.length}`;
-                showHints(cur);
-                if (ST[cur].nav === 'puzzle' && pzPcs.length === 0) setTimeout(buildPuzzle, 200);
-            }, 500);
+                sbadge.textContent = `${cur + 1} / ${ST.length}`;
+                if (ST[cur].nav === 'puzzle' && pzPcs.length === 0) setTimeout(buildPuzzle, 300);
+                if (cur === ST.length - 1) doConfetti();
+            }, 520);
         }
 
-        /* ─── GESTURES ─── */
-        function setupGestures() {
-            // TAP – for step 0, 4, 10 etc
-            swEl.addEventListener('click', () => { if (ST[cur].nav === 'tap') goNext(); });
+        /* ═══ GESTURES ═══ */
+        function setupAllGestures() {
+            const area = swEl;
 
-            // DOUBLE TAP
+            /* TAP (single) */
+            area.addEventListener('click', () => { if (ST[cur].nav === 'tap') goNext(); });
+
+            /* DOUBLE TAP */
             let lastTap = 0;
-            swEl.addEventListener('touchstart', e => {
+            area.addEventListener('touchstart', e => {
                 const now = Date.now();
-                if (now - lastTap < 350 && ST[cur].nav === 'doubletap') goNext();
+                if (now - lastTap < 320 && ST[cur].nav === 'doubletap') goNext();
                 lastTap = now;
             }, { passive: true });
 
-            // LONG PRESS
-            let lpTimer = null;
-            swEl.addEventListener('touchstart', () => {
-                if (ST[cur].nav === 'longpress') lpTimer = setTimeout(() => { goNext(); lpTimer = null; }, 1800);
-            }, { passive: true });
-            swEl.addEventListener('touchend', () => { clearTimeout(lpTimer); lpTimer = null; });
-            swEl.addEventListener('touchmove', () => { clearTimeout(lpTimer); lpTimer = null; });
+            /* LONG PRESS */
+            let lpT = null;
+            area.addEventListener('touchstart', () => { if (ST[cur].nav === 'longpress') lpT = setTimeout(goNext, 1800); }, { passive: true });
+            area.addEventListener('touchend', () => clearTimeout(lpT));
+            area.addEventListener('touchmove', () => clearTimeout(lpT));
 
-            // SWIPE UP (legacy kept)
-            let sy = 0;
-            swEl.addEventListener('touchstart', e => { sy = e.touches[0].pageY; }, { passive: true });
-            swEl.addEventListener('touchend', e => {
-                if (ST[cur].nav === 'swipe' && sy - e.changedTouches[0].pageY > 90) goNext();
+            /* SWIPE UP / LEFT */
+            let sx = 0, sy = 0;
+            area.addEventListener('touchstart', e => { sx = e.touches[0].clientX; sy = e.touches[0].clientY; }, { passive: true });
+            area.addEventListener('touchend', e => {
+                const dx = sx - e.changedTouches[0].clientX, dy = sy - e.changedTouches[0].clientY;
+                const nav = ST[cur].nav;
+                if (nav === 'swipeup' && dy > 80 && Math.abs(dx) < 60) goNext();
+                if (nav === 'swipeleft' && dx > 80 && Math.abs(dy) < 60) goNext();
             });
 
-            // SHAKE
+            /* TAP 3 & TAP 5 */
+            let tapCounts = Array(15).fill(0), tapTimer = null;
+            area.addEventListener('touchstart', e => {
+                const nav = ST[cur].nav;
+                if (nav !== 'tap3' && nav !== 'tap5') return;
+                const need = nav === 'tap3' ? 3 : 5;
+                tapCounts[cur]++;
+                const tc = document.getElementById('tc' + cur);
+                if (tc) { tc.textContent = tapCounts[cur]; tc.classList.add('show'); setTimeout(() => tc.classList.remove('show'), 300); }
+                clearTimeout(tapTimer);
+                if (tapCounts[cur] >= need) { tapCounts[cur] = 0; goNext(); }
+                else tapTimer = setTimeout(() => tapCounts[cur] = 0, 2000);
+            }, { passive: true });
+
+            /* PINCH & SPREAD */
+            let pinchDist = null;
+            area.addEventListener('touchstart', e => {
+                if (e.touches.length === 2 && (ST[cur].nav === 'pinch' || ST[cur].nav === 'spread')) {
+                    const dx = e.touches[0].clientX - e.touches[1].clientX, dy = e.touches[0].clientY - e.touches[1].clientY;
+                    pinchDist = Math.hypot(dx, dy);
+                }
+            }, { passive: true });
+            area.addEventListener('touchend', e => {
+                if (pinchDist === null) return;
+                if (e.changedTouches.length >= 1 && document.ontouchmove !== undefined) { } // ignore single touch-end
+                // measure on touchmove
+                pinchDist = null;
+            }, { passive: true });
+            area.addEventListener('touchmove', e => {
+                if (e.touches.length === 2 && pinchDist !== null) {
+                    const dx = e.touches[0].clientX - e.touches[1].clientX, dy = e.touches[0].clientY - e.touches[1].clientY;
+                    const newDist = Math.hypot(dx, dy);
+                    const nav = ST[cur].nav;
+                    if (nav === 'pinch' && newDist < pinchDist - 50) { pinchDist = null; goNext(); }
+                    if (nav === 'spread' && newDist > pinchDist + 50) { pinchDist = null; goNext(); }
+                }
+            }, { passive: true });
+
+            /* SHAKE */
             let lx, ly, lz, lastShake = 0;
-            function setupShake() {
+            function listenShake() {
                 window.addEventListener('devicemotion', e => {
                     const a = e.accelerationIncludingGravity; if (!a) return;
                     if (lx === undefined) { lx = a.x; ly = a.y; lz = a.z; return; }
-                    const delta = Math.abs(a.x - lx) + Math.abs(a.y - ly) + Math.abs(a.z - lz);
+                    const d = Math.abs(a.x - lx) + Math.abs(a.y - ly) + Math.abs(a.z - lz);
                     lx = a.x; ly = a.y; lz = a.z;
-                    if (delta > 28 && Date.now() - lastShake > 1200) {
-                        lastShake = Date.now();
-                        if (ST[cur].nav === 'shake') goNext();
-                    }
+                    if (d > 26 && Date.now() - lastShake > 1100) { lastShake = Date.now(); if (ST[cur].nav === 'shake') goNext(); }
                 });
             }
             if (typeof DeviceMotionEvent !== 'undefined' && typeof DeviceMotionEvent.requestPermission === 'function') {
-                // iOS – request on first touch
-                document.addEventListener('touchstart', async function reqPerm() {
-                    document.removeEventListener('touchstart', reqPerm);
-                    try { const p = await DeviceMotionEvent.requestPermission(); if (p === 'granted') setupShake(); } catch (e) { }
+                document.addEventListener('touchstart', async function rp() {
+                    document.removeEventListener('touchstart', rp);
+                    try { const p = await DeviceMotionEvent.requestPermission(); if (p === 'granted') listenShake(); } catch (e) { }
                 }, { once: true });
-            } else { setupShake(); }
+            } else listenShake();
 
-            // ROTATE (orientation)
-            window.addEventListener('orientationchange', () => {
-                if (ST[cur].nav === 'rotate') setTimeout(goNext, 400);
-            });
+            /* ROTATE 90° */
+            window.addEventListener('orientationchange', () => { if (ST[cur].nav === 'rotate') setTimeout(goNext, 400); });
+
+            /* TILT LEFT using DeviceOrientation */
+            let tiltLocked = false;
+            function listenTilt() {
+                window.addEventListener('deviceorientation', e => {
+                    if (ST[cur].nav !== 'tilt' || tiltLocked) return;
+                    if (e.gamma !== null && e.gamma < -35) { tiltLocked = true; setTimeout(() => tiltLocked = false, 1500); goNext(); }
+                });
+            }
+            if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
+                document.addEventListener('touchstart', async function ro() {
+                    document.removeEventListener('touchstart', ro);
+                    try { const p = await DeviceOrientationEvent.requestPermission(); if (p === 'granted') listenTilt(); } catch (e) { }
+                }, { once: true });
+            } else listenTilt();
+
+            /* BLOW (MIC AUDIO) */
+            function setupMic() {
+                navigator.mediaDevices.getUserMedia({ audio: true, video: false }).then(stream => {
+                    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+                    const src = ctx.createMediaStreamSource(stream);
+                    const analyser = ctx.createAnalyser(); analyser.fftSize = 256;
+                    src.connect(analyser);
+                    const data = new Uint8Array(analyser.frequencyBinCount);
+                    let blowCD = 0;
+                    setInterval(() => {
+                        analyser.getByteTimeDomainData(data);
+                        let peak = 0; data.forEach(v => { const d = Math.abs(v - 128); if (d > peak) peak = d; });
+                        if (ST[cur].nav === 'blow' && peak > 45 && Date.now() - blowCD > 1200) { blowCD = Date.now(); goNext(); }
+                    }, 100);
+                }).catch(() => {/* mic denied – user can use tap3 as fallback */ });
+            }
+            if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) setupMic();
+
+            /* EMERGENCY: 7-tap to force advance (in case gesture doesn't work) */
+            let emergTaps = 0, emergT;
+            area.addEventListener('touchstart', () => {
+                emergTaps++; clearTimeout(emergT);
+                if (emergTaps >= 7) { emergTaps = 0; goNext(); }
+                emergT = setTimeout(() => emergTaps = 0, 1500);
+            }, { passive: true });
         }
 
-        /* ─── MUSIC ─── */
+        /* ═══ MUSIC ═══ */
         function playS() {
-            const audio = document.getElementById('bgm');
-            audio.play().then(() => {
-                document.getElementById('plbl').textContent = '🎶 Playing! Double Tap to continue...';
-                document.getElementById('vinyl').style.filter = 'drop-shadow(0 0 25px #60a5fa)';
-                songReady = true;
+            document.getElementById('bgm').play().then(() => {
+                document.getElementById('plbl').textContent = '🎶 Now Blow into the phone mic to continue!';
+                document.getElementById('plbl').style.color = '#60a5fa';
+                document.getElementById('vinyl').style.animationDuration = '1.5s';
             }).catch(() => {
-                document.getElementById('plbl').textContent = '⚠️ Double tap anywhere to continue!';
-                songReady = true;
+                document.getElementById('plbl').textContent = '⚠️ Tap 7 times anywhere to continue!';
             });
         }
 
-        /* ─── PUZZLE ─── */
+        /* ═══ PUZZLE ═══ */
         const PIC = 'https://images.unsplash.com/photo-1518199266791-5375a83190b7?auto=format&fit=crop&q=80&w=600';
-        const SCR = [{ tx: '-220%', ty: '-220%', r: '-25deg' }, { tx: '0', ty: '-280%', r: '10deg' }, { tx: '220%', ty: '-220%', r: '22deg' }, { tx: '-280%', ty: '0', r: '18deg' }, { tx: '0', ty: '0', r: '0' }, { tx: '280%', ty: '0', r: '-18deg' }, { tx: '-220%', ty: '220%', r: '22deg' }, { tx: '0', ty: '280%', r: '-10deg' }, { tx: '220%', ty: '220%', r: '-22deg' }];
-
+        const SCR = [{ tx: '-200%', ty: '-200%', r: '-22deg' }, { tx: '0', ty: '-280%', r: '8deg' }, { tx: '200%', ty: '-200%', r: '20deg' }, { tx: '-280%', ty: '0', r: '16deg' }, { tx: '0', ty: '0', r: '0' }, { tx: '280%', ty: '0', r: '-16deg' }, { tx: '-200%', ty: '200%', r: '20deg' }, { tx: '0', ty: '280%', r: '-8deg' }, { tx: '200%', ty: '200%', r: '-20deg' }];
         function buildPuzzle() {
             const w = document.getElementById('pzWrap'); if (!w || pzPcs.length > 0) return;
-            const sz = Math.floor(Math.min(252, window.innerWidth * 0.68) / 3) * 3, ps = sz / 3;
+            const sz = Math.floor(Math.min(255, window.innerWidth * .68) / 3) * 3, ps = sz / 3;
             w.style.width = sz + 'px'; w.style.height = sz + 'px';
             for (let i = 0; i < 9; i++) {
-                const r = Math.floor(i / 3), c = i % 3;
-                const p = document.createElement('div'); p.className = 'pz-piece';
-                p.style.cssText = `width:${ps}px;height:${ps}px;left:${c * ps}px;top:${r * ps}px;` +
-                    `background-image:url('${PIC}');background-size:${sz}px ${sz}px;` +
-                    `background-position:${-c * ps}px ${-r * ps}px;` +
-                    `transform:translate(${SCR[i].tx},${SCR[i].ty}) rotate(${SCR[i].r});opacity:0;`;
+                const r = Math.floor(i / 3), c = i % 3, p = document.createElement('div'); p.className = 'pz-piece';
+                p.style.cssText = `width:${ps}px;height:${ps}px;left:${c * ps}px;top:${r * ps}px;background-image:url('${PIC}');background-size:${sz}px ${sz}px;background-position:${-c * ps}px ${-r * ps}px;transform:translate(${SCR[i].tx},${SCR[i].ty}) rotate(${SCR[i].r});opacity:0;`;
                 w.appendChild(p); pzPcs.push(p);
             }
         }
@@ -995,40 +1067,39 @@
             if (pzPcs.length === 0) { buildPuzzle(); return; }
             if (pzS >= 9) return;
             const p = pzPcs[pzS]; p.style.opacity = '1'; p.style.transform = 'none'; pzS++;
-            document.getElementById('pzStat').textContent = pzS < 9 ? `✨ ${pzS}/9 pieces placed!` : '🎉 Perfect! Press Continue!';
-            if (pzS === 9) { document.getElementById('pzBtn').style.display = 'block'; }
+            document.getElementById('pzStat').textContent = pzS < 9 ? `✨ ${pzS}/9 placed!` : '🎉 Perfect! Tap Continue!';
+            if (pzS === 9) document.getElementById('pzBtn').style.display = 'block';
         }
 
-        /* ─── METER ─── */
+        /* ═══ METER ═══ */
         function updMeter(v) {
             const l = document.getElementById('mLbl');
-            if (v < 50) l.textContent = `${v}%... ellam code panna mudiyum 😏`;
-            else if (v < 90) l.textContent = `${v}% – konja konjam! 🤭`;
-            else if (v < 100) l.textContent = `Almost! Keep going! 💙`;
-            else { l.textContent = '100%! I knew it! ❤️🎉'; setTimeout(goNext, 800); }
+            const n = parseInt(v);
+            if (n < 30) l.textContent = `${n}%... really Thangam? 😏`;
+            else if (n < 70) l.textContent = `${n}% – konjam konjam! 🤭`;
+            else if (n < 100) l.textContent = `${n}%... almost! 💙`;
+            else { l.textContent = '💯 100%!! I knew it! ❤️🎉'; l.style.color = '#4ade80'; setTimeout(goNext, 800); }
         }
 
-        /* ─── CONFETTI STEP ─── */
-        let confTimer = null;
-        function startConf() {
-            let held = 0;
-            confTimer = setInterval(() => {
-                confetti({ particleCount: 12, spread: 70, origin: { x: Math.random(), y: .5 } });
-                held += 200; if (held >= 2000) { stopConf(); goNext(); }
-            }, 200);
+        /* ═══ CONFETTI ═══ */
+        function doConfetti() {
+            const end = Date.now() + 4000;
+            (function fire() {
+                confetti({ particleCount: 8, angle: 60, spread: 55, origin: { x: 0 }, colors: ['#3b82f6', '#60a5fa', '#818cf8'] });
+                confetti({ particleCount: 8, angle: 120, spread: 55, origin: { x: 1 }, colors: ['#3b82f6', '#60a5fa', '#818cf8'] });
+                if (Date.now() < end) requestAnimationFrame(fire);
+            })();
         }
-        function stopConf() { clearInterval(confTimer); confTimer = null; }
 
-        /* ─── PETALS ─── */
-        function mkPetals() {
-            function mk() {
+        /* ═══ PETALS ═══ */
+        function startPetals() {
+            setInterval(() => {
                 const p = document.createElement('div'); p.className = 'pt';
-                p.innerText = ['💙', '✨', '⭐', '🌊', '💫'][Math.floor(Math.random() * 5)];
+                p.innerText = ['💙', '✨', '⭐', '❄️', '💫'][Math.floor(Math.random() * 5)];
                 p.style.left = Math.random() * 100 + 'vw'; p.style.fontSize = (10 + Math.random() * 14) + 'px';
                 p.style.animationDuration = (5 + Math.random() * 5) + 's';
                 document.body.appendChild(p); setTimeout(() => p.remove(), 8000);
-            }
-            setInterval(mk, 900);
+            }, 900);
         }
     </script>
 </body>
