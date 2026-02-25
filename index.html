@@ -395,6 +395,13 @@
             transform: translateX(-105%);
         }
 
+        /* Back-navigation: previous step enters from left */
+        .stp.from-left {
+            opacity: 0 !important;
+            transform: translateX(-105%) !important;
+            pointer-events: none !important;
+        }
+
         /* STEP CONTENT */
         .inner {
             width: 100%;
@@ -1000,10 +1007,16 @@
         function goNext() {
             if (cur >= ST.length - 1) return;
             const curEl = document.getElementById('stp' + cur);
-            curEl.classList.add('exit'); curEl.classList.remove('active');
+            /* Clear any inline styles left by goPrev so CSS classes work cleanly */
+            curEl.style.cssText = '';
+            curEl.classList.remove('active', 'from-left');
+            curEl.classList.add('exit');
             cur++;
             setTimeout(() => {
-                document.getElementById('stp' + cur).classList.add('active');
+                const nEl = document.getElementById('stp' + cur);
+                nEl.style.cssText = ''; /* Clear inline styles */
+                nEl.classList.remove('exit', 'from-left');
+                nEl.classList.add('active');
                 pbi.style.width = `${((cur + 1) / ST.length) * 100}%`;
                 sbadge.textContent = `${cur + 1} / ${ST.length}`;
                 if (ST[cur].nav === 'puzzle' && !pzPcs.length) setTimeout(buildPuzzle, 300);
@@ -1012,33 +1025,36 @@
             }, 520);
         }
 
-        /* ── GO PREV (hidden back) ── */
+        /* ── GO PREV (hidden back – top-left corner) ── */
         function goPrev() {
             if (cur <= 0) return;
             const curEl = document.getElementById('stp' + cur);
-            curEl.style.transition = 'transform .55s cubic-bezier(.4,1,.2,1), opacity .35s ease';
-            curEl.style.transform = 'translateX(105%)';
-            curEl.style.opacity = '0';
-            curEl.style.pointerEvents = 'none';
+
+            /* Step 1: Slide current step out to the RIGHT (natural .stp default) */
+            curEl.style.cssText = '';
+            curEl.classList.remove('active', 'from-left', 'exit');
+            /* Removing .active resets it to default .stp = translateX(105%), which animates out right ✓ */
+
             cur--;
             const prevEl = document.getElementById('stp' + cur);
-            prevEl.style.transition = 'none';
-            prevEl.style.transform = 'translateX(-105%)';
-            prevEl.style.opacity = '0';
+
+            /* Step 2: Clear ANY leftover inline styles on the previous element */
+            prevEl.style.cssText = '';
+            prevEl.classList.remove('exit', 'active');
+
+            /* Step 3: Snap previous step to off-screen LEFT (no animation) using .from-left */
+            prevEl.classList.add('from-left');
+            void prevEl.offsetWidth; /* Force browser to commit this position */
+
+            /* Step 4: Remove from-left, add active → CSS animates -105% → 0 ✓ */
+            prevEl.classList.remove('from-left');
             prevEl.classList.add('active');
-            requestAnimationFrame(() => requestAnimationFrame(() => {
-                prevEl.style.transition = 'transform .55s cubic-bezier(.4,1,.2,1), opacity .35s ease';
-                prevEl.style.transform = 'translateX(0)';
-                prevEl.style.opacity = '1';
-                prevEl.style.pointerEvents = 'all';
-            }));
+
+            /* Step 5: Update progress UI */
             setTimeout(() => {
-                curEl.classList.remove('active', 'exit');
-                curEl.style.cssText = '';
-                prevEl.style.transition = '';
                 pbi.style.width = `${((cur + 1) / ST.length) * 100}%`;
                 sbadge.textContent = `${cur + 1} / ${ST.length}`;
-            }, 600);
+            }, 200);
         }
 
         /* ── GESTURES ── */
