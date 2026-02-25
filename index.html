@@ -740,6 +740,98 @@
                 box-shadow: 0 12px 32px rgba(59, 130, 246, .45), 0 0 0 14px rgba(59, 130, 246, 0)
             }
         }
+
+        /* HIDDEN BACK BUTTON */
+        #backBtn {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 55px;
+            height: 55px;
+            z-index: 25;
+            cursor: pointer;
+            opacity: 0.01;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 360px) {
+            .inner {
+                padding: 44px 14px 12px;
+                gap: 7px;
+            }
+
+            .s-icon {
+                font-size: 2.8rem;
+            }
+
+            .s-title {
+                font-size: 2rem;
+            }
+
+            .s-head {
+                font-size: .95rem;
+            }
+
+            .s-txt {
+                font-size: .82rem;
+            }
+
+            .ac-box {
+                min-width: 40px;
+                padding: 8px 4px;
+            }
+
+            .ac-n {
+                font-size: 1rem;
+            }
+
+            .ac-u {
+                font-size: .55rem;
+            }
+
+            .age-live {
+                gap: 4px;
+            }
+
+            .mf {
+                height: 130px;
+            }
+
+            .trick-bar {
+                font-size: .7rem;
+                padding: 10px 14px;
+            }
+        }
+
+        @media (min-width: 768px) {
+            #card {
+                border-radius: 48px;
+                max-width: 480px;
+            }
+
+            .s-icon {
+                font-size: 5rem;
+            }
+
+            .s-title {
+                font-size: 3.5rem;
+            }
+
+            .inner {
+                padding: 55px 30px 20px;
+            }
+
+            .mf {
+                height: 200px;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            #card {
+                max-width: 500px;
+            }
+        }
     </style>
 </head>
 
@@ -783,6 +875,8 @@
             <div id="pbi"></div>
         </div>
         <div class="sbadge" id="sbadge">1 / 24</div>
+        <!-- Hidden back button – top-left corner secret tap -->
+        <div id="backBtn" onclick="goPrev()"></div>
         <div class="sw" id="sw"></div>
     </div>
 
@@ -871,7 +965,7 @@
                 if (s.nav === 'finish') {
                     body = `<div class="inner"><span class="s-icon">${s.icon}</span><div class="s-title">${s.title}</div><div class="s-txt">${s.txt}</div>${buildAgeHtml('B')}<a href="https://call.whatsapp.com/video/hdzUkrheCL54ZESXslks2t" class="call-btn" target="_blank">📞 Video Call Now!</a></div>`;
                 } else if (s.nav === 'puzzle') {
-                    body = `<div class="inner"><div class="s-head">${s.head}</div><div class="s-txt">${s.txt}</div><div class="pz-wrap" id="pzWrap" onclick="tapPz()"></div><div class="pz-stat" id="pzStat">👆 Tap the puzzle!</div><button class="pz-btn" id="pzBtn" onclick="goNext()">Continue ❤️</button></div>`;
+                    body = `<div class="inner"><div class="s-head">${s.head}</div><div class="s-txt">${s.txt}</div><div class="pz-wrap" id="pzWrap" onclick="tapPz()"></div><div class="pz-stat" id="pzStat">👆 Tap the puzzle!</div></div>`;
                 } else if (s.nav === 'meter') {
                     body = `<div class="inner"><span class="s-icon">${s.icon}</span><div class="s-head">${s.head}</div><div class="s-txt">${s.txt}</div><div class="sw-wrap"><input type="range" min="1" max="100" value="1" class="love-sl" oninput="updMeter(this.value)"></div><div class="m-lbl" id="mLbl">Slide it! ❤️</div></div>`;
                 } else if (s.nav === 'type') {
@@ -905,8 +999,8 @@
         /* ── GO NEXT ── */
         function goNext() {
             if (cur >= ST.length - 1) return;
-            document.getElementById('stp' + cur).classList.add('exit');
-            document.getElementById('stp' + cur).classList.remove('active');
+            const curEl = document.getElementById('stp' + cur);
+            curEl.classList.add('exit'); curEl.classList.remove('active');
             cur++;
             setTimeout(() => {
                 document.getElementById('stp' + cur).classList.add('active');
@@ -916,6 +1010,35 @@
                 if (ST[cur].nav === 'drag') setTimeout(setupDrag, 300);
                 if (cur === ST.length - 1) { doConfetti(); startTicker(); }
             }, 520);
+        }
+
+        /* ── GO PREV (hidden back) ── */
+        function goPrev() {
+            if (cur <= 0) return;
+            const curEl = document.getElementById('stp' + cur);
+            curEl.style.transition = 'transform .55s cubic-bezier(.4,1,.2,1), opacity .35s ease';
+            curEl.style.transform = 'translateX(105%)';
+            curEl.style.opacity = '0';
+            curEl.style.pointerEvents = 'none';
+            cur--;
+            const prevEl = document.getElementById('stp' + cur);
+            prevEl.style.transition = 'none';
+            prevEl.style.transform = 'translateX(-105%)';
+            prevEl.style.opacity = '0';
+            prevEl.classList.add('active');
+            requestAnimationFrame(() => requestAnimationFrame(() => {
+                prevEl.style.transition = 'transform .55s cubic-bezier(.4,1,.2,1), opacity .35s ease';
+                prevEl.style.transform = 'translateX(0)';
+                prevEl.style.opacity = '1';
+                prevEl.style.pointerEvents = 'all';
+            }));
+            setTimeout(() => {
+                curEl.classList.remove('active', 'exit');
+                curEl.style.cssText = '';
+                prevEl.style.transition = '';
+                pbi.style.width = `${((cur + 1) / ST.length) * 100}%`;
+                sbadge.textContent = `${cur + 1} / ${ST.length}`;
+            }, 600);
         }
 
         /* ── GESTURES ── */
@@ -1057,11 +1180,12 @@
         }
 
         /* ── PUZZLE ── */
-        const PIC = 'https://images.unsplash.com/photo-1518199266791-5375a83190b7?auto=format&fit=crop&q=80&w=600';
+        /* Photo = her smile that made him fall for her (same as step 8 smile photo) */
+        const PIC = 'https://images.unsplash.com/photo-1516589174184-e67823dbf48e?auto=format&fit=crop&q=80&w=600';
         const SCR = [{ tx: '-200%', ty: '-200%', r: '-22deg' }, { tx: '0', ty: '-280%', r: '8deg' }, { tx: '200%', ty: '-200%', r: '20deg' }, { tx: '-280%', ty: '0', r: '16deg' }, { tx: '0', ty: '0', r: '0' }, { tx: '280%', ty: '0', r: '-16deg' }, { tx: '-200%', ty: '200%', r: '20deg' }, { tx: '0', ty: '280%', r: '-8deg' }, { tx: '200%', ty: '200%', r: '-20deg' }];
         function buildPuzzle() {
             const w = document.getElementById('pzWrap'); if (!w || pzPcs.length) return;
-            const sz = Math.floor(Math.min(252, window.innerWidth * .68) / 3) * 3, ps = sz / 3;
+            const sz = Math.floor(Math.min(Math.min(window.innerWidth, window.innerHeight) * .72, 270) / 3) * 3, ps = sz / 3;
             w.style.width = sz + 'px'; w.style.height = sz + 'px';
             for (let i = 0; i < 9; i++) {
                 const r = Math.floor(i / 3), c = i % 3, p = document.createElement('div'); p.className = 'pz-piece';
@@ -1073,17 +1197,18 @@
             if (!pzPcs.length) { buildPuzzle(); return; }
             if (pzS >= 9) return;
             const p = pzPcs[pzS]; p.style.opacity = '1'; p.style.transform = 'none'; pzS++;
-            document.getElementById('pzStat').textContent = pzS < 9 ? `✨ ${pzS}/9 placed!` : '🎉 Perfect! Tap Continue!';
-            if (pzS === 9) document.getElementById('pzBtn').style.display = 'block';
+            const stat = document.getElementById('pzStat');
+            stat.textContent = pzS < 9 ? `✨ ${pzS}/9 pieces placed!` : '🎉 Amazing! Her smile revealed! 💙';
+            if (pzS === 9) setTimeout(goNext, 1500); /* Auto-advance to song step */
         }
 
         /* ── METER ── */
         function updMeter(v) {
             const n = parseInt(v), l = document.getElementById('mLbl');
-            if (n < 40) l.textContent = `${n}%... really Thangam? 😏`;
-            else if (n < 80) l.textContent = `${n}%... konjam konjam! 🤭`;
-            else if (n < 100) l.textContent = `${n}%... almost there! 💙`;
-            else { l.textContent = '💯 100%! I KNEW IT! 🎉'; l.style.color = '#4ade80'; setTimeout(goNext, 800); }
+            if (n < 40) l.textContent = `${n}%... Really Thangam? 😏 Give more!`;
+            else if (n < 80) l.textContent = `${n}%... Getting closer! Come on! 🤭`;
+            else if (n < 100) l.textContent = `${n}%... Almost there! Keep going! 💙`;
+            else { l.textContent = '💯 100%! I knew it! That\'s my girl! 🎉'; l.style.color = '#4ade80'; setTimeout(goNext, 800); }
         }
 
         /* ── TYPE ANSWER ── */
