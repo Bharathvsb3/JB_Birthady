@@ -375,9 +375,10 @@
             opacity: 0;
             pointer-events: none;
             transform: translateX(105%);
-            transition: transform .6s cubic-bezier(.4, 1, .2, 1), opacity .38s ease;
+            transition: transform .55s cubic-bezier(.4, 1, .2, 1), opacity .35s ease;
             overflow-y: auto;
             scrollbar-width: none;
+            z-index: 1;
         }
 
         .stp::-webkit-scrollbar {
@@ -388,11 +389,14 @@
             opacity: 1;
             transform: translateX(0);
             pointer-events: all;
+            z-index: 2;
+            /* Active step always on top */
         }
 
         .stp.exit {
             opacity: 0;
             transform: translateX(-105%);
+            z-index: 1;
         }
 
         /* Back-navigation: previous step enters from left */
@@ -400,6 +404,17 @@
             opacity: 0 !important;
             transform: translateX(-105%) !important;
             pointer-events: none !important;
+            transition: none !important;
+            /* Snap instantly, no animation */
+        }
+
+        /* Snap to off-screen right instantly (no animation), then animate in */
+        .stp.snap-right {
+            opacity: 0 !important;
+            transform: translateX(105%) !important;
+            pointer-events: none !important;
+            transition: none !important;
+            /* Snap instantly */
         }
 
         /* STEP CONTENT */
@@ -1003,20 +1018,31 @@
             startPetals();
         }
 
+        /* ── NAVIGATION LOCK – prevents overlap during transitions ── */
+        let navBusy = false;
+        function lockNav() { navBusy = true; setTimeout(() => navBusy = false, 680); }
+
         /* ── GO NEXT ── */
         function goNext() {
-            if (cur >= ST.length - 1) return;
+            if (cur >= ST.length - 1 || navBusy) return;
+            lockNav();
+
             const curEl = document.getElementById('stp' + cur);
-            /* Clear any inline styles left by goPrev so CSS classes work cleanly */
+            /* Snap curEl to its current visible position, then animate out left */
             curEl.style.cssText = '';
             curEl.classList.remove('active', 'from-left');
-            curEl.classList.add('exit');
+            curEl.classList.add('exit');  /* → slides left */
             cur++;
+
             setTimeout(() => {
                 const nEl = document.getElementById('stp' + cur);
-                nEl.style.cssText = ''; /* Clear inline styles */
+                nEl.style.cssText = '';
                 nEl.classList.remove('exit', 'from-left');
-                nEl.classList.add('active');
+                /* Snap nEl to off-screen RIGHT first, then let CSS animate to 0 */
+                nEl.classList.add('snap-right');
+                void nEl.offsetWidth;
+                nEl.classList.remove('snap-right');
+                nEl.classList.add('active');  /* → slides right-to-center */
                 pbi.style.width = `${((cur + 1) / ST.length) * 100}%`;
                 sbadge.textContent = `${cur + 1} / ${ST.length}`;
                 if (ST[cur].nav === 'puzzle' && !pzPcs.length) setTimeout(buildPuzzle, 300);
@@ -1025,32 +1051,31 @@
             }, 520);
         }
 
-        /* ── GO PREV (hidden back – top-left corner) ── */
+        /* ── GO PREV (hidden back – tap top-left corner) ── */
         function goPrev() {
-            if (cur <= 0) return;
-            const curEl = document.getElementById('stp' + cur);
+            if (cur <= 0 || navBusy) return;
+            lockNav();
 
-            /* Step 1: Slide current step out to the RIGHT (natural .stp default) */
+            const curEl = document.getElementById('stp' + cur);
+            /* Snap curEl to its current visible position, then animate out RIGHT */
             curEl.style.cssText = '';
             curEl.classList.remove('active', 'from-left', 'exit');
-            /* Removing .active resets it to default .stp = translateX(105%), which animates out right ✓ */
+            curEl.classList.add('snap-right');  /* snap to right edge */
+            void curEl.offsetWidth;              /* commit */
+            curEl.classList.remove('snap-right'); /* let .stp animate back → 105% slide-out-right */
+            /* (default .stp has opacity:0 and transform:105%, so removing snap-right makes it slide right) */
 
             cur--;
             const prevEl = document.getElementById('stp' + cur);
-
-            /* Step 2: Clear ANY leftover inline styles on the previous element */
             prevEl.style.cssText = '';
             prevEl.classList.remove('exit', 'active');
 
-            /* Step 3: Snap previous step to off-screen LEFT (no animation) using .from-left */
+            /* Snap prevEl to off-screen LEFT, then animate to center */
             prevEl.classList.add('from-left');
-            void prevEl.offsetWidth; /* Force browser to commit this position */
-
-            /* Step 4: Remove from-left, add active → CSS animates -105% → 0 ✓ */
+            void prevEl.offsetWidth; /* commit -105% */
             prevEl.classList.remove('from-left');
-            prevEl.classList.add('active');
+            prevEl.classList.add('active');  /* → slides left-to-center */
 
-            /* Step 5: Update progress UI */
             setTimeout(() => {
                 pbi.style.width = `${((cur + 1) / ST.length) * 100}%`;
                 sbadge.textContent = `${cur + 1} / ${ST.length}`;
