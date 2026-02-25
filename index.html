@@ -945,40 +945,32 @@
         let ageTmr = null;
         function startTicker() { if (ageTmr) return; ageTmr = setInterval(() => { document.querySelectorAll('[id^="ag"]').forEach(el => tickAge(el.id.slice(2))); }, 1000); tickAge('A'); tickAge('B'); }
 
-        /* ── 24 STEPS ── */
-        /* nav: tap|shake|doubletap|swipeup|longpress|swipeleft|tap3|pinch|blow|spread|tilt|swipedown|swiperight|tap5|rotate|twofingertap|shake|tap7|type|puzzle|longpress2|drag|meter|finish */
+        /* ── 15 STEPS ── */
         const ST = [
-            { nav: 'tap', icon: '💙', title: 'Hi Thangam! 💙', txt: 'Happy Birthday Jenifar! 🎂\n24 steps = 24 amazing years of YOU!\nEvery step has a unique secret trick!', trick: '👆 TAP anywhere to begin!' },
-            { nav: 'shake', icon: '🎂', head: 'Born: March 12, 2002 🌟', txt: 'On this day, the most precious person came into this world!\n24 years of wonder, beauty and love!', liveAge: 'A', trick: '📳 SHAKE your phone to celebrate!' },
-            { nav: 'doubletap', icon: '🍼', head: 'Baby & Kids Days 🍼', txt: 'A special soul came into the world...\nThis is you, my dear! 😍', img: 'https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?auto=format&fit=crop&q=80&w=500', trick: '✌️ DOUBLE TAP to continue!' },
-            { nav: 'swipeup', icon: '📚', head: 'School Days ⭐', txt: 'Lessons, exams, notebooks...\nBut you were always the brightest star! ✨', img: 'https://images.unsplash.com/photo-1580582932707-520aed937b7b?auto=format&fit=crop&q=80&w=500', trick: '⬆️ SWIPE UP to continue!' },
-            { nav: 'longpress', icon: '🌸', head: 'Growing Beautiful 🌸', txt: 'Day by day, you grew more beautiful...\nEvery year you shine even brighter! ✨', trick: '👆 LONG PRESS (2 sec) to continue!' },
-            { nav: 'swipeleft', icon: '🎓', head: 'College 2019 📖', txt: 'Same college, same time...\nBut you didn\'t even know my name! 😂', img: 'https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&q=80&w=500', trick: '⬅️ SWIPE LEFT to continue!' },
-            { nav: 'tap3', icon: '🫥', head: 'Invisible Bharath 👀', txt: 'I was watching you from the corner!\nEven though I was invisible, my eyes were always on you! 🙈', trick: '👆 TAP 3 TIMES quickly!' },
-            { nav: 'pinch', icon: '😄', head: 'That FIRST Smile! 😍', txt: 'Your smile made me fall for you! 🥹\nHighschool memories couldn\'t compare to this!', img: 'https://images.unsplash.com/photo-1516589174184-e67823dbf48e?auto=format&fit=crop&q=80&w=500', trick: '🤏 PINCH fingers IN on screen!' },
-            { nav: 'blow', icon: '📱', head: 'August 2021 – First "Hi" 💙', txt: 'My heart raced! I typed "Hi..." with shaking hands! 😅\nOne message that changed our entire world! 💙', trick: '💨 TAP 🎵 to play then BLOW into mic!', music: true },
-            { nav: 'spread', icon: '💘', head: '"I Love You" Moment 💘', txt: 'My heart was on fire! 🔥\n"I love you Thangam!" – I finally said it...\nAnd you just... SMILED! 🥹', trick: '🤲 SPREAD fingers OUT on screen!' },
-            { nav: 'tilt', icon: '🎉', head: 'Dec 28, 2021 – YES Day! 🎉', txt: 'The most magical day ever!\nYou said "YES"!! 🥳\nBest moment of my entire life. Period. 💙', trick: '📱 TILT phone to the LEFT side!' },
-            { nav: 'swipedown', icon: '💛', head: '"Thangam" = Pure Gold 💛', txt: '"Thangam" means Gold in Tamil 💛\nThe most precious thing in the world = YOU!\nEvery time I say it – my heart is full! 💙', trick: '⬇️ SWIPE DOWN to continue!' },
-            { nav: 'swiperight', icon: '🥊', head: 'The Fight Formula 😂', txt: 'You: 💢 "Fight mode ON!"\nMe: 😇 "Sorry Thangam...sorry..."\nYou: 😤 "STILL NOT ENOUGH!"\nInfinite loop 🔁 but always MORE love! 😂', trick: '➡️ SWIPE RIGHT to continue!' },
-            { nav: 'tap5', icon: '💙', head: 'After Every Fight... 💙', txt: 'We always come back stronger.\nEvery argument = one more reason to love you more!\nThat\'s our formula! 💙', trick: '👆 TAP 5 TIMES quickly!' },
-            { nav: 'rotate', icon: '🎵', head: 'Our Song – Neelothi 🎶', txt: 'Tap 🎵 to play the song!\nI sang it for you, Thangam! 💙\nThen rotate your phone to continue!', music: true, trick: '↺ TAP 🎵 then ROTATE phone 90°!' },
-            { nav: 'twofingertap', icon: '🏡', head: 'My Home = You 🏡', txt: 'You are my home, my peace, my world! 🏡\nEvery day is better because of YOU!\nMy calm. My joy. My everything. 💙', trick: '👆👆 TAP with TWO FINGERS!' },
-            { nav: 'shake', icon: '✈️', head: 'Animun Dreams ✈️', txt: 'Maldives? Switzerland? Paris? Ooty?\nWherever we go – with you = PARADISE! 🌍\nWe will go, my dear! Shake with excitement!', trick: '📳 SHAKE your phone!' },
-            { nav: 'tap7', icon: '✨', head: '24 Reasons I Love You ✨', txt: 'Walking angel! 👼 My sunshine ☀️\nSmartest person I know 🧠 Cutest laugh ever 😄\nStrongest soul 💪 My best friend 🤝 & so much more!\n(7 taps = 7 of the 24 reasons!)', trick: '👆 TAP 7 TIMES quickly!' },
-            { nav: 'type', icon: '🔐', head: 'Unlock the Memory! 🔐', txt: 'Type the year our love story started:', trick: '⌨️ Type the year to unlock next step!' },
-            { nav: 'puzzle', icon: '🧩', head: 'Memory Puzzle 🧩', txt: 'Assemble our special photo!\nTap each piece to place it perfectly! 💙', trick: 'Tap all 9 pieces to build the memory!' },
-            { nav: 'longpress2', icon: '💍', head: 'Forever Together 💍', txt: 'Not just boyfriend–girlfriend.\nWhole life partner. My forever person.\nHold tight – just like I hold this promise! 💙', trick: '👆 HOLD (3 seconds) to continue!' },
-            { nav: 'drag', icon: '💙', head: 'Drag My Heart to Yours 💙', txt: 'Drag the 💙 all the way to the ❤️ on the right!', trick: 'Drag the heart across to the target!' },
-            { nav: 'meter', icon: '📊', head: 'Love Meter 💙', txt: 'How much do you love me?\nSlide it ALL the way to 100%!\n(I already know the answer 😏)', trick: 'Slide to 100% to unlock next step!' },
-            { nav: 'finish', icon: '💙', title: 'Happy Birthday Ammu! 🎂', txt: 'You are my whole world Jenifar! 💍\nForever yours, Bharath ❤️\nCome soon, my dear! 📞😍', liveAge: 'B', trick: '🎁 Tap the button to video call! 💙' }
+            { nav: 'tap', icon: '💙', title: 'Hi Thangam! 💙', txt: 'Happy Birthday Jenifar! 🎂\n15 steps = 15 years of our beautiful story!\nEvery step has a unique secret trick!', trick: '👆 TAP anywhere to begin!' },
+            { nav: 'shake', icon: '🎂', head: 'Born: March 12, 2002 🌟', txt: 'On this day the most precious person came into this world!\nExactly this many years, days, hours & seconds of YOU!', liveAge: 'A', trick: '📳 SHAKE your phone to celebrate!' },
+            { nav: 'doubletap', icon: '👀', head: 'College 2019 📖', txt: 'Same college, same time...\nBut you didn\'t even know my name! 😂\nI was always watching from the corner! 🙈', img: 'https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&q=80&w=500', trick: '✌️ DOUBLE TAP to continue!' },
+            { nav: 'swipeup', icon: '😄', head: 'That FIRST Smile! 😍', txt: 'The very first time I saw your smile...\nMy heart just stopped! 🥹\nThat one smile changed everything for me!', img: 'https://images.unsplash.com/photo-1516589174184-e67823dbf48e?auto=format&fit=crop&q=80&w=500', trick: '⬆️ SWIPE UP to continue!' },
+            { nav: 'longpress', icon: '📱', head: 'August 2021 – First “Hi” 💙', txt: 'My hands were shaking when I typed “Hi...” 😅\nThat one small message changed our whole world!\nThe best “Hi” I ever sent! 💙', trick: '👆 LONG PRESS (2 sec) to unlock!' },
+            { nav: 'swipeleft', icon: '💘', head: '“I Love You” Moment 💘', txt: 'My heart was beating so fast! 💓\nFinally I said it – “I love you Thangam!”\nAnd you just smiled... my world was complete! 🥹', trick: '⬅️ SWIPE LEFT to continue!' },
+            { nav: 'tap3', icon: '🎉', head: 'Dec 28, 2021 – YES Day! 🎉', txt: 'The most magical moment of my life!\nYou said “YES”!! 🥳\nI will never forget that day. Never. 💙', trick: '👆 TAP 3 TIMES quickly!' },
+            { nav: 'pinch', icon: '🎵', head: 'Our Song – Neelothi 🎶', txt: 'This song is only for you Thangam!\nI sang it thinking of you every day! 💙', music: true, trick: '🎵 TAP to PLAY the song! Then PINCH to continue!' },
+            { nav: 'blow', icon: '💞', head: 'My Home = You 🏡', txt: 'You are my home, my peace, my world! 🏡\nEvery day is better because of YOU!\nMy calm. My joy. My everything. 💙', trick: '💨 BLOW into the mic to continue!' },
+            { nav: 'spread', icon: '✈️', head: 'Our Future Plans ✨', txt: 'Maldives? Switzerland? Paris?\nEvery place is paradise when you are with me! 🌍\nWe will travel everywhere together! ✈️', trick: '🤲 SPREAD fingers OUT on screen!' },
+            { nav: 'tilt', icon: '🤩', head: '15 Reasons I Love You ✨', txt: 'Your smile 😄 Your heart 💙 Your laugh 😂\nYour care 🤗 Your strength 💪 Your kindness 🌟\n...and being YOU is reason #15! ❤️', trick: '📱 TILT phone to the LEFT!' },
+            { nav: 'rotate', icon: '🥳', head: 'The Fight Formula 😂', txt: 'You: 💢 Fight mode ON!\nMe: 😇 Sorry sorry sorry...\nYou: 😤 Still not enough!\nBut we ALWAYS come back stronger! 💙😂', trick: '↺ ROTATE phone 90° to continue!' },
+            { nav: 'twofingertap', icon: '🧩', head: 'Memory Puzzle 🧩', txt: 'Build our special memory!\nTap each piece to place it! 💙', puzzle: true, trick: 'Tap 9 pieces to build the photo!' },
+            { nav: 'meter', icon: '📊', head: 'Love Meter 💙', txt: 'Show me how much you love me!\nSlide it ALL the way to 100%!\n(I already know you will! 😏)', trick: 'Slide to 100% to unlock next step!' },
+            { nav: 'finish', icon: '💙', title: 'Happy Birthday Jenifar! 🎂', txt: 'You are my whole world! 💍\nForever yours, Bharath ❤️\nCome online soon my dear! 📞😍', liveAge: 'B', trick: '🎁 Tap to Video Call!' }
         ];
 
         let cur = 0, pzS = 0, pzPcs = [];
         const swEl = document.getElementById('sw'), pbi = document.getElementById('pbi'), sbadge = document.getElementById('sbadge');
+        const TOTAL = ST.length; // 15
 
         /* ── BUILD DOM ── */
         function startJourney() {
+            sbadge.textContent = `1 / ${TOTAL}`;
             ST.forEach((s, i) => {
                 const d = document.createElement('div');
                 d.className = 'stp' + (i === 0 ? ' active' : ''); d.id = 'stp' + i;
@@ -986,7 +978,7 @@
 
                 if (s.nav === 'finish') {
                     body = `<div class="inner"><span class="s-icon">${s.icon}</span><div class="s-title">${s.title}</div><div class="s-txt">${s.txt}</div>${buildAgeHtml('B')}<a href="https://call.whatsapp.com/video/hdzUkrheCL54ZESXslks2t" class="call-btn" target="_blank">📞 Video Call Now!</a></div>`;
-                } else if (s.nav === 'puzzle') {
+                } else if (s.puzzle) {
                     body = `<div class="inner"><div class="s-head">${s.head}</div><div class="s-txt">${s.txt}</div><div class="pz-wrap" id="pzWrap" onclick="tapPz()"></div><div class="pz-stat" id="pzStat">👆 Tap the puzzle!</div></div>`;
                 } else if (s.nav === 'meter') {
                     body = `<div class="inner"><span class="s-icon">${s.icon}</span><div class="s-head">${s.head}</div><div class="s-txt">${s.txt}</div><div class="sw-wrap"><input type="range" min="1" max="100" value="1" class="love-sl" oninput="updMeter(this.value)"></div><div class="m-lbl" id="mLbl">Slide it! ❤️</div></div>`;
@@ -1024,7 +1016,7 @@
 
         /* ── GO NEXT ── */
         function goNext() {
-            if (cur >= ST.length - 1 || navBusy) return;
+            if (cur >= TOTAL - 1 || navBusy) return;
             lockNav();
 
             const curEl = document.getElementById('stp' + cur);
@@ -1038,16 +1030,15 @@
                 const nEl = document.getElementById('stp' + cur);
                 nEl.style.cssText = '';
                 nEl.classList.remove('exit', 'from-left');
-                /* Snap nEl to off-screen RIGHT first, then let CSS animate to 0 */
                 nEl.classList.add('snap-right');
                 void nEl.offsetWidth;
                 nEl.classList.remove('snap-right');
-                nEl.classList.add('active');  /* → slides right-to-center */
-                pbi.style.width = `${((cur + 1) / ST.length) * 100}%`;
-                sbadge.textContent = `${cur + 1} / ${ST.length}`;
-                if (ST[cur].nav === 'puzzle' && !pzPcs.length) setTimeout(buildPuzzle, 300);
+                nEl.classList.add('active');
+                pbi.style.width = `${((cur + 1) / TOTAL) * 100}%`;
+                sbadge.textContent = `${cur + 1} / ${TOTAL}`;
+                if (ST[cur].puzzle && !pzPcs.length) setTimeout(buildPuzzle, 300);
                 if (ST[cur].nav === 'drag') setTimeout(setupDrag, 300);
-                if (cur === ST.length - 1) { doConfetti(); startTicker(); }
+                if (cur === TOTAL - 1) { doConfetti(); startTicker(); }
             }, 520);
         }
 
@@ -1077,8 +1068,8 @@
             prevEl.classList.add('active');  /* → slides left-to-center */
 
             setTimeout(() => {
-                pbi.style.width = `${((cur + 1) / ST.length) * 100}%`;
-                sbadge.textContent = `${cur + 1} / ${ST.length}`;
+                pbi.style.width = `${((cur + 1) / TOTAL) * 100}%`;
+                sbadge.textContent = `${cur + 1} / ${TOTAL}`;
             }, 200);
         }
 
@@ -1212,35 +1203,115 @@
         }
 
         /* ── MUSIC ── */
+        let audioCtx;
         function playS() {
-            const s = ST[cur], idx = cur;
-            document.getElementById('bgm').play().then(() => {
-                const pl = document.getElementById('plbl' + idx); if (pl) pl.textContent = '🎶 Now rotate phone to continue!';
-                const vn = document.getElementById('vinyl' + idx); if (vn) vn.style.animationDuration = '1s';
-            }).catch(() => { });
+            const idx = cur;
+            // Unlock AudioContext on iOS
+            if (!audioCtx) { try { audioCtx = new (window.AudioContext || window.webkitAudioContext)(); } catch (e) { } }
+            if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
+            const bgm = document.getElementById('bgm');
+            bgm.volume = 1;
+            const p = bgm.play();
+            if (p) p.then(() => {
+                const pl = document.getElementById('plbl' + idx);
+                const vn = document.getElementById('vinyl' + idx);
+                if (pl) pl.textContent = '🎶 Playing! Now do the gesture to continue!';
+                if (vn) vn.style.animationDuration = '1s';
+            }).catch(err => {
+                const pl = document.getElementById('plbl' + idx);
+                if (pl) pl.innerHTML = '⚠️ <a href="https://youtu.be/neelothi" target="_blank" style="color:#60a5fa">🎵 Open Song on YouTube</a>';
+            });
         }
 
-        /* ── PUZZLE ── */
-        /* Photo = her smile that made him fall for her (same as step 8 smile photo) */
+        /* ── PUZZLE (SVG Jigsaw) ── */
         const PIC = 'https://images.unsplash.com/photo-1516589174184-e67823dbf48e?auto=format&fit=crop&q=80&w=600';
-        const SCR = [{ tx: '-200%', ty: '-200%', r: '-22deg' }, { tx: '0', ty: '-280%', r: '8deg' }, { tx: '200%', ty: '-200%', r: '20deg' }, { tx: '-280%', ty: '0', r: '16deg' }, { tx: '0', ty: '0', r: '0' }, { tx: '280%', ty: '0', r: '-16deg' }, { tx: '-200%', ty: '200%', r: '20deg' }, { tx: '0', ty: '280%', r: '-8deg' }, { tx: '200%', ty: '200%', r: '-20deg' }];
+        function ppPath(r, c, ps, t) {
+            const x = c * ps, y = r * ps, mx = x + ps / 2, my = y + ps / 2, q = ps * 0.22;
+            const top = r === 0 ? 0 : -1, right = c === 2 ? 0 : 1, bot = r === 2 ? 0 : 1, left = c === 0 ? 0 : -1;
+            let d = `M ${x} ${y} `;
+            // TOP (left→right)
+            d += `L ${mx - q} ${y} `;
+            if (top) d += `C ${mx - q} ${y - top * t} ${mx + q} ${y - top * t} ${mx + q} ${y} `; else d += `L ${mx + q} ${y} `;
+            d += `L ${x + ps} ${y} `;
+            // RIGHT (top→bot)
+            d += `L ${x + ps} ${my - q} `;
+            if (right) d += `C ${x + ps + right * t} ${my - q} ${x + ps + right * t} ${my + q} ${x + ps} ${my + q} `; else d += `L ${x + ps} ${my + q} `;
+            d += `L ${x + ps} ${y + ps} `;
+            // BOTTOM (right←left)
+            d += `L ${mx + q} ${y + ps} `;
+            if (bot) d += `C ${mx + q} ${y + ps + bot * t} ${mx - q} ${y + ps + bot * t} ${mx - q} ${y + ps} `; else d += `L ${mx - q} ${y + ps} `;
+            d += `L ${x} ${y + ps} `;
+            // LEFT (bot→top)
+            d += `L ${x} ${my + q} `;
+            if (left) d += `C ${x - left * t} ${my + q} ${x - left * t} ${my - q} ${x} ${my - q} `; else d += `L ${x} ${my - q} `;
+            return d + `L ${x} ${y} Z`;
+        }
         function buildPuzzle() {
-            const w = document.getElementById('pzWrap'); if (!w || pzPcs.length) return;
-            const sz = Math.floor(Math.min(Math.min(window.innerWidth, window.innerHeight) * .72, 270) / 3) * 3, ps = sz / 3;
-            w.style.width = sz + 'px'; w.style.height = sz + 'px';
-            for (let i = 0; i < 9; i++) {
-                const r = Math.floor(i / 3), c = i % 3, p = document.createElement('div'); p.className = 'pz-piece';
-                p.style.cssText = `width:${ps}px;height:${ps}px;left:${c * ps}px;top:${r * ps}px;background-image:url('${PIC}');background-size:${sz}px ${sz}px;background-position:${-c * ps}px ${-r * ps}px;transform:translate(${SCR[i].tx},${SCR[i].ty}) rotate(${SCR[i].r});opacity:0;`;
-                w.appendChild(p); pzPcs.push(p);
+            const wrap = document.getElementById('pzWrap');
+            if (!wrap || wrap.querySelector('svg')) return;
+            const maxW = Math.min(window.innerWidth * 0.82, 258);
+            const sz = Math.floor(maxW / 3) * 3, ps = sz / 3, t = ps * 0.3;
+            const pad = Math.ceil(t) + 4;
+            const NS = 'http://www.w3.org/2000/svg';
+            const svg = document.createElementNS(NS, 'svg');
+            svg.setAttribute('width', sz); svg.setAttribute('height', sz);
+            svg.setAttribute('viewBox', `${-pad} ${-pad} ${sz + 2 * pad} ${sz + 2 * pad}`);
+            svg.style.cssText = 'overflow:visible;cursor:pointer;display:block;margin:auto;';
+            // Pattern
+            const defs = document.createElementNS(NS, 'defs');
+            const pat = document.createElementNS(NS, 'pattern');
+            pat.id = 'ppat'; pat.setAttribute('patternUnits', 'userSpaceOnUse');
+            pat.setAttribute('width', sz); pat.setAttribute('height', sz);
+            const img = document.createElementNS(NS, 'image');
+            img.setAttribute('href', PIC); img.setAttribute('width', sz); img.setAttribute('height', sz);
+            img.setAttribute('preserveAspectRatio', 'xMidYMid slice');
+            pat.appendChild(img); defs.appendChild(pat); svg.appendChild(defs);
+            // BG grid
+            const bg = document.createElementNS(NS, 'rect');
+            bg.setAttribute('x', 0); bg.setAttribute('y', 0);
+            bg.setAttribute('width', sz); bg.setAttribute('height', sz);
+            bg.setAttribute('rx', 6); bg.setAttribute('fill', 'rgba(255,255,255,.05)');
+            bg.setAttribute('stroke', 'rgba(96,165,250,.2)'); bg.setAttribute('stroke-width', '1');
+            svg.appendChild(bg);
+            // Grid lines for ghost guides
+            for (let i = 1; i < 3; i++) {
+                const hl = document.createElementNS(NS, 'line');
+                hl.setAttribute('x1', i * ps); hl.setAttribute('y1', 0); hl.setAttribute('x2', i * ps); hl.setAttribute('y2', sz);
+                hl.setAttribute('stroke', 'rgba(96,165,250,.1)'); hl.setAttribute('stroke-width', '1'); svg.appendChild(hl);
+                const vl = document.createElementNS(NS, 'line');
+                vl.setAttribute('x1', 0); vl.setAttribute('y1', i * ps); vl.setAttribute('x2', sz); vl.setAttribute('y2', i * ps);
+                vl.setAttribute('stroke', 'rgba(96,165,250,.1)'); vl.setAttribute('stroke-width', '1'); svg.appendChild(vl);
             }
+            // Scatter offsets [dx, dy]
+            const SC = [
+                [sz * .55, -sz * .55], [-sz * .25, -sz * .65], [-sz * .65, -sz * .2],
+                [sz * .65, sz * .1], [-sz * .6, sz * .5], [sz * .2, sz * .65],
+                [-sz * .5, sz * .1], [sz * .55, sz * .45], [-sz * .15, sz * .4]
+            ];
+            pzPcs = [];
+            for (let i = 0; i < 9; i++) {
+                const row = Math.floor(i / 3), col = i % 3;
+                const pe = document.createElementNS(NS, 'path');
+                pe.setAttribute('d', ppPath(row, col, ps, t));
+                pe.setAttribute('fill', 'url(#ppat)');
+                pe.setAttribute('stroke', 'rgba(255,255,255,.7)'); pe.setAttribute('stroke-width', '1.5');
+                pe.setAttribute('stroke-linejoin', 'round');
+                pe.style.cssText = `transition:transform .58s cubic-bezier(.34,1.56,.64,1);filter:drop-shadow(2px 3px 5px rgba(0,0,0,.55));`;
+                pe.setAttribute('transform', `translate(${SC[i][0]},${SC[i][1]})`);
+                svg.appendChild(pe); pzPcs.push(pe);
+            }
+            wrap.appendChild(svg);
+            svg.addEventListener('click', tapPz);
         }
         function tapPz() {
-            if (!pzPcs.length) { buildPuzzle(); return; }
             if (pzS >= 9) return;
-            const p = pzPcs[pzS]; p.style.opacity = '1'; p.style.transform = 'none'; pzS++;
+            const pe = pzPcs[pzS];
+            pe.setAttribute('transform', 'translate(0,0)');
+            pe.style.filter = 'drop-shadow(0 0 8px rgba(96,165,250,.6))';
+            pzS++;
             const stat = document.getElementById('pzStat');
-            stat.textContent = pzS < 9 ? `✨ ${pzS}/9 pieces placed!` : '🎉 Amazing! Her smile revealed! 💙';
-            if (pzS === 9) setTimeout(goNext, 1500); /* Auto-advance to song step */
+            stat.textContent = pzS < 9 ? `✨ ${pzS}/9 placed!` : '🎉 Perfect! Her smile revealed! 💙';
+            if (pzS === 9) setTimeout(goNext, 1500);
         }
 
         /* ── METER ── */
