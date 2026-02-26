@@ -9,6 +9,18 @@
         rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
     <style>
+        @keyframes hburst {
+            0% {
+                opacity: 1;
+                transform: scale(1) translate(0, 0)
+            }
+
+            100% {
+                opacity: 0;
+                transform: scale(1.8) translate(var(--dx, 20px), var(--dy, -60px))
+            }
+        }
+
         *,
         *::before,
         *::after {
@@ -738,7 +750,7 @@
 
         /* FINISH */
         .call-btn {
-            background: #3b82f6;
+            background: linear-gradient(135deg, #1d4ed8, #6366f1);
             color: #fff;
             padding: 17px 40px;
             border-radius: 50px;
@@ -747,20 +759,321 @@
             text-decoration: none;
             display: inline-block;
             margin-top: 14px;
-            box-shadow: 0 12px 32px rgba(59, 130, 246, .45);
+            box-shadow: 0 12px 32px rgba(59, 130, 246, .55);
             animation: cpulse 2.2s infinite;
+            letter-spacing: .5px;
         }
 
         @keyframes cpulse {
 
             0%,
             100% {
-                box-shadow: 0 12px 32px rgba(59, 130, 246, .45), 0 0 0 0 rgba(59, 130, 246, .25)
+                box-shadow: 0 12px 32px rgba(99, 102, 241, .55), 0 0 0 0 rgba(99, 102, 241, .3)
             }
 
             50% {
-                box-shadow: 0 12px 32px rgba(59, 130, 246, .45), 0 0 0 14px rgba(59, 130, 246, 0)
+                box-shadow: 0 12px 32px rgba(99, 102, 241, .55), 0 0 0 18px rgba(99, 102, 241, 0)
             }
+        }
+
+        /* ── FINISH SCREEN ── */
+        .fin-wrap {
+            width: 100%;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            padding: 50px 18px 14px;
+            gap: 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .fin-stars {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .fstar {
+            position: absolute;
+            border-radius: 50%;
+            background: radial-gradient(circle, #fff, transparent 70%);
+            animation: fstarAnim linear infinite;
+            opacity: 0;
+        }
+
+        @keyframes fstarAnim {
+            0% {
+                opacity: 0;
+                transform: scale(0)
+            }
+
+            20% {
+                opacity: 1;
+                transform: scale(1)
+            }
+
+            80% {
+                opacity: .7
+            }
+
+            100% {
+                opacity: 0;
+                transform: scale(1.5) translateY(-30px)
+            }
+        }
+
+        .fin-crown {
+            font-size: clamp(3rem, 13vw, 5rem);
+            animation: crownBounce 1.4s ease-in-out infinite;
+            filter: drop-shadow(0 0 22px gold);
+        }
+
+        @keyframes crownBounce {
+
+            0%,
+            100% {
+                transform: translateY(0) rotate(-5deg)
+            }
+
+            50% {
+                transform: translateY(-14px) rotate(5deg)
+            }
+        }
+
+        .fin-name {
+            font-family: 'Great Vibes', cursive;
+            font-size: clamp(2.6rem, 11vw, 4rem);
+            background: linear-gradient(135deg, #facc15, #f97316, #ec4899, #a855f7, #3b82f6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            filter: drop-shadow(0 2px 12px rgba(250, 204, 21, .4));
+            line-height: 1.1;
+            margin: 4px 0;
+            animation: nameShimmer 3s linear infinite;
+            background-size: 300% 300%;
+        }
+
+        @keyframes nameShimmer {
+            0% {
+                background-position: 0% 50%
+            }
+
+            50% {
+                background-position: 100% 50%
+            }
+
+            100% {
+                background-position: 0% 50%
+            }
+        }
+
+        .fin-hb {
+            font-size: clamp(.78rem, 3vw, .95rem);
+            font-weight: 700;
+            color: rgba(255, 255, 255, .55);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 6px;
+        }
+
+        .fin-letter {
+            width: 92%;
+            max-width: 360px;
+            background: linear-gradient(145deg, rgba(30, 58, 138, .55), rgba(79, 70, 229, .3));
+            border: 1px solid rgba(99, 102, 241, .35);
+            border-radius: 24px;
+            padding: 16px 18px;
+            text-align: left;
+            font-size: clamp(.78rem, 3.2vw, .88rem);
+            color: rgba(255, 255, 255, .82);
+            line-height: 1.8;
+            position: relative;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, .35), inset 0 1px 0 rgba(255, 255, 255, .08);
+            animation: letterGlow 3s ease-in-out infinite;
+        }
+
+        @keyframes letterGlow {
+
+            0%,
+            100% {
+                box-shadow: 0 8px 32px rgba(0, 0, 0, .35), 0 0 0 0 rgba(99, 102, 241, .3)
+            }
+
+            50% {
+                box-shadow: 0 8px 32px rgba(0, 0, 0, .35), 0 0 0 10px rgba(99, 102, 241, 0)
+            }
+        }
+
+        .fin-letter::before {
+            content: '💌';
+            position: absolute;
+            top: -14px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 1.6rem;
+            background: #020c22;
+            padding: 0 8px;
+            border-radius: 50%;
+        }
+
+        .fin-letter b {
+            color: #93c5fd;
+        }
+
+        .fin-hearts-row {
+            display: flex;
+            gap: 6px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin: 8px 0;
+        }
+
+        .fin-hrt {
+            font-size: 1.4rem;
+            animation: hrtPop 1.8s ease-in-out infinite;
+        }
+
+        .fin-hrt:nth-child(1) {
+            animation-delay: 0s
+        }
+
+        .fin-hrt:nth-child(2) {
+            animation-delay: .2s
+        }
+
+        .fin-hrt:nth-child(3) {
+            animation-delay: .4s
+        }
+
+        .fin-hrt:nth-child(4) {
+            animation-delay: .6s
+        }
+
+        .fin-hrt:nth-child(5) {
+            animation-delay: .8s
+        }
+
+        @keyframes hrtPop {
+
+            0%,
+            100% {
+                transform: scale(1)
+            }
+
+            50% {
+                transform: scale(1.35) translateY(-4px)
+            }
+        }
+
+        .fin-age-wrap {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            margin: 4px 0;
+        }
+
+        .fin-age-lbl {
+            font-size: .7rem;
+            color: rgba(255, 255, 255, .4);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .fin-cta-row {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 8px;
+        }
+
+        /* MIC STEP */
+        .mic-wrap {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            width: 100%;
+        }
+
+        .mic-circle {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: rgba(59, 130, 246, .12);
+            border: 2px solid rgba(59, 130, 246, .35);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            transition: all .3s;
+        }
+
+        .mic-circle.listening {
+            background: rgba(59, 130, 246, .25);
+            border-color: #60a5fa;
+            box-shadow: 0 0 0 12px rgba(59, 130, 246, .15), 0 0 0 24px rgba(59, 130, 246, .06);
+            animation: micPulse 1.2s ease-in-out infinite;
+        }
+
+        @keyframes micPulse {
+
+            0%,
+            100% {
+                box-shadow: 0 0 0 8px rgba(59, 130, 246, .2), 0 0 0 20px rgba(59, 130, 246, .07)
+            }
+
+            50% {
+                box-shadow: 0 0 0 16px rgba(59, 130, 246, .15), 0 0 0 32px rgba(59, 130, 246, .03)
+            }
+        }
+
+        .mic-status {
+            font-size: .85rem;
+            color: rgba(255, 255, 255, .55);
+            min-height: 22px;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .mic-status.active {
+            color: #60a5fa;
+        }
+
+        .mic-status.success {
+            color: #4ade80;
+            font-size: 1rem;
+        }
+
+        .mic-heard {
+            font-size: .75rem;
+            color: rgba(255, 255, 255, .3);
+            min-height: 18px;
+            font-style: italic;
+            text-align: center;
+        }
+
+        .mic-btn {
+            background: rgba(59, 130, 246, .15);
+            border: 1.5px solid rgba(59, 130, 246, .4);
+            border-radius: 50px;
+            padding: 12px 28px;
+            font-weight: 700;
+            font-size: .85rem;
+            color: #fff;
+            cursor: pointer;
+            letter-spacing: .4px;
+        }
+
+        .mic-btn:active {
+            background: rgba(59, 130, 246, .3);
         }
 
         /* HIDDEN BACK BUTTON */
@@ -955,13 +1268,13 @@
             { nav: 'swipeleft', icon: '💘', head: '“I Love You” Moment 💘', txt: 'My heart was beating so fast! 💓\nFinally I said it – “I love you Thangam!”\nAnd you just smiled... my world was complete! 🥹', trick: '⬅️ SWIPE LEFT to continue!' },
             { nav: 'tap3', icon: '🎉', head: 'Dec 28, 2021 – YES Day! 🎉', txt: 'The most magical moment of my life!\nYou said “YES”!! 🥳\nI will never forget that day. Never. 💙', trick: '👆 TAP 3 TIMES quickly!' },
             { nav: 'pinch', icon: '🎵', head: 'Our Song – Neelothi 🎶', txt: 'This song is only for you Thangam!\nI sang it thinking of you every day! 💙', music: true, trick: '🎵 TAP to PLAY the song! Then PINCH to continue!' },
-            { nav: 'blow', icon: '💞', head: 'My Home = You 🏡', txt: 'You are my home, my peace, my world! 🏡\nEvery day is better because of YOU!\nMy calm. My joy. My everything. 💙', trick: '💨 BLOW into the mic to continue!' },
+            { nav: 'iloveyou', icon: '🎤', head: 'Say It Out Loud! 💙', txt: 'I know you feel it too Thangam...\nNow take a deep breath,\nhold your phone close,\nand say the magic words! 🥹', trick: '🎤 Say "I Love You" into the mic!' },
             { nav: 'spread', icon: '✈️', head: 'Our Future Plans ✨', txt: 'Maldives? Switzerland? Paris?\nEvery place is paradise when you are with me! 🌍\nWe will travel everywhere together! ✈️', trick: '🤲 SPREAD fingers OUT on screen!' },
             { nav: 'tilt', icon: '🤩', head: '15 Reasons I Love You ✨', txt: 'Your smile 😄 Your heart 💙 Your laugh 😂\nYour care 🤗 Your strength 💪 Your kindness 🌟\n...and being YOU is reason #15! ❤️', trick: '📱 TILT phone to the LEFT!' },
             { nav: 'rotate', icon: '🥳', head: 'The Fight Formula 😂', txt: 'You: 💢 Fight mode ON!\nMe: 😇 Sorry sorry sorry...\nYou: 😤 Still not enough!\nBut we ALWAYS come back stronger! 💙😂', trick: '↺ ROTATE phone 90° to continue!' },
             { nav: 'twofingertap', icon: '🧩', head: 'Memory Puzzle 🧩', txt: 'Build our special memory!\nTap each piece to place it! 💙', puzzle: true, trick: 'Tap 9 pieces to build the photo!' },
             { nav: 'meter', icon: '📊', head: 'Love Meter 💙', txt: 'Show me how much you love me!\nSlide it ALL the way to 100%!\n(I already know you will! 😏)', trick: 'Slide to 100% to unlock next step!' },
-            { nav: 'finish', icon: '💙', title: 'Happy Birthday Jenifar! 🎂', txt: 'You are my whole world! 💍\nForever yours, Bharath ❤️\nCome online soon my dear! 📞😍', liveAge: 'B', trick: '🎁 Tap to Video Call!' }
+            { nav: 'finish', isFinish: true, trick: '' }
         ];
 
         let cur = 0, pzS = 0, pzPcs = [];
@@ -976,10 +1289,12 @@
                 d.className = 'stp' + (i === 0 ? ' active' : ''); d.id = 'stp' + i;
                 let body = '';
 
-                if (s.nav === 'finish') {
-                    body = `<div class="inner"><span class="s-icon">${s.icon}</span><div class="s-title">${s.title}</div><div class="s-txt">${s.txt}</div>${buildAgeHtml('B')}<a href="https://call.whatsapp.com/video/hdzUkrheCL54ZESXslks2t" class="call-btn" target="_blank">📞 Video Call Now!</a></div>`;
+                if (s.isFinish) {
+                    body = buildFinishHtml();
                 } else if (s.puzzle) {
                     body = `<div class="inner"><div class="s-head">${s.head}</div><div class="s-txt">${s.txt}</div><div class="pz-wrap" id="pzWrap" onclick="tapPz()"></div><div class="pz-stat" id="pzStat">👆 Tap the puzzle!</div></div>`;
+                } else if (s.nav === 'iloveyou') {
+                    body = `<div class="inner"><span class="s-icon">${s.icon}</span><div class="s-head">${s.head}</div><div class="s-txt">${s.txt}</div><div class="mic-wrap"><div class="mic-circle" id="micCircle">🎤</div><div class="mic-status" id="micStatus">Tap the mic button to start!</div><div class="mic-heard" id="micHeard"></div><button class="mic-btn" onclick="startSpeech()">🎤 Tap &amp; Speak</button></div></div>`;
                 } else if (s.nav === 'meter') {
                     body = `<div class="inner"><span class="s-icon">${s.icon}</span><div class="s-head">${s.head}</div><div class="s-txt">${s.txt}</div><div class="sw-wrap"><input type="range" min="1" max="100" value="1" class="love-sl" oninput="updMeter(this.value)"></div><div class="m-lbl" id="mLbl">Slide it! ❤️</div></div>`;
                 } else if (s.nav === 'type') {
@@ -1001,7 +1316,7 @@
                 if (s.nav === 'tap3' || s.nav === 'tap5' || s.nav === 'tap7')
                     body += `<div class="tap-feed"><div class="tc-num" id="tc${i}">0</div></div>`;
 
-                d.innerHTML = body + `<div class="trick-bar">👉 ${s.trick}</div>`;
+                d.innerHTML = body + (s.trick ? `<div class="trick-bar">👉 ${s.trick}</div>` : '');
                 swEl.appendChild(d);
             });
 
@@ -1187,18 +1502,73 @@
                 document.addEventListener('touchstart', async function r() { document.removeEventListener('touchstart', r); try { if (await DeviceOrientationEvent.requestPermission() === 'granted') listenTilt(); } catch (e) { } }, { once: true });
             } else listenTilt();
 
-            /* BLOW (MIC) */
-            if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-                navigator.mediaDevices.getUserMedia({ audio: true, video: false }).then(stream => {
-                    const ctx = new (window.AudioContext || window.webkitAudioContext)(), src = ctx.createMediaStreamSource(stream), an = ctx.createAnalyser();
-                    an.fftSize = 256; src.connect(an);
-                    const data = new Uint8Array(an.frequencyBinCount); let blowCD = 0;
-                    setInterval(() => {
-                        an.getByteTimeDomainData(data);
-                        let pk = 0; data.forEach(v => { const d = Math.abs(v - 128); if (d > pk) pk = d; });
-                        if (ST[cur].nav === 'blow' && pk > 45 && Date.now() - blowCD > 1200) { blowCD = Date.now(); goNext(); }
-                    }, 100);
-                }).catch(() => { });
+        }
+
+        /* ── SPEECH RECOGNITION: "I LOVE YOU" ── */
+        let speechRec = null, speechBusy = false;
+        function startSpeech() {
+            const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
+            if (!SpeechRec) {
+                document.getElementById('micStatus').textContent = '😢 Your browser doesn\'t support speech. Try Chrome!';
+                return;
+            }
+            if (speechBusy) return;
+            speechBusy = true;
+            const circle = document.getElementById('micCircle');
+            const status = document.getElementById('micStatus');
+            const heard = document.getElementById('micHeard');
+            circle.classList.add('listening');
+            status.className = 'mic-status active';
+            status.textContent = '🎤 Listening... Say "I Love You"!';
+            if (!speechRec) {
+                speechRec = new SpeechRec();
+                speechRec.lang = 'en-US';
+                speechRec.continuous = false;
+                speechRec.interimResults = true;
+                speechRec.maxAlternatives = 5;
+            }
+            speechRec.onresult = e => {
+                let t = '';
+                for (let i = e.resultIndex; i < e.results.length; i++)
+                    t += e.results[i][0].transcript;
+                const clean = t.toLowerCase().replace(/[^a-z ]/g, '').trim();
+                if (heard) heard.textContent = '"' + t + '"';
+                const magic = ['i love you', 'love you', 'i luv you', 'luv you', 'i lovy you', 'i loveyou', 'ilu'];
+                if (magic.some(m => clean.includes(m))) {
+                    speechRec.stop();
+                    circle.classList.remove('listening');
+                    circle.innerHTML = '💙';
+                    status.className = 'mic-status success';
+                    status.textContent = '💙 Awww! I love you too Thangam! 🥹';
+                    speechBusy = false;
+                    setTimeout(() => { doHeartBurst(); setTimeout(goNext, 1200); }, 500);
+                }
+            };
+            speechRec.onerror = () => {
+                circle.classList.remove('listening');
+                status.className = 'mic-status';
+                status.textContent = '😔 Couldn\'t hear. Try again!';
+                speechBusy = false;
+            };
+            speechRec.onend = () => {
+                circle.classList.remove('listening');
+                if (speechBusy) {
+                    status.className = 'mic-status';
+                    status.textContent = 'Hmm... I didn\'t catch that 🥺 Try again!';
+                    speechBusy = false;
+                }
+            };
+            try { speechRec.start(); } catch (e) { speechBusy = false; }
+        }
+        function doHeartBurst() {
+            for (let i = 0; i < 14; i++) {
+                const h = document.createElement('div');
+                h.style.cssText = `position:fixed;pointer-events:none;z-index:999;font-size:${1.2 + Math.random() * 1.8}rem;` +
+                    `left:${30 + Math.random() * 40}vw;top:${30 + Math.random() * 40}vh;` +
+                    `animation:hburst .9s ease forwards;animation-delay:${Math.random() * .4}s;`;
+                h.textContent = ['💙', '💜', '💖', '💗', '✨', '🥹'][Math.floor(Math.random() * 6)];
+                document.body.appendChild(h);
+                setTimeout(() => h.remove(), 1500);
             }
         }
 
@@ -1351,12 +1721,49 @@
             }, { passive: true });
         }
 
+        /* ── FINISH HTML ── */
+        function buildFinishHtml() {
+            const stars = Array.from({ length: 18 }, (_, i) => {
+                const sz = 4 + Math.random() * 8, x = Math.random() * 100, y = Math.random() * 100;
+                const dur = 2 + Math.random() * 3, del = Math.random() * 4;
+                return `<div class="fstar" style="width:${sz}px;height:${sz}px;left:${x}%;top:${y}%;animation-duration:${dur}s;animation-delay:${del}s;"></div>`;
+            }).join('');
+            return `
+            <div class="fin-wrap">
+                <div class="fin-stars">${stars}</div>
+                <div class="fin-crown">👑</div>
+                <div class="fin-hb">Happy Birthday</div>
+                <div class="fin-name">Jenifar 💙</div>
+                <div class="fin-hearts-row">
+                    <span class="fin-hrt">💙</span>
+                    <span class="fin-hrt">💜</span>
+                    <span class="fin-hrt">💖</span>
+                    <span class="fin-hrt">⭐</span>
+                    <span class="fin-hrt">💙</span>
+                </div>
+                <div class="fin-letter">
+                    My dearest <b>Thangam</b>,<br><br>
+                    Every single day with you is a blessing I never deserved but always treasure. 🥹<br><br>
+                    You are not just my girlfriend — you are my <b>home, my peace, my reason</b>. 🏡💙<br><br>
+                    Today, as you turn another year more beautiful & wise, I want the whole world to know —<br><br>
+                    <b>"I love you forever, Thangam. Always yours — Bharath." 💍</b>
+                </div>
+                <div class="fin-age-wrap">
+                    <div class="fin-age-lbl">You have been alive for</div>
+                    ${buildAgeHtml('B')}
+                </div>
+                <div class="fin-cta-row">
+                    <a href="https://call.whatsapp.com/video/hdzUkrheCL54ZESXslks2t" class="call-btn" target="_blank">📞 Video Call Now!</a>
+                </div>
+            </div>`;
+        }
+
         /* ── CONFETTI ── */
         function doConfetti() {
-            const end = Date.now() + 5000;
+            const end = Date.now() + 7000;
             (function fire() {
-                confetti({ particleCount: 9, angle: 60, spread: 55, origin: { x: 0 }, colors: ['#3b82f6', '#60a5fa', '#818cf8'] });
-                confetti({ particleCount: 9, angle: 120, spread: 55, origin: { x: 1 }, colors: ['#3b82f6', '#60a5fa', '#818cf8'] });
+                confetti({ particleCount: 12, angle: 60, spread: 70, origin: { x: 0 }, colors: ['#3b82f6', '#a855f7', '#ec4899', '#facc15'] });
+                confetti({ particleCount: 12, angle: 120, spread: 70, origin: { x: 1 }, colors: ['#3b82f6', '#60a5fa', '#818cf8', '#f0abfc'] });
                 if (Date.now() < end) requestAnimationFrame(fire);
             })();
         }
