@@ -499,6 +499,23 @@
             display: none;
         }
 
+        .stp {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            transform: translateX(105%);
+            transition: transform .55s cubic-bezier(.4, 1, .2, 1), opacity .35s ease;
+            overflow-y: auto;
+            scrollbar-width: none;
+            z-index: 1;
+            padding-top: 50px;
+            padding-bottom: 20px;
+        }
+
         .stp.active {
             opacity: 1;
             transform: translateX(0);
@@ -534,12 +551,13 @@
         /* STEP CONTENT */
         .inner {
             width: 100%;
-            flex: 1;
+            margin: auto 0;
+            flex-shrink: 0;
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
-            padding: 48px 22px 16px;
+            justify-content: flex-start;
+            padding: 10px 22px 20px;
             text-align: center;
             gap: 10px;
         }
@@ -1153,6 +1171,73 @@
             }
         }
 
+        /* LONGPRESS PROGRESS RING & FINGERPRINT */
+        .lp-ring-wrap {
+            position: relative;
+            width: 90px;
+            height: 90px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 10px 0;
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 50%;
+            border: 2px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .lp-ring-wrap svg {
+            position: absolute;
+            transform: rotate(-90deg);
+            width: 100%;
+            height: 100%;
+        }
+
+        .lp-ring-bg {
+            fill: none;
+            stroke: rgba(255, 255, 255, 0.1);
+            stroke-width: 4px;
+        }
+
+        .lp-ring-arc {
+            fill: none;
+            stroke: #60a5fa;
+            stroke-width: 4px;
+            stroke-dasharray: 207;
+            stroke-dashoffset: 207;
+            stroke-linecap: round;
+        }
+
+        .fingerprint-icon {
+            font-size: 2.5rem;
+            color: #60a5fa;
+            opacity: 0.7;
+            animation: fpPulse 2s ease-in-out infinite;
+            z-index: 2;
+        }
+
+        @keyframes fpPulse {
+
+            0%,
+            100% {
+                transform: scale(1);
+                opacity: 0.6;
+                filter: drop-shadow(0 0 0px #3b82f6);
+            }
+
+            50% {
+                transform: scale(1.15);
+                opacity: 1;
+                filter: drop-shadow(0 0 15px #3b82f6);
+            }
+        }
+
+        .stp.pressing .fingerprint-icon {
+            color: #fff;
+            transform: scale(0.9);
+            filter: drop-shadow(0 0 20px #60a5fa);
+        }
+
         .mic-canvas {
             width: 92%;
             max-width: 300px;
@@ -1627,8 +1712,83 @@
         <button class="rb-no" onclick="dismissResume()">Start Over</button>
     </div>
     <script>
+        /* =========================================================================
+           💙 FULL CONFIGURATION 💙
+           Change any text, date, pin, or link here easily!
+           ========================================================================= */
+        const CONFIG = {
+            // Initial Settings
+            name: "Jenifar",
+            birthDate: "2002-03-12T00:00:00+05:30",
+            pin: "1201",
+            videoCallLink: "https://meet.google.com/xxx-xxxx-xxx", /* PUT YOUR VIDEO CALL LINK HERE */
+            puzzleImage: "eee.jpg",
+            audioFile: "Neelothi Video Song Out Now  Sirai  Vikram Prabhu.mp3",
+
+            login: {
+                title: "Hi Thangam!",
+                subtitle: "Unlock your 15-step Birthday Journey 🎁",
+                hint: "Enter your secret PIN! 💙<br><span style='font-size:.78rem;opacity:.55;'>Hint: Our special date 🗓️</span>",
+                success: "✅ Welcome Thangam! 💙",
+                error: "Wrong PIN! 😜"
+            },
+
+            mic: {
+                magics: ['i love you', 'love you', 'loveyou', 'ily', 'thangam', 'hi', 'hai', 'hello', 'hey', 'hey thangam', 'i love u', 'love u', 'naan unnai kadhalikkiren', 'love', 'jenifar', 'jenny', 'chellam', 'babe', 'baby'],
+                successMsg: "Awww! I love you too Thangam! 🥹 unaku oru surprice eruku 🎁",
+                notSupported: "Mic not supported on your browser! 😱 Use the 10s hold trick!",
+                denied: "Mic Permission Denied! 🛑 Use 10s hold.",
+                error: "Mic Error! Tap to try again or hold 10s.",
+                listening: "Listening... Go on, say it! 💙",
+                stopped: "Stopped. Tap to try again or hold 10s."
+            },
+
+            final: {
+                countdownMsg: ["Get ready...", "Almost there...", "Here we go!"],
+                hbdMsg: "💙 Happy Birthday Thangam! 👑",
+                subTitle: "HAPPY BIRTHDAY CHELLAM",
+                ageLabel: "YEARS OF CUTENESS",
+                message: "<b>En uyir {NAME},</b><br><br>Un ishtapadi life amaiyum nu nenaikira. Naan eppavum un kooda iruppen, enna nadandhalum!<br><br>You are my world, my baby, my everything! 💙",
+                btnText: "Call Me Now Di 💕"
+            },
+
+            steps: [
+                { nav: 'tap', icon: '💙', title: 'Hi Thangam! 💙', txt: 'Happy Birthday {NAME}! 🎂\n15 steps = 15 years of our beautiful story!\nEvery step has a unique secret trick!', trick: '👆 TAP anywhere to begin!' },
+                { nav: 'shake', icon: '🎂', head: 'Born: March 12, 2002 🌟', txt: 'Innikku thaan indha ulagathula most precious person pirandha naal!\nExactly this many years, days, hours & seconds of YOU!', liveAge: 'A', trick: '📳 SHAKE your phone to celebrate!' },
+                { nav: 'doubletap', icon: '👀', head: 'College 2019 📖', txt: 'Same college, same time...\nAana unakku en per kooda theriyadhu! 😂\nNaan always unne tholaivula irundhu paathutu irundhen! 🙈', img: 'https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&q=80&w=500', trick: '✌️ DOUBLE TAP to continue!' },
+                { nav: 'swipeup', icon: '😍', head: 'That FIRST Smile! 😍', txt: 'First time un smile ah paatha apo...\nEn heart stop aaiduchu! 🥹\nAndha oru smile changed everything for me!', img: 'https://images.unsplash.com/photo-1516589174184-e67823dbf48e?auto=format&fit=crop&q=80&w=500', trick: '⬆️ SWIPE UP to continue!' },
+                { nav: 'longpress', icon: '📱', head: 'August 2021 – First “Hi” 💙', txt: 'First time "Hi" anupum bodhu kai aadi pochu... 😅\nAndha oru chinna message changed our whole world!\nAdhu dhaan en life oda best "Hi"! 💙', trick: '👆 LONG PRESS (2 sec) to unlock!' },
+                { nav: 'swipeleft', icon: '💘', head: '“I Love You” Moment 💘', txt: 'En heart fast ah beat aachu! 💓\nFinally I said it – “I love you Thangam!”\nAppo nee siricha smile... my world was complete! 🥹', trick: '⬅️ SWIPE LEFT to continue!' },
+                { nav: 'tap3', icon: '🎉', head: 'Dec 28, 2021 – YES Day! 🎉', txt: 'The most magical moment of my life!\nNee “YES” sonna andha day!! 🥳\nAndha naal ah naan eppavum marakka matten. Never. 💙', trick: '👆 TAP 3 TIMES quickly!' },
+                { nav: 'iloveyou', icon: '🎤', head: 'Say It Out Loud! 💙', txt: 'I know you feel it too Thangam...\nIppo oru deep breath eduthuko,\nHold your phone close,\nand say the magic words! 🥹', trick: '🎤 Say "I Love You" or Hold screen for 10s to skip!' },
+                { nav: 'pinch', icon: '🎵', head: 'Our Song – Neelothi 🎶', txt: 'Indha song unakku mattum dhaan {NAME}!\nI sang it thinking of you every day! 💙', music: true, trick: '🎵 TAP to PLAY the song! Then PINCH to continue!' },
+                { nav: 'spread', icon: '✈️', head: 'Our Future Plans ✨', txt: 'Maldives? Switzerland? Paris?\nUn kooda irundha every place is paradise! 🌍\nNamma eppavum onna travel pannuvom! ✈️', trick: '🤲 SPREAD fingers OUT on screen!' },
+                { nav: 'tilt', icon: '🤩', head: '15 Reasons I Love You ✨', txt: 'Un smile 😄 Un heart 💙 Un laugh 😂\nUn care 🤗 Un strength 💪 Un kindness 🌟\n...and being YOU is reason #15! ❤️', trick: '📱 TILT phone to the LEFT!' },
+                { nav: 'rotate', icon: '🥳', head: 'The Fight Formula 😂', txt: 'Nee: 💢 Fight mode ON!\nNaan: 😇 Sorry sorry sorry...\nNee: 😤 Still not enough!\nBut namma eppavum extra strong ah dhaan aavom! 💙😂', trick: '↺ ROTATE phone 90° to continue!' },
+                { nav: 'twofingertap', icon: '🧩', head: 'Memory Puzzle 🧩', txt: 'Drag each piece to its correct place\nand reveal our special photo! 💙', puzzle: true, trick: '✋ Drag all 12 pieces to complete the photo!' },
+                { nav: 'meter', icon: '📊', head: 'Love Meter 💙', txt: 'Show me how much you love me!\nSlide it ALL the way to 100%!\n(Enakku theriyum nee pannuva nu! 😏)', trick: 'Slide to 100% to unlock next step!' },
+                { nav: 'finish', isFinish: true, trick: '' }
+            ]
+        };
+
+        function initConfig() {
+            document.querySelector('.lt').textContent = CONFIG.login.title;
+            document.querySelector('.ls').textContent = CONFIG.login.subtitle;
+            document.querySelector('.clue .ct').innerHTML = CONFIG.login.hint;
+            document.getElementById('bgm').querySelector('source').src = CONFIG.audioFile;
+
+            CONFIG.steps.forEach(s => {
+                if (s.title) s.title = s.title.replace(/{NAME}/g, CONFIG.name);
+                if (s.txt) s.txt = s.txt.replace(/{NAME}/g, CONFIG.name);
+                if (s.head) s.head = s.head.replace(/{NAME}/g, CONFIG.name);
+            });
+        }
+
+        initConfig(); // Initialize Config values
+        let ST = CONFIG.steps;
+
         /* ── PIN ── */
-        const PIN = '1201'; let pv = '';
+        const PIN = CONFIG.pin; let pv = '';
         function pp(n) { if (pv.length >= 4) return; pv += n; updD(); if (pv.length === 4) chkPin(); }
         function pd() { pv = pv.slice(0, -1); updD(); ler(''); }
         function updD() {
@@ -1645,7 +1805,7 @@
         function ler(m, c) { const e = document.getElementById('lerr'); e.textContent = m; e.style.color = c || '#f87171'; }
         function chkPin() {
             if (pv === PIN) {
-                ler('✅ Welcome Thangam! 💙', '#4ade80');
+                ler(CONFIG.login.success, '#4ade80');
                 const lc = document.querySelector('.lc');
 
                 /* Success burst of hearts around the card */
@@ -1680,11 +1840,11 @@
                     startJourney();
                 }, 1200);
             }
-            else { ler('Wrong PIN! 😜'); const e = document.getElementById('lerr'); e.style.animation = 'none'; void e.offsetWidth; e.style.animation = 'shk .4s ease'; pv = ''; updD(); }
+            else { ler(CONFIG.login.error); const e = document.getElementById('lerr'); e.style.animation = 'none'; void e.offsetWidth; e.style.animation = 'shk .4s ease'; pv = ''; updD(); }
         }
 
         /* ── BIRTH & LIVE AGE ── */
-        const BIRTH = new Date('2002-03-12T00:00:00+05:30');
+        const BIRTH = new Date(CONFIG.birthDate);
         function calcAge() {
             const now = new Date(), diff = now - BIRTH;
             const ts = Math.floor(diff / 1000), s = ts % 60, tm = Math.floor(ts / 60), m = tm % 60, th = Math.floor(tm / 60), h = th % 24;
@@ -1714,24 +1874,6 @@
         let ageTmr = null;
         function startTicker() { if (ageTmr) return; ageTmr = setInterval(() => { document.querySelectorAll('[id^="ag"]').forEach(el => tickAge(el.id.slice(2))); }, 1000); tickAge('A'); tickAge('B'); }
 
-        /* ── 15 STEPS ── */
-        const ST = [
-            { nav: 'tap', icon: '💙', title: 'Hi Thangam! 💙', txt: 'Happy Birthday Jenifar! 🎂\n15 steps = 15 years of our beautiful story!\nEvery step has a unique secret trick!', trick: '👆 TAP anywhere to begin!' },
-            { nav: 'shake', icon: '🎂', head: 'Born: March 12, 2002 🌟', txt: 'On this day the most precious person came into this world!\nExactly this many years, days, hours & seconds of YOU!', liveAge: 'A', trick: '📳 SHAKE your phone to celebrate!' },
-            { nav: 'doubletap', icon: '👀', head: 'College 2019 📖', txt: 'Same college, same time...\nBut you didn\'t even know my name! 😂\nI was always watching from the corner! 🙈', img: 'https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&q=80&w=500', trick: '✌️ DOUBLE TAP to continue!' },
-            { nav: 'swipeup', icon: '😄', head: 'That FIRST Smile! 😍', txt: 'The very first time I saw your smile...\nMy heart just stopped! 🥹\nThat one smile changed everything for me!', img: 'https://images.unsplash.com/photo-1516589174184-e67823dbf48e?auto=format&fit=crop&q=80&w=500', trick: '⬆️ SWIPE UP to continue!' },
-            { nav: 'longpress', icon: '📱', head: 'August 2021 – First “Hi” 💙', txt: 'My hands were shaking when I typed “Hi...” 😅\nThat one small message changed our whole world!\nThe best “Hi” I ever sent! 💙', trick: '👆 LONG PRESS (2 sec) to unlock!' },
-            { nav: 'swipeleft', icon: '💘', head: '“I Love You” Moment 💘', txt: 'My heart was beating so fast! 💓\nFinally I said it – “I love you Thangam!”\nAnd you just smiled... my world was complete! 🥹', trick: '⬅️ SWIPE LEFT to continue!' },
-            { nav: 'tap3', icon: '🎉', head: 'Dec 28, 2021 – YES Day! 🎉', txt: 'The most magical moment of my life!\nYou said “YES”!! 🥳\nI will never forget that day. Never. 💙', trick: '👆 TAP 3 TIMES quickly!' },
-            { nav: 'iloveyou', icon: '🎤', head: 'Say It Out Loud! 💙', txt: 'I know you feel it too Thangam...\nNow take a deep breath,\nhold your phone close,\nand say the magic words! 🥹', trick: '🎤 Say "I Love You" or Hold screen for 10s to skip!' },
-            { nav: 'pinch', icon: '🎵', head: 'Our Song – Neelothi 🎶', txt: 'This song is only for you Thangam!\nI sang it thinking of you every day! 💙', music: true, trick: '🎵 TAP to PLAY the song! Then PINCH to continue!' },
-            { nav: 'spread', icon: '✈️', head: 'Our Future Plans ✨', txt: 'Maldives? Switzerland? Paris?\nEvery place is paradise when you are with me! 🌍\nWe will travel everywhere together! ✈️', trick: '🤲 SPREAD fingers OUT on screen!' },
-            { nav: 'tilt', icon: '🤩', head: '15 Reasons I Love You ✨', txt: 'Your smile 😄 Your heart 💙 Your laugh 😂\nYour care 🤗 Your strength 💪 Your kindness 🌟\n...and being YOU is reason #15! ❤️', trick: '📱 TILT phone to the LEFT!' },
-            { nav: 'rotate', icon: '🥳', head: 'The Fight Formula 😂', txt: 'You: 💢 Fight mode ON!\nMe: 😇 Sorry sorry sorry...\nYou: 😤 Still not enough!\nBut we ALWAYS come back stronger! 💙😂', trick: '↺ ROTATE phone 90° to continue!' },
-            { nav: 'twofingertap', icon: '🧩', head: 'Memory Puzzle 🧩', txt: 'Drag each piece to its correct place\nand reveal our special photo! 💙', puzzle: true, trick: '✋ Drag all 12 pieces to complete the photo!' },
-            { nav: 'meter', icon: '📊', head: 'Love Meter 💙', txt: 'Show me how much you love me!\nSlide it ALL the way to 100%!\n(I already know you will! 😏)', trick: 'Slide to 100% to unlock next step!' },
-            { nav: 'finish', isFinish: true, trick: '' }
-        ];
 
         let cur = 0, pzS = 0, pzPcs = [];
         const swEl = document.getElementById('sw'), pbi = document.getElementById('pbi'), sbadge = document.getElementById('sbadge');
@@ -1831,14 +1973,23 @@
                 /* Shake step: add class for continuous icon shake */
                 if (s.nav === 'shake') d.classList.add('shake-hint');
 
-                /* Longpress: inject SVG progress ring */
+                /* Longpress: inject SVG progress ring + FINGERPRINT */
                 if (s.nav === 'longpress' || s.nav === 'longpress2') {
                     const inner = d.querySelector('.inner');
                     if (inner) {
                         const ringWrap = document.createElement('div');
                         ringWrap.className = 'lp-ring-wrap';
                         ringWrap.id = `lpRingWrap${i}`;
-                        ringWrap.innerHTML = `<svg width="76" height="76"><circle cx="38" cy="38" r="33" class="lp-ring-bg"/><circle cx="38" cy="38" r="33" class="lp-ring-arc" id="lpArc${i}"/></svg>`;
+                        ringWrap.innerHTML = `
+                            <svg viewBox="0 0 76 76"><circle cx="38" cy="38" r="33" class="lp-ring-bg"/><circle cx="38" cy="38" r="33" class="lp-ring-arc" id="lpArc${i}"/></svg>
+                            <div class="fingerprint-icon">
+                                <svg viewBox="0 0 512 512" width="45" height="45" fill="currentColor">
+                                    <path d="M211.5 24.3c-24.5 4.5-49 14.5-68.5 29.5-13.5 10.5-13.5 10.5-2.5 17.5 7.5 5 11 5.5 18 3 10-3.5 27.5-11 38-15.5 24.5-11 50-14.8 77-11.5 35 4.2 60.5 16.5 83 39.5 13 13.5 25.5 31.5 31.5 45.5s12 39 12.5 53c1 16 1.5 41 .5 52s-2.5 24.5-9 33c-3 4-5.5 11-5.5 15.5 0 9.5-4.5 13.5-14.5 13.5-7 0-9.8-2.6-11.5-10.5s-2.2-12.8-2.5-18.8c-.8-15.8-2-21.2-6.5-29.2-8.5-15.5-23-28.5-39.5-35.5-13-5.5-25.5-8-44.5-8.5-27.5-.8-49 4.2-68.5 16.2-17 10.2-32 30-36.5 48.2-1.8 7-2 49-2 153.2 0 162.2.5 150.8 7.5 174 4 13.2 12 25.5 22.5 33.8 6.2 5 10.8 6.5 20.8 6.5 12.2 0 16-2.5 22.8-15.2l5.2-10 1.5-151c1-125.2 1.5-152.2 4-159 2.5-6.5 8.2-13.5 14.5-17s14-5 22.5-3.5c10.5 2 17.5 8 21.5 19l2 5.5v157c0 148.8.5 160.2 4.5 172 4 12.5 12 25.5 21 34 8 7.5 15 11 25.5 13 13.5 2.5 22.5.5 31.5-7 10.8-9 18.2-22.2 22.5-40 1-5 1.5-41.2 1.2-125-.2-108.8-.8-121.2-4.2-132.8-3.2-10.8-12.8-25.2-20-30.2-4.2-3-7.8-8-7.8-11.2 0-7.2-5-11-15.5-11.5-11 0-14.5 4-14.5 16 0 9 .5 10 3 13 8 9 12 22.5 12 40 0 11.8-.2 14.5-1.5 17.5l-1.5 3.5-.5-154.5c0-144.2-.2-155-2.2-167-3.8-20.5-15.8-43-32.5-60s-36.5-29-57-36.5c-19-.5-45.5-2-61.5-1z"/>
+                                    <path d="M194 130.3c-13.8 5-27 16.5-33.8 29.5-2.5 4.5-3.2 10.8-3.2 31.2 0 25.5.8 28.5 8 32s13.5.2 15-8c.5-2 1-13 1-24.5v-21l3.2-6.5c11-23.2 38.2-31.2 59.8-17.5 11 7 14 11.5 14 21 0 5-.5 7.5-1.5 8.8l-1.5 2.2V311c0 112 .2 133.8 1.5 141.2 2.2 11.8 8.8 22.8 17.8 29.8 11.2 8.5 22 10 36 5 11.5-4.2 19-12.2 23.5-25l2.2-6v-142.5c0-128.8-.2-143.2-2.2-151.2-4.8-19.5-19.2-37.5-37-46.2-15-7.5-29.5-10.5-46.2-9.5-12.2.8-30.8 4.2-37.3 6.7z"/>
+                                    <path d="M141.5 204.3c-14.3 6.8-22.5 21.2-22.5 39.5v11.2l-4.5 2.5c-7 4-11 11-12.8 22.2-2 12.2-1.2 191.8.8 206 1.8 12 7 23.5 14.2 31.8 11.2 12.8 24.5 18 41.2 16 11-.2 15.5-1.5 21.8-5.8 7.5-5.2 13.5-13.8 16.5-23.8 1.8-5.8 2.2-41.5 2.2-192V120l-4.2-3c-8.8-6.5-20.5-7.5-31.8-2.5-3 1.2-6.5 4-7.5 6s-2.2 16.8-2.2 36v32l-3.2 3.5c-4.8 5-8 12.2-8 20.2v12.2h-35.2c-29.5 0-35.8.5-41.8 3.5-13.8 6.8-21.8 21-21.8 38.8 0 11.8 2.2 19 8 26 4 5 7 6 15 6s11-1 15-6c5.8-7 8-14.2 8-26v-11.2h4.5z"/>
+                                </svg>
+                            </div>
+                        `;
                         inner.appendChild(ringWrap);
                     }
                 }
@@ -1886,17 +2037,6 @@
             cleanupAnimations();
             runCleanup(cur);
 
-            /* fade out music if on music step (native fade - GSAP can't tween media.volume) */
-            if (ST[cur].music) {
-                const bgm = document.getElementById('bgm');
-                if (bgm && !bgm.paused) {
-                    const step = bgm.volume / 18;
-                    const fadeOut = setInterval(() => {
-                        if (bgm.volume > step) { bgm.volume -= step; }
-                        else { bgm.volume = 0; bgm.pause(); clearInterval(fadeOut); }
-                    }, 50);
-                }
-            }
             /* cancel waveRAF */
             if (waveRAF) { cancelAnimationFrame(waveRAF); waveRAF = null; }
 
@@ -1916,16 +2056,17 @@
                 gsap.fromTo(ov, { opacity: 0 }, { opacity: 1, duration: 0.4 });
                 let num = 3;
                 cdNum.textContent = num;
-                cdMsg.textContent = 'Get ready...';
+                const { countdownMsg, hbdMsg } = CONFIG.final;
+                cdMsg.textContent = countdownMsg[0];
                 const cdInt = setInterval(() => {
                     num--;
                     if (num > 0) {
                         cdNum.textContent = num;
-                        cdMsg.textContent = num === 2 ? 'Almost there...' : 'Here we go!';
+                        cdMsg.textContent = num === 2 ? countdownMsg[1] : countdownMsg[2];
                         gsap.fromTo(cdNum, { scale: 1.5, opacity: 0.5 }, { scale: 1, opacity: 1, duration: 0.35, ease: 'back.out(2)' });
                     } else {
                         clearInterval(cdInt);
-                        cdMsg.textContent = '💙 Happy Birthday Thangam! 👑';
+                        cdMsg.textContent = hbdMsg;
                         cdNum.textContent = '✨';
                         setTimeout(() => {
                             gsap.to(ov, {
@@ -2181,9 +2322,6 @@
 
         }
 
-        /* ── SPEECH RECOGNITION: "I LOVE YOU" ── */
-        let speechRec = null, micActive = false, micSucceeded = false;
-        let waveAn = null, waveData = null, waveRAF = null;
 
         /* ── LOVE WAVE ENGINE ── */
         let wavePhase = 0;                   /* idle heartbeat phase    */
@@ -2492,97 +2630,143 @@
         }
 
 
-        function startMicAudio() {
-            if (!navigator.mediaDevices) return;
-            navigator.mediaDevices.getUserMedia({ audio: true, video: false }).then(stream => {
-                const aCtx = new (window.AudioContext || window.webkitAudioContext)();
-                const src = aCtx.createMediaStreamSource(stream);
-                waveAn = aCtx.createAnalyser();
-                waveAn.fftSize = 256;
-                src.connect(waveAn);
-                waveData = new Uint8Array(waveAn.frequencyBinCount);
-                drawWave();
-            }).catch(() => { });
-        }
+        /* ── SPEECH RECOGNITION ── */
+        let speechRec = null, micActive = false, micSucceeded = false;
+        let waveAn = null, waveData = null, waveRAF = null;
 
         function startSpeech() {
-
-            if (micSucceeded) return;
-            const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
+            if (micSucceeded || micActive) return;
             const btn = document.getElementById('micBtn');
-            const circle = document.getElementById('micCircle');
             const status = document.getElementById('micStatus');
+            const circle = document.getElementById('micCircle');
             const heard = document.getElementById('micHeard');
 
-            if (!SpeechRec) {
-                if (status) status.textContent = '😢 Use Chrome browser for mic!';
+            if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+                if (status) status.textContent = CONFIG.mic.notSupported;
                 return;
             }
-            if (micActive) return;
+
             micActive = true;
+            const Speech = window.SpeechRecognition || window.webkitSpeechRecognition;
 
-            startMicAudio();
+            if (!speechRec) {
+                speechRec = new Speech();
+                speechRec.lang = 'en-US';
+                speechRec.continuous = true;
+                speechRec.interimResults = true;
 
-            if (circle) circle.classList.add('listening');
-            if (btn) { btn.textContent = '🔴 Listening…'; btn.classList.add('recording'); }
-            if (status) { status.className = 'mic-status active'; status.textContent = '🎤 Say "I Love You" Thangam!'; }
+                speechRec.onstart = () => {
+                    if (status) {
+                        status.textContent = CONFIG.mic.listening;
+                        status.classList.add('active');
+                    }
+                    if (btn) {
+                        btn.textContent = "🔴 Listening...";
+                        btn.classList.add('recording');
+                    }
+                    if (circle) circle.classList.add('listening');
+                    initAudioContext();
+                };
 
-            function createRec() {
-                const rec = new SpeechRec();
-                rec.lang = 'en-US';
-                rec.continuous = true;
-                rec.interimResults = true;
-                rec.maxAlternatives = 3;
+                speechRec.onresult = (e) => {
+                    let transcript = '';
+                    let isFinal = false;
+                    for (let i = e.resultIndex; i < e.results.length; ++i) {
+                        transcript += e.results[i][0].transcript;
+                        if (e.results[i].isFinal) isFinal = true;
+                    }
+                    if (transcript) {
+                        const msg = transcript.toLowerCase().trim();
+                        if (heard) heard.textContent = `Heard: "${msg}"`;
 
-                rec.onresult = ev => {
-                    let t = '';
-                    for (let i = ev.resultIndex; i < ev.results.length; i++)
-                        t += ev.results[i][0].transcript;
-                    const clean = t.toLowerCase().replace(/[^a-z ]/g, '').trim();
-                    if (heard) heard.textContent = '"' + t + '"';
-                    const magic = ['i love you', 'love you', 'i luv you', 'luv you', 'i loveyou', 'ilu', 'i love u', 'love u', 'hi', 'hai', 'high', 'hey'];
-                    if (!micSucceeded && magic.some(m => clean.includes(m))) {
-                        micSucceeded = true;
-                        try { rec.stop(); } catch (e) { }
-
-                        /* ① Stop wave loop NOW – blast takes over the canvas */
-                        if (waveRAF) { cancelAnimationFrame(waveRAF); waveRAF = null; }
-
-                        /* ② Update UI immediately */
-                        if (circle) { circle.classList.remove('listening'); circle.classList.add('success-ring'); circle.innerHTML = '💙'; }
-                        if (btn) { btn.textContent = '💙 Got it!'; btn.classList.remove('recording'); }
-                        if (status) { status.className = 'mic-status success'; status.textContent = '💙 Awww! I love you too Thangam! 🥹 unaku oru surprice eruku 🎁'; }
-
-                        /* ③ Grow → BLAST animation (1300ms grow + 700ms blast = 2000ms) */
-                        doHeartBlast();
-
-                        /* ④ Heart rain starts exactly when blast fires (1300ms) */
-                        setTimeout(doHeartRain, 1300);
-
-                        /* ⑤ Go next after rain fills the screen */
-                        setTimeout(goNext, 3500);
+                        /* PROACTIVE TRIGGER: check magics on every interim result too */
+                        const magics = CONFIG.mic.magics;
+                        if (magics.some(m => msg.includes(m))) {
+                            speechRec.stop();
+                            micSuccess();
+                        }
                     }
                 };
 
-                rec.onerror = er => {
-                    if (er.error === 'not-allowed') {
-                        micActive = false;
-                        if (status) status.textContent = '� Mic blocked – allow mic in browser settings!';
+                speechRec.onerror = (e) => {
+                    console.error("Speech error", e.error);
+                    micActive = false;
+                    if (e.error === 'not-allowed') {
+                        if (status) status.textContent = CONFIG.mic.denied;
+                    } else {
+                        if (status) status.textContent = CONFIG.mic.error;
+                    }
+                    if (btn) {
+                        btn.textContent = "🎤 Start Listening";
+                        btn.classList.remove('recording');
+                    }
+                    if (circle) circle.classList.remove('listening');
+                };
+
+                speechRec.onend = () => {
+                    micActive = false;
+                    if (!micSucceeded) {
+                        if (btn) {
+                            btn.textContent = "🎤 Start Listening";
+                            btn.classList.remove('recording');
+                        }
                         if (circle) circle.classList.remove('listening');
-                        if (btn) { btn.textContent = '🎤 Try Again'; btn.classList.remove('recording'); }
+                        if (status) status.textContent = CONFIG.mic.stopped;
+
+                        /* Auto-restart if still on the mic step */
+                        if (ST[cur].nav === 'iloveyou') {
+                            setTimeout(() => { if (!micSucceeded && !micActive) startSpeech(); }, 1500);
+                        }
                     }
                 };
-
-                rec.onend = () => {
-                    if (!micSucceeded && micActive) {
-                        setTimeout(() => { try { createRec().start(); } catch (e) { } }, 300);
-                    }
-                };
-
-                return rec;
             }
 
-            try { speechRec = createRec(); speechRec.start(); } catch (e) { micActive = false; }
+            try { speechRec.start(); } catch (e) { }
+        }
+
+        function micSuccess() {
+            if (micSucceeded) return;
+            micSucceeded = true;
+            const btn = document.getElementById('micBtn');
+            const status = document.getElementById('micStatus');
+            const circle = document.getElementById('micCircle');
+            const canvasWrap = document.getElementById('loveWaveWrap');
+
+            if (btn) btn.style.display = 'none';
+            if (status) {
+                status.textContent = CONFIG.mic.successMsg;
+                status.classList.add('success');
+            }
+            if (circle) {
+                circle.classList.add('success-ring');
+                circle.textContent = '💖';
+                circle.classList.remove('listening');
+            }
+            if (canvasWrap) canvasWrap.classList.add('success-glow');
+
+            /* Cancel wave loop - blast takes over */
+            if (waveRAF) { cancelAnimationFrame(waveRAF); waveRAF = null; }
+
+            setTimeout(() => { doHeartBlast(); }, 400);
+            setTimeout(() => { doHeartRain(); }, 1300);
+            setTimeout(() => { goNext(); }, 4500);
+        }
+
+        let actx = null;
+        async function initAudioContext() {
+            if (actx) return;
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                actx = new (window.AudioContext || window.webkitAudioContext)();
+                if (actx.state === 'suspended') await actx.resume();
+
+                waveAn = actx.createAnalyser();
+                waveAn.fftSize = 256;
+                const source = actx.createMediaStreamSource(stream);
+                source.connect(waveAn);
+                waveData = new Uint8Array(waveAn.frequencyBinCount);
+                drawWave();
+            } catch (e) { console.error("Audio Context Error", e); }
         }
 
         /* ── HEART RAIN ── */
@@ -2636,7 +2820,7 @@
 
 
         /* ── REAL PUZZLE GAME – 4×3 = 12 pieces drag-and-drop ── */
-        const PIC = 'eee.jpg';   /* 📸 Replace eee.jpg with your actual love photo */
+        const PIC = CONFIG.puzzleImage;   /* 📸 Pulled from CONFIG */
         const PZ_COLS = 4, PZ_ROWS = 3; /* 12 pieces */
 
         function buildPuzzle() {
@@ -2864,12 +3048,13 @@
                 const dur = 2 + Math.random() * 3, del = Math.random() * 4;
                 return `<div class="fstar" style="width:${sz}px;height:${sz}px;left:${x}%;top:${y}%;animation-duration:${dur}s;animation-delay:${del}s;"></div>`;
             }).join('');
+            const message = CONFIG.final.message.replace(/{NAME}/g, CONFIG.name);
             return `
             <div class="fin-wrap">
                 <div class="fin-stars">${stars}</div>
                 <div class="fin-crown">👑</div>
-                <div class="fin-hb">Happy Birthday</div>
-                <div class="fin-name">Jenifar 💙</div>
+                <div class="fin-hb">${CONFIG.final.subTitle}</div>
+                <div class="fin-name">${CONFIG.name} 💙</div>
                 <div class="fin-hearts-row">
                     <span class="fin-hrt">💙</span>
                     <span class="fin-hrt">💜</span>
@@ -2878,18 +3063,14 @@
                     <span class="fin-hrt">💙</span>
                 </div>
                 <div class="fin-letter">
-                    My dearest <b>Thangam</b>,<br><br>
-                    Every single day with you is a blessing I never deserved but always treasure. 🥹<br><br>
-                    You are not just my girlfriend — you are my <b>home, my peace, my reason</b>. 🏡💙<br><br>
-                    Today, as you turn another year more beautiful & wise, I want the whole world to know —<br><br>
-                    <b>"I love you forever, Thangam. Always yours — Bharath." 💍</b>
+                    ${message}
                 </div>
                 <div class="fin-age-wrap">
-                    <div class="fin-age-lbl">You have been alive for</div>
+                    <div class="fin-age-lbl">${CONFIG.final.ageLabel}</div>
                     ${buildAgeHtml('B')}
                 </div>
                 <div class="fin-cta-row">
-                    <a href="https://call.whatsapp.com/video/hdzUkrheCL54ZESXslks2t" class="call-btn" target="_blank">📞 Video Call Now!</a>
+                    <a href="${CONFIG.videoCallLink}" class="call-btn" target="_blank">${CONFIG.final.btnText}</a>
                 </div>
             </div>`;
         }
