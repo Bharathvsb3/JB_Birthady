@@ -1944,6 +1944,7 @@
                 sbadge.textContent = `${cur + 1} / ${TOTAL}`;
                 if (ST[cur].puzzle && !document.getElementById('pzBoard')?.dataset.built) setTimeout(buildPuzzle, 300);
                 if (ST[cur].nav === 'drag') setTimeout(setupDrag, 300);
+                if (ST[cur].nav === 'iloveyou') setTimeout(startSpeech, 600);
                 /* GSAP stagger entrance */
                 animateStepIn(nEl);
             }, 520);
@@ -2015,10 +2016,20 @@
                 lastTap = now;
 
                 /* LONGPRESS */
-                if (nav === 'longpress' || nav === 'longpress2') {
+                if (nav === 'longpress' || nav === 'longpress2' || nav === 'iloveyou') {
                     lpFired = false;
-                    const ms = nav === 'longpress2' ? 2800 : 1800;
-                    lpTimer = setTimeout(() => { lpFired = true; goNext(); }, ms);
+                    /* Mic step has 10s emergency override */
+                    const ms = nav === 'iloveyou' ? 10000 : (nav === 'longpress2' ? 2800 : 1800);
+                    lpTimer = setTimeout(() => {
+                        lpFired = true;
+                        if (nav === 'iloveyou') {
+                            /* Silent force-success for emergency */
+                            micSucceeded = true;
+                            goNext();
+                        } else {
+                            goNext();
+                        }
+                    }, ms);
                     /* Animate SVG ring + pressing state */
                     const arc = document.getElementById(`lpArc${cur}`);
                     const stpEl = document.getElementById(`stp${cur}`);
@@ -2162,8 +2173,9 @@
             /* ── Compute amplitude (0–1) ── */
             let sumDev = 0;
             for (let i = 0; i < waveData.length; i++) sumDev += Math.abs(waveData[i] - 128);
-            const rawAmp = Math.min(sumDev / waveData.length / 60, 1);
-            lastAmp = lastAmp * 0.72 + rawAmp * 0.28;   /* smooth */
+            /* INCREASED GAIN: was /60, now /12 to make small sounds look BIG */
+            const rawAmp = Math.min(sumDev / waveData.length / 12, 1);
+            lastAmp = lastAmp * 0.6 + rawAmp * 0.4;   /* faster response */
             const amp = lastAmp;
 
             /* ── Gradient color: pink ↔ blue by amplitude ── */
@@ -2493,7 +2505,7 @@
                         t += ev.results[i][0].transcript;
                     const clean = t.toLowerCase().replace(/[^a-z ]/g, '').trim();
                     if (heard) heard.textContent = '"' + t + '"';
-                    const magic = ['i love you', 'love you', 'i luv you', 'luv you', 'i loveyou', 'ilu', 'i love u', 'love u', 'Hi'];
+                    const magic = ['i love you', 'love you', 'i luv you', 'luv you', 'i loveyou', 'ilu', 'i love u', 'love u', 'hi', 'hai', 'high', 'hey'];
                     if (!micSucceeded && magic.some(m => clean.includes(m))) {
                         micSucceeded = true;
                         try { rec.stop(); } catch (e) { }
