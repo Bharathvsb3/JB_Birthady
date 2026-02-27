@@ -8,6 +8,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Great+Vibes&display=swap"
         rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     <style>
         @keyframes hburst {
             0% {
@@ -19,6 +20,111 @@
                 opacity: 0;
                 transform: scale(1.8) translate(var(--dx, 20px), var(--dy, -60px))
             }
+        }
+
+        /* CINEMATIC OVERLAY */
+        #stepOverlay {
+            position: fixed;
+            inset: 0;
+            background: #020c22;
+            z-index: 500;
+            pointer-events: none;
+            opacity: 0;
+        }
+
+        /* RESUME BANNER */
+        #resumeBanner {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(30, 64, 175, .94);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(96, 165, 250, .3);
+            border-radius: 50px;
+            padding: 11px 20px;
+            z-index: 9999;
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            font-size: .8rem;
+            color: #fff;
+            font-weight: 600;
+            white-space: nowrap;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, .4);
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        #resumeBanner button {
+            border: none;
+            border-radius: 30px;
+            padding: 6px 16px;
+            font-weight: 700;
+            cursor: pointer;
+            font-size: .78rem;
+        }
+
+        .rb-yes {
+            background: #3b82f6;
+            color: #fff;
+        }
+
+        .rb-no {
+            background: none;
+            color: rgba(255, 255, 255, .45);
+        }
+
+        /* COUNTDOWN */
+        #countdownOverlay {
+            position: fixed;
+            inset: 0;
+            background: radial-gradient(circle at center, rgba(30, 58, 138, .96), rgba(2, 12, 34, .99));
+            z-index: 9998;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+        }
+
+        #cdNum {
+            font-size: clamp(6rem, 20vw, 9rem);
+            font-weight: 800;
+            color: #60a5fa;
+            line-height: 1;
+            filter: drop-shadow(0 0 40px rgba(96, 165, 250, .7));
+        }
+
+        #cdMsg {
+            font-family: 'Great Vibes', cursive;
+            font-size: clamp(1.6rem, 6vw, 2.4rem);
+            color: rgba(255, 255, 255, .7);
+            text-align: center;
+            padding: 0 20px;
+        }
+
+        /* BUTTON MICRO-INTERACTIONS */
+        .mic-btn,
+        .call-btn {
+            transform-origin: center;
+            will-change: transform;
+        }
+
+        .mic-btn:hover {
+            transform: scale(1.05);
+        }
+
+        .mic-btn:active {
+            transform: scale(0.93);
+        }
+
+        .call-btn:hover {
+            transform: scale(1.05) translateY(-2px);
+        }
+
+        .call-btn:active {
+            transform: scale(0.95);
         }
 
         *,
@@ -1260,7 +1366,8 @@
             <div class="lt">Hi Thangam!</div>
             <div class="ls">Unlock your 24-step Birthday Journey 🎁</div>
             <div class="clue">
-                <div class="ct">Enter your secret PIN!<br><b style="color:#60a5fa;">PIN = 1201</b></div>
+                <div class="ct">Enter your secret PIN! 💙<br><span style="font-size:.78rem;opacity:.55;">Hint: Our
+                        special date 🗓️</span></div>
             </div>
             <div class="dots">
                 <div class="dot" id="d0"></div>
@@ -1293,6 +1400,16 @@
         <div class="sw" id="sw"></div>
     </div>
 
+    <div id="stepOverlay"></div>
+    <div id="countdownOverlay">
+        <div id="cdNum">3</div>
+        <div id="cdMsg">Get ready...</div>
+    </div>
+    <div id="resumeBanner">
+        <span id="resumeMsg">💙 Continue from Step 1?</span>
+        <button class="rb-yes" onclick="doResume()">Continue ▶</button>
+        <button class="rb-no" onclick="dismissResume()">Start Over</button>
+    </div>
     <script>
         /* ── PIN ── */
         const PIN = '1201'; let pv = '';
@@ -1357,7 +1474,17 @@
 
         let cur = 0, pzS = 0, pzPcs = [];
         const swEl = document.getElementById('sw'), pbi = document.getElementById('pbi'), sbadge = document.getElementById('sbadge');
-        const TOTAL = ST.length; // 15
+        const TOTAL = ST.length;
+
+        /* ── ANIMATION CLEANUP REGISTRY ── */
+        let activeTimelines = [], activeRAFs = [];
+        function registerTL(tl) { activeTimelines.push(tl); }
+        function registerRAF(id) { activeRAFs.push(id); }
+        function cleanupAnimations() {
+            activeTimelines.forEach(t => { try { t.kill(); } catch (e) { } });
+            activeRAFs.forEach(id => cancelAnimationFrame(id));
+            activeTimelines = []; activeRAFs = [];
+        }
 
         /* ── BUILD DOM ── */
         function startJourney() {
@@ -1418,17 +1545,108 @@
         let navBusy = false;
         function lockNav() { navBusy = true; setTimeout(() => navBusy = false, 680); }
 
+        /* ── localStorage step save ── */
+        function saveStep(i) { try { localStorage.setItem('bj_step', i); } catch (e) { } }
+        function loadStep() { try { return Math.min(parseInt(localStorage.getItem('bj_step') || '0'), TOTAL - 1); } catch (e) { return 0; } }
+        function savePz() { try { localStorage.setItem('bj_pz', '1'); } catch (e) { } }
+
+        /* ── STEP ENTER ANIMATIONS (GSAP) ── */
+        function animateStepIn(stepEl) {
+            const kids = stepEl.querySelectorAll('.inner > *');
+            if (!kids.length) return;
+            const tl = gsap.timeline();
+            tl.from(kids, { y: 28, opacity: 0, stagger: 0.08, duration: 0.48, ease: 'power2.out' });
+            registerTL(tl);
+            /* Ken Burns on memory photos */
+            const img = stepEl.querySelector('.mf img');
+            if (img) {
+                const kb = gsap.to(img, { scale: 1.08, x: '2%', duration: 8, ease: 'none', yoyo: true, repeat: -1 });
+                registerTL(kb);
+            }
+        }
+
         /* ── GO NEXT ── */
         function goNext() {
             if (cur >= TOTAL - 1 || navBusy) return;
             lockNav();
 
+            /* cleanup all active animations before leaving */
+            cleanupAnimations();
+
+            /* fade out music if on music step */
+            if (ST[cur].music) {
+                const bgm = document.getElementById('bgm');
+                if (bgm && !bgm.paused) {
+                    gsap.to(bgm, { volume: 0, duration: 0.9, onComplete: () => bgm.pause() });
+                }
+            }
+            /* cancel waveRAF */
+            if (waveRAF) { cancelAnimationFrame(waveRAF); waveRAF = null; }
+
             const curEl = document.getElementById('stp' + cur);
-            /* Snap curEl to its current visible position, then animate out left */
             curEl.style.cssText = '';
             curEl.classList.remove('active', 'from-left');
-            curEl.classList.add('exit');  /* → slides left */
+            curEl.classList.add('exit');
             cur++;
+            saveStep(cur);
+
+            if (cur === TOTAL - 1) {
+                /* Final step: show countdown overlay first */
+                const ov = document.getElementById('countdownOverlay');
+                const cdNum = document.getElementById('cdNum');
+                const cdMsg = document.getElementById('cdMsg');
+                ov.style.display = 'flex';
+                gsap.fromTo(ov, { opacity: 0 }, { opacity: 1, duration: 0.4 });
+                let num = 3;
+                cdNum.textContent = num;
+                cdMsg.textContent = 'Almost there...';
+                const cdInt = setInterval(() => {
+                    num--;
+                    if (num > 0) {
+                        gsap.fromTo(cdNum, { scale: 1.5, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.35, ease: 'back.out(2)' });
+                        cdNum.textContent = num;
+                    } else {
+                        clearInterval(cdInt);
+                        cdMsg.textContent = '💙 Happy Birthday Thangam! 👑';
+                        cdNum.textContent = '✨';
+                        setTimeout(() => {
+                            gsap.to(ov, {
+                                opacity: 0, duration: 0.5, onComplete: () => {
+                                    ov.style.display = 'none';
+                                    const nEl = document.getElementById('stp' + cur);
+                                    nEl.style.cssText = '';
+                                    nEl.classList.remove('exit', 'from-left');
+                                    nEl.classList.add('snap-right');
+                                    void nEl.offsetWidth;
+                                    nEl.classList.remove('snap-right');
+                                    nEl.classList.add('active');
+                                    pbi.style.width = `${((cur + 1) / TOTAL) * 100}%`;
+                                    sbadge.textContent = `${cur + 1} / ${TOTAL}`;
+                                    doConfetti(); startTicker();
+                                    /* GSAP reveal: crown, name, hearts, letter stagger */
+                                    const finEl = nEl;
+                                    const revTl = gsap.timeline();
+                                    revTl.from(finEl.querySelector('.fin-crown'), { y: -60, scale: 0.3, opacity: 0, duration: 0.7, ease: 'back.out(1.8)' })
+                                        .from(finEl.querySelector('.fin-hb'), { opacity: 0, y: 18, duration: 0.5 }, '-=0.2')
+                                        .from(finEl.querySelector('.fin-name'), { scale: 0.7, opacity: 0, duration: 0.65, ease: 'elastic.out(1,0.6)' }, '-=0.2')
+                                        .from(finEl.querySelectorAll('.fin-hrt'), { scale: 0, opacity: 0, duration: 0.32, stagger: 0.08, ease: 'back.out(2)' }, '-=0.2')
+                                        .from(finEl.querySelector('.fin-letter'), { scaleY: 0, opacity: 0, transformOrigin: 'top center', duration: 0.6 }, '-=0.1')
+                                        .from(finEl.querySelector('.fin-age-wrap'), { y: 16, opacity: 0, duration: 0.4 }, '-=0.1')
+                                        .from(finEl.querySelector('.fin-cta-row'), { scale: 0.6, opacity: 0, duration: 0.6, ease: 'elastic.out(1,0.5)' }, '-=0.1');
+                                    registerTL(revTl);
+                                    /* Call button pulse */
+                                    const callBtn = finEl.querySelector('.call-btn');
+                                    if (callBtn) {
+                                        const pulse = gsap.to(callBtn, { scale: 1.07, duration: 0.8, yoyo: true, repeat: -1, ease: 'power1.inOut' });
+                                        registerTL(pulse);
+                                    }
+                                }
+                            });
+                        }, 700);
+                    }
+                }, 1000);
+                return; /* exit early — final step handled inside timeout above */
+            }
 
             setTimeout(() => {
                 const nEl = document.getElementById('stp' + cur);
@@ -1442,7 +1660,8 @@
                 sbadge.textContent = `${cur + 1} / ${TOTAL}`;
                 if (ST[cur].puzzle && !pzPcs.length) setTimeout(buildPuzzle, 300);
                 if (ST[cur].nav === 'drag') setTimeout(setupDrag, 300);
-                if (cur === TOTAL - 1) { doConfetti(); startTicker(); }
+                /* GSAP stagger entrance */
+                animateStepIn(nEl);
             }, 520);
         }
 
@@ -1450,32 +1669,33 @@
         function goPrev() {
             if (cur <= 0 || navBusy) return;
             lockNav();
+            cleanupAnimations();
+            if (waveRAF) { cancelAnimationFrame(waveRAF); waveRAF = null; }
 
             const curEl = document.getElementById('stp' + cur);
-            /* Snap curEl to its current visible position, then animate out RIGHT */
             curEl.style.cssText = '';
             curEl.classList.remove('active', 'from-left', 'exit');
-            curEl.classList.add('snap-right');  /* snap to right edge */
-            void curEl.offsetWidth;              /* commit */
-            curEl.classList.remove('snap-right'); /* let .stp animate back → 105% slide-out-right */
-            /* (default .stp has opacity:0 and transform:105%, so removing snap-right makes it slide right) */
+            curEl.classList.add('snap-right');
+            void curEl.offsetWidth;
+            curEl.classList.remove('snap-right');
 
             cur--;
+            saveStep(cur);
             const prevEl = document.getElementById('stp' + cur);
             prevEl.style.cssText = '';
             prevEl.classList.remove('exit', 'active');
-
-            /* Snap prevEl to off-screen LEFT, then animate to center */
             prevEl.classList.add('from-left');
-            void prevEl.offsetWidth; /* commit -105% */
+            void prevEl.offsetWidth;
             prevEl.classList.remove('from-left');
-            prevEl.classList.add('active');  /* → slides left-to-center */
+            prevEl.classList.add('active');
 
             setTimeout(() => {
                 pbi.style.width = `${((cur + 1) / TOTAL) * 100}%`;
                 sbadge.textContent = `${cur + 1} / ${TOTAL}`;
+                animateStepIn(prevEl);
             }, 200);
         }
+
 
         /* ── GESTURES ── */
         function setupGestures() {
@@ -1605,6 +1825,7 @@
             const canvas = document.getElementById('micCanvas');
             if (!canvas || !waveAn) return;
             waveRAF = requestAnimationFrame(drawWave);
+            registerRAF(waveRAF);
             waveAn.getByteTimeDomainData(waveData);
             const ctx2d = canvas.getContext('2d');
             const W = canvas.width, H = canvas.height;
@@ -1674,6 +1895,8 @@
                     if (!micSucceeded && magic.some(m => clean.includes(m))) {
                         micSucceeded = true;
                         try { rec.stop(); } catch (e) { }
+                        /* CRITICAL: cancel waveRAF so canvas loop doesn't leak */
+                        if (waveRAF) { cancelAnimationFrame(waveRAF); waveRAF = null; }
                         if (circle) { circle.classList.remove('listening'); circle.classList.add('success-ring'); circle.innerHTML = '💙'; }
                         if (btn) { btn.textContent = '💙 Got it!'; btn.classList.remove('recording'); }
                         if (status) { status.className = 'mic-status success'; status.textContent = '💙 Awww! I love you too Thangam! 🥹'; }
@@ -1725,22 +1948,28 @@
         let audioCtx;
         function playS() {
             const idx = cur;
-            // Unlock AudioContext on iOS
             if (!audioCtx) { try { audioCtx = new (window.AudioContext || window.webkitAudioContext)(); } catch (e) { } }
             if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
             const bgm = document.getElementById('bgm');
-            bgm.volume = 1;
+            bgm.volume = 0;                          /* start silent */
             const p = bgm.play();
             if (p) p.then(() => {
+                /* fade in over 2 s */
+                const fadeTl = gsap.to(bgm, { volume: 1, duration: 2, ease: 'power1.inOut' });
+                registerTL(fadeTl);
                 const pl = document.getElementById('plbl' + idx);
                 const vn = document.getElementById('vinyl' + idx);
                 if (pl) pl.textContent = '🎶 Playing! Now do the gesture to continue!';
-                if (vn) vn.style.animationDuration = '1s';
-            }).catch(err => {
+                if (vn) {
+                    const spin = gsap.to(vn, { rotation: 360, duration: 1.2, ease: 'none', repeat: -1 });
+                    registerTL(spin);
+                }
+            }).catch(() => {
                 const pl = document.getElementById('plbl' + idx);
                 if (pl) pl.innerHTML = '⚠️ <a href="https://youtu.be/neelothi" target="_blank" style="color:#60a5fa">🎵 Open Song on YouTube</a>';
             });
         }
+
 
         /* ── PUZZLE (SVG Jigsaw) ── */
         const PIC = 'https://images.unsplash.com/photo-1516589174184-e67823dbf48e?auto=format&fit=crop&q=80&w=600';
@@ -1825,12 +2054,34 @@
         function tapPz() {
             if (pzS >= 9) return;
             const pe = pzPcs[pzS];
-            pe.setAttribute('transform', 'translate(0,0)');
-            pe.style.filter = 'drop-shadow(0 0 8px rgba(96,165,250,.6))';
+            const wrap = document.getElementById('pzWrap');
+
+            /* Animate piece snapping into place with spring ease */
+            pe.style.transition = 'none';
+            gsap.fromTo(pe,
+                { attr: { transform: pe.getAttribute('transform') } },
+                {
+                    attr: { transform: 'translate(0,0)' },
+                    duration: 0.55, ease: 'back.out(1.7)',
+                    onComplete: () => {
+                        /* Glow flash: blue → normal */
+                        gsap.timeline()
+                            .to(pe, { attr: { filter: 'drop-shadow(0 0 14px rgba(96,165,250,1))' }, duration: 0.18 })
+                            .to(pe, { attr: { filter: 'drop-shadow(2px 3px 5px rgba(0,0,0,.55))' }, duration: 0.32 });
+                    }
+                }
+            );
             pzS++;
             const stat = document.getElementById('pzStat');
             stat.textContent = pzS < 9 ? `✨ ${pzS}/9 placed!` : '🎉 Perfect! Her smile revealed! 💙';
-            if (pzS === 9) setTimeout(goNext, 1500);
+            if (pzS === 9) {
+                savePz();
+                /* Whole-board celebration glow */
+                gsap.timeline()
+                    .to(wrap, { boxShadow: '0 0 40px rgba(96,165,250,0.75)', scale: 1.04, duration: 0.35, ease: 'power2.out' })
+                    .to(wrap, { boxShadow: '0 0 0px rgba(96,165,250,0)', scale: 1, duration: 0.5, ease: 'elastic.out(1,0.5)' });
+                setTimeout(goNext, 1800);
+            }
         }
 
         /* ── METER ── */
