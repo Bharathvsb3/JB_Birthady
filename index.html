@@ -1617,6 +1617,19 @@
             gap: 5px !important;
         }
 
+        .fly-word {
+            position: fixed;
+            font-size: clamp(2rem, 10vw, 4rem);
+            font-weight: 800;
+            font-family: 'Great Vibes', cursive;
+            color: #fff;
+            text-shadow: 0 0 20px currentColor, 0 0 40px currentColor;
+            pointer-events: none;
+            z-index: 9999;
+            opacity: 0;
+            white-space: nowrap;
+        }
+
         .love-wave-wrap {
             position: relative;
             width: 92%;
@@ -2718,6 +2731,39 @@
                     if (transcript) {
                         const msg = transcript.toLowerCase().trim();
                         if (heard) heard.textContent = `Heard: "${msg}"`;
+
+                        /* ── FLYING WORDS EFFECT ── */
+                        if (window.lastFlyIndex !== e.resultIndex) {
+                            window.lastFlyIndex = e.resultIndex;
+                        }
+
+                        let words = msg.split(/\s+/);
+                        let lastWord = words[words.length - 1];
+
+                        /* Spawn if it's a visibly new or expanded word from interim */
+                        if (lastWord && lastWord !== window.lastSpawnedWord) {
+                            window.lastSpawnedWord = lastWord;
+
+                            const fw = document.createElement('div');
+                            fw.className = 'fly-word';
+                            fw.textContent = lastWord;
+
+                            const colors = ['#3b82f6', '#ec4899', '#facc15', '#a855f7', '#4ade80', '#60a5fa'];
+                            fw.style.color = colors[Math.floor(Math.random() * colors.length)];
+                            fw.style.left = (10 + Math.random() * 60) + 'vw';
+                            fw.style.top = (75 + Math.random() * 10) + 'vh';
+                            document.body.appendChild(fw);
+
+                            gsap.fromTo(fw,
+                                { scale: 0.2, opacity: 0, y: 0, rotation: -20 + Math.random() * 40 },
+                                {
+                                    scale: 1.2, opacity: 0.9, y: -(150 + Math.random() * 100), rotation: -40 + Math.random() * 80, duration: 1.8, ease: "power2.out",
+                                    onComplete: () => {
+                                        gsap.to(fw, { opacity: 0, y: "-=80", duration: 1.2, ease: "power1.in", onComplete: () => fw.remove() });
+                                    }
+                                }
+                            );
+                        }
 
                         /* PROACTIVE TRIGGER: check magics on every interim result too */
                         const magics = CONFIG.mic.magics;
