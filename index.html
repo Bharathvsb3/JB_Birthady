@@ -1800,11 +1800,11 @@
             mic: {
                 magics: ['i love you', 'love you', 'loveyou', 'ily', 'thangam', 'hi', 'hai', 'hello', 'hey', 'hey thangam', 'i love u', 'love u', 'naan unnai kadhalikkiren', 'love', 'jenifar', 'jenny', 'chellam', 'babe', 'baby'],
                 successMsg: "Awww! I love you too Thangam! 🥹 unaku oru surprice eruku 🎁",
-                notSupported: "Mic not supported on your browser! 😱 Use the 10s hold trick!",
-                denied: "Mic Permission Denied! 🛑 Use 10s hold.",
-                error: "Mic Error! Tap to try again or hold 10s.",
+                notSupported: "Mic not supported on your browser! 😱 Click 🎤 10x to skip!",
+                denied: "Mic Permission Denied! 🛑 Click 🎤 10x to skip.",
+                error: "Mic Error! Tap to try again or click 🎤 10x to skip.",
                 listening: "Listening... Go on, say it! 💙",
-                stopped: "Stopped. Tap to try again or hold 10s."
+                stopped: "Stopped. Click 🎤 10x to skip."
             },
 
             final: {
@@ -1824,7 +1824,7 @@
                 { nav: 'longpress', icon: '📱', head: 'August 2021 – First “Hi” 💙', txt: 'First time "Hi" anupum bodhu kai aadi pochu... 😅\nAndha oru chinna message changed our whole world!\nAdhu dhaan en life oda best "Hi"! 💙', trick: '👆 LONG PRESS (2 sec) to unlock!' },
                 { nav: 'swipeleft', icon: '💘', head: '“I Love You” Moment 💘', txt: 'En heart fast ah beat aachu! 💓\nFinally I said it – “I love you Thangam!”\nAppo nee siricha smile... my world was complete! 🥹', trick: '⬅️ SWIPE LEFT to continue!' },
                 { nav: 'tap3', icon: '🎉', head: 'Dec 28, 2021 – YES Day! 🎉', txt: 'The most magical moment of my life!\nNee “YES” sonna andha day!! 🥳\nAndha naal ah naan eppavum marakka matten. Never. 💙', trick: '👆 TAP 3 TIMES quickly!' },
-                { nav: 'iloveyou', icon: '🎤', head: 'Say It Out Loud! 💙', txt: 'I know you feel it too Thangam...\nIppo oru deep breath eduthuko,\nHold your phone close,\nand say the magic words! 🥹', trick: '🎤 Say "I Love You" or Hold screen for 10s to skip!' },
+                { nav: 'iloveyou', icon: '🎤', head: 'Say It Out Loud! 💙', txt: 'I know you feel it too Thangam...\nIppo oru deep breath eduthuko,\nHold your phone close,\nand say the magic words! 🥹', trick: '🎤 Say "I Love You" or tap 🎤 10 times to skip!' },
                 { nav: 'pinch', icon: '🎵', head: 'Our Song – Neelothi 🎶', txt: 'Indha song unakku mattum dhaan {NAME}!\nI sang it thinking of you every day! 💙', music: true, trick: '🎵 TAP to PLAY the song! Then PINCH to continue!' },
                 { nav: 'spread', icon: '✈️', head: 'Our Future Plans ✨', txt: 'Maldives? Switzerland? Paris?\nUn kooda irundha every place is paradise! 🌍\nNamma eppavum onna travel pannuvom! ✈️', trick: '🤲 SPREAD fingers OUT on screen!' },
                 { nav: 'tilt', icon: '🤩', head: '15 Reasons I Love You ✨', txt: 'Un smile 😄 Un heart 💙 Un laugh 😂\nUn care 🤗 Un strength 💪 Un kindness 🌟\n...and being YOU is reason #15! ❤️', trick: '📱 TILT phone to the LEFT!' },
@@ -1996,14 +1996,15 @@
                         <div class="s-head">${s.head}</div>
                         <div class="s-txt">${s.txt}</div>
                         <div class="mic-wrap">
-                            <div class="mic-circle" id="micCircle" onclick="startSpeech()">🎤</div>
+                            <div class="mic-circle" id="micCircle" onclick="micCircleClick()">🎤</div>
+                            <div class="tap-feed"><div class="tc-num" id="micTc">0</div></div>
                             <div class="love-wave-wrap" id="loveWaveWrap">
                                 <canvas id="micCanvas" width="340" height="90"></canvas>
                                 <div class="wave-hearts" id="waveHearts"></div>
                             </div>
                             <div class="mic-status" id="micStatus">Tap below &amp; say "I Love You" 💙</div>
                             <div class="mic-heard" id="micHeard"></div>
-                            <button class="mic-btn" id="micBtn" onclick="startSpeech()">🎤 Start Listening</button>
+                            <button class="mic-btn" id="micBtn" onclick="micCircleClick()">🎤 Start Listening</button>
                         </div>
                     </div>`;
                 } else if (s.nav === 'meter') {
@@ -2349,17 +2350,13 @@
                 const now = Date.now();
                 sx = t.clientX; sy = t.clientY;
 
-                /* LONGPRESS (Includes 10s Emergency Skip for Mic) */
-                if (nav === 'longpress' || nav === 'longpress2' || nav === 'iloveyou') {
+                /* LONGPRESS */
+                if (nav === 'longpress' || nav === 'longpress2') {
                     lpFired = false;
-                    const ms = nav === 'iloveyou' ? 10000 : (nav === 'longpress2' ? 2800 : 1800);
+                    const ms = nav === 'longpress2' ? 2800 : 1800;
                     lpTimer = setTimeout(() => {
                         lpFired = true;
-                        if (nav === 'iloveyou') {
-                            micSuccess();
-                        } else {
-                            goNext();
-                        }
+                        goNext();
                     }, ms);
                     /* Animate SVG ring + pressing state */
                     const arc = document.getElementById(`lpArc${cur}`);
@@ -2796,6 +2793,33 @@
         /* ── SPEECH RECOGNITION ── */
         let speechRec = null, micActive = false, micSucceeded = false;
         let waveAn = null, waveData = null, waveRAF = null;
+        let micSkips = 0, micSkipTmr = null;
+
+        function micCircleClick() {
+            if (micSucceeded) return;
+
+            /* Fast-track audio context on direct click so Mobile Safari/Android likes it */
+            initAudioContext();
+            startSpeech();
+
+            /* 10 click bypass */
+            micSkips++;
+            const tc = document.getElementById('micTc');
+            if (tc) {
+                tc.textContent = micSkips;
+                tc.classList.add('show');
+                gsap.fromTo(tc, { scale: 1.8 }, { scale: 1, duration: 0.28, ease: 'back.out(2)' });
+                setTimeout(() => tc.classList.remove('show'), 250);
+            }
+            clearTimeout(micSkipTmr);
+            if (micSkips >= 10) {
+                micSkips = 0;
+                if (speechRec) try { speechRec.stop(); } catch (e) { }
+                micSuccess();
+            } else {
+                micSkipTmr = setTimeout(() => micSkips = 0, 2200);
+            }
+        }
 
         function startSpeech() {
             if (micSucceeded || micActive) return;
@@ -2828,7 +2852,6 @@
                         btn.classList.add('recording');
                     }
                     if (circle) circle.classList.add('listening');
-                    initAudioContext();
                 };
 
                 speechRec.onresult = (e) => {
