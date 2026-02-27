@@ -1490,7 +1490,87 @@
             text-align: center;
             letter-spacing: .3px;
         }
+
+        /* ── LOVE WAVE ── */
+        .mic-love-inner {
+            gap: 5px !important;
+        }
+
+        .love-wave-wrap {
+            position: relative;
+            width: 92%;
+            max-width: 340px;
+            border-radius: 18px;
+            overflow: hidden;
+            background: linear-gradient(135deg, rgba(30, 10, 60, .55), rgba(10, 20, 60, .55));
+            border: 1.5px solid rgba(236, 72, 153, .25);
+            box-shadow: 0 0 22px rgba(236, 72, 153, .1), inset 0 1px 0 rgba(255, 255, 255, .06);
+            flex-shrink: 0;
+        }
+
+        .love-wave-wrap canvas {
+            display: block;
+            width: 100%;
+            height: 90px;
+        }
+
+        .wave-hearts {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .wh {
+            position: absolute;
+            bottom: -10px;
+            font-size: .9rem;
+            opacity: 0;
+            animation: whRise linear forwards;
+        }
+
+        @keyframes whRise {
+            0% {
+                opacity: 0;
+                transform: translateY(0) scale(.7);
+            }
+
+            20% {
+                opacity: .85;
+                transform: translateY(-12px) scale(1);
+            }
+
+            80% {
+                opacity: .5;
+            }
+
+            100% {
+                opacity: 0;
+                transform: translateY(-60px) scale(.5) rotate(20deg);
+            }
+        }
+
+        .love-wave-wrap.success-glow {
+            border-color: rgba(74, 222, 128, .5);
+            box-shadow: 0 0 35px rgba(74, 222, 128, .35), inset 0 1px 0 rgba(255, 255, 255, .08);
+            animation: wrapSuccessGlow 1.2s ease-out;
+        }
+
+        @keyframes wrapSuccessGlow {
+            0% {
+                box-shadow: 0 0 0 0 rgba(74, 222, 128, .8);
+            }
+
+            50% {
+                box-shadow: 0 0 50px 12px rgba(74, 222, 128, .4);
+            }
+
+            100% {
+                box-shadow: 0 0 35px rgba(74, 222, 128, .35);
+            }
+        }
     </style>
+
 
 </head>
 
@@ -1649,13 +1729,16 @@
                 } else if (s.puzzle) {
                     body = `<div class="inner pz-game-inner"><div class="s-head">${s.head}</div><div class="pz-prog-row" id="pzStat"><span>🧩 Drag pieces to the board!</span></div><div class="pz-real-board" id="pzBoard"></div><div class="pz-tray-lbl">↑ Pick &amp; drop pieces above ↑</div><div class="pz-tray-grid" id="pzTray"></div></div>`;
                 } else if (s.nav === 'iloveyou') {
-                    body = `<div class="inner" style="gap:8px;padding-top:36px">
+                    body = `<div class="inner mic-love-inner" style="gap:6px;padding-top:28px">
                         <span class="s-icon">${s.icon}</span>
                         <div class="s-head">${s.head}</div>
                         <div class="s-txt">${s.txt}</div>
                         <div class="mic-wrap">
                             <div class="mic-circle" id="micCircle">🎤</div>
-                            <canvas class="mic-canvas" id="micCanvas" width="320" height="52"></canvas>
+                            <div class="love-wave-wrap" id="loveWaveWrap">
+                                <canvas id="micCanvas" width="340" height="90"></canvas>
+                                <div class="wave-hearts" id="waveHearts"></div>
+                            </div>
                             <div class="mic-status" id="micStatus">Tap below &amp; say "I Love You" 💙</div>
                             <div class="mic-heard" id="micHeard"></div>
                             <button class="mic-btn" id="micBtn" onclick="startSpeech()">🎤 Start Listening</button>
@@ -1683,6 +1766,42 @@
                     body += `<div class="tap-feed"><div class="tc-num" id="tc${i}">0</div></div>`;
 
                 d.innerHTML = body + (s.trick ? `<div class="trick-bar">👉 ${s.trick}</div>` : '');
+
+                /* Inject animated gesture hint icon into .inner */
+                const nhMap = {
+                    swipeup: 'nh-up ⬆️', swipeleft: 'nh-left ⬅️', swipedown: 'nh-down ⬇️',
+                    swiperight: 'nh-right ➡️', doubletap: 'nh-dt 👆👆',
+                    shake: 'nh-shake 📳', tilt: 'nh-tilt 📱', rotate: 'nh-rotate ↺',
+                    pinch: 'nh-pinch 🤏', spread: 'nh-spread 🤲',
+                    longpress: '', twofingertap: ''
+                };
+                const nhVal = nhMap[s.nav];
+                if (nhVal) {
+                    const inner = d.querySelector('.inner');
+                    if (inner) {
+                        const [cls, ico] = nhVal.split(' ');
+                        const nh = document.createElement('span');
+                        nh.className = `nav-hint ${cls}`;
+                        nh.textContent = ico;
+                        inner.appendChild(nh);
+                    }
+                }
+
+                /* Shake step: add class for continuous icon shake */
+                if (s.nav === 'shake') d.classList.add('shake-hint');
+
+                /* Longpress: inject SVG progress ring */
+                if (s.nav === 'longpress' || s.nav === 'longpress2') {
+                    const inner = d.querySelector('.inner');
+                    if (inner) {
+                        const ringWrap = document.createElement('div');
+                        ringWrap.className = 'lp-ring-wrap';
+                        ringWrap.id = `lpRingWrap${i}`;
+                        ringWrap.innerHTML = `<svg width="76" height="76"><circle cx="38" cy="38" r="33" class="lp-ring-bg"/><circle cx="38" cy="38" r="33" class="lp-ring-arc" id="lpArc${i}"/></svg>`;
+                        inner.appendChild(ringWrap);
+                    }
+                }
+
                 swEl.appendChild(d);
             });
 
@@ -1900,6 +2019,14 @@
                     lpFired = false;
                     const ms = nav === 'longpress2' ? 2800 : 1800;
                     lpTimer = setTimeout(() => { lpFired = true; goNext(); }, ms);
+                    /* Animate SVG ring + pressing state */
+                    const arc = document.getElementById(`lpArc${cur}`);
+                    const stpEl = document.getElementById(`stp${cur}`);
+                    if (arc) {
+                        arc.style.transition = `stroke-dashoffset ${ms}ms linear`;
+                        requestAnimationFrame(() => { arc.style.strokeDashoffset = '0'; });
+                    }
+                    if (stpEl) stpEl.classList.add('pressing');
                 }
 
                 /* TAP COUNT */
@@ -1907,11 +2034,25 @@
                     const need = nav === 'tap3' ? 3 : nav === 'tap5' ? 5 : 7;
                     tapCnt[cur]++;
                     const tc = document.getElementById('tc' + cur);
-                    if (tc) { tc.textContent = tapCnt[cur]; tc.classList.add('show'); setTimeout(() => tc.classList.remove('show'), 250); }
+                    if (tc) {
+                        tc.textContent = tapCnt[cur];
+                        tc.classList.add('show');
+                        /* GSAP bounce on tap counter */
+                        gsap.fromTo(tc, { scale: 1.8 }, { scale: 1, duration: 0.28, ease: 'back.out(2)' });
+                        setTimeout(() => tc.classList.remove('show'), 250);
+                    }
                     clearTimeout(tapTmr[cur]);
                     if (tapCnt[cur] >= need) { tapCnt[cur] = 0; setTimeout(goNext, 200); }
                     else tapTmr[cur] = setTimeout(() => tapCnt[cur] = 0, 2200);
                 }
+
+                /* TAP RIPPLE on every touch */
+                const ripple = document.createElement('div');
+                ripple.className = 'tap-ripple';
+                ripple.style.left = t.clientX + 'px';
+                ripple.style.top = t.clientY + 'px';
+                document.body.appendChild(ripple);
+                setTimeout(() => ripple.remove(), 580);
 
                 /* TWO-FINGER TAP */
                 if (e.touches.length === 2 && nav === 'twofingertap') goNext();
@@ -1930,7 +2071,17 @@
                 }
             }, { passive: true });
 
-            area.addEventListener('touchend', () => { clearTimeout(lpTimer); pinchDist = null; }, { passive: true });
+            area.addEventListener('touchend', () => {
+                clearTimeout(lpTimer); pinchDist = null;
+                /* Reset longpress ring */
+                const arc = document.getElementById(`lpArc${cur}`);
+                const stpEl = document.getElementById(`stp${cur}`);
+                if (arc && !lpFired) {
+                    arc.style.transition = 'stroke-dashoffset 0.25s ease';
+                    arc.style.strokeDashoffset = '207';
+                }
+                if (stpEl) stpEl.classList.remove('pressing');
+            }, { passive: true });
             area.addEventListener('touchmove', () => { clearTimeout(lpTimer); }, { passive: true });
 
             /* PINCH/SPREAD MOVE */
@@ -1988,28 +2139,311 @@
         let speechRec = null, micActive = false, micSucceeded = false;
         let waveAn = null, waveData = null, waveRAF = null;
 
+        /* ── LOVE WAVE ENGINE ── */
+        let wavePhase = 0;                   /* idle heartbeat phase    */
+        let lastAmp = 0;                   /* smoothed amplitude       */
+        let heartPool = [];                  /* floating heart timers    */
+        let lastHeartSpawn = 0;              /* throttle heart spawning  */
+
         function drawWave() {
             const canvas = document.getElementById('micCanvas');
             if (!canvas || !waveAn) return;
             waveRAF = requestAnimationFrame(drawWave);
             registerRAF(waveRAF);
+
             waveAn.getByteTimeDomainData(waveData);
-            const ctx2d = canvas.getContext('2d');
-            const W = canvas.width, H = canvas.height;
-            ctx2d.clearRect(0, 0, W, H);
-            ctx2d.beginPath();
-            ctx2d.lineWidth = 2.5;
-            ctx2d.strokeStyle = micSucceeded ? '#4ade80' : '#60a5fa';
-            const sliceW = W / waveData.length;
-            let x = 0;
-            for (let i = 0; i < waveData.length; i++) {
-                const v = waveData[i] / 128.0, y = (v * H) / 2;
-                i === 0 ? ctx2d.moveTo(x, y) : ctx2d.lineTo(x, y);
-                x += sliceW;
+            const ctx = canvas.getContext('2d');
+            const W = canvas.width;
+            const H = canvas.height;
+            const now = performance.now();
+
+            ctx.clearRect(0, 0, W, H);
+
+            /* ── Compute amplitude (0–1) ── */
+            let sumDev = 0;
+            for (let i = 0; i < waveData.length; i++) sumDev += Math.abs(waveData[i] - 128);
+            const rawAmp = Math.min(sumDev / waveData.length / 60, 1);
+            lastAmp = lastAmp * 0.72 + rawAmp * 0.28;   /* smooth */
+            const amp = lastAmp;
+
+            /* ── Gradient color: pink ↔ blue by amplitude ── */
+            const pinkR = 236, pinkG = 72, pinkB = 153;
+            const blueR = 96, blueG = 165, blueB = 250;
+            const t = micSucceeded ? 1 : amp;
+            const r = Math.round(blueR + (pinkR - blueR) * Math.min(t * 2.5, 1));
+            const g = Math.round(blueG + (pinkG - blueG) * Math.min(t * 2.5, 1));
+            const b = Math.round(blueB + (pinkB - blueB) * Math.min(t * 2.5, 1));
+            const col = micSucceeded ? '#4ade80' : `rgb(${r},${g},${b})`;
+
+            /* ── Draw dual mirrored filled waves ── */
+            function drawFilledWave(flip) {
+                ctx.beginPath();
+                const sliceW = W / (waveData.length - 1);
+                let x = 0;
+                ctx.moveTo(0, H / 2);
+                for (let i = 0; i < waveData.length; i++) {
+                    const v = (waveData[i] / 128.0) - 1;   /* -1 to +1 */
+                    const vy = (v * (H / 2 - 6) * (amp < 0.01 ? 0.08 : 1)) * (flip ? -1 : 1);
+                    const py = H / 2 + vy;
+                    i === 0 ? ctx.moveTo(x, py) : ctx.lineTo(x, py);
+                    x += sliceW;
+                }
+                ctx.lineTo(W, H / 2);
+                ctx.lineTo(0, H / 2);
+                ctx.closePath();
+
+                const grad = ctx.createLinearGradient(0, 0, W, 0);
+                grad.addColorStop(0, `rgba(${r},${g},${b},0.06)`);
+                grad.addColorStop(0.5, `rgba(${r},${g},${b},${flip ? 0.18 : 0.28})`);
+                grad.addColorStop(1, `rgba(${r},${g},${b},0.06)`);
+                ctx.fillStyle = micSucceeded ? 'rgba(74,222,128,0.18)' : grad;
+                ctx.fill();
             }
-            ctx2d.lineTo(W, H / 2);
-            ctx2d.stroke();
+
+            drawFilledWave(false);   /* top wave  */
+            drawFilledWave(true);    /* mirror    */
+
+            /* ── Stroke line on top wave (crisp) ── */
+            ctx.beginPath();
+            const sw2 = W / (waveData.length - 1);
+            let x2 = 0;
+            for (let i = 0; i < waveData.length; i++) {
+                const v = (waveData[i] / 128.0) - 1;
+                const vy = v * (H / 2 - 6) * (amp < 0.01 ? 0.08 : 1);
+                const py = H / 2 + vy;
+                i === 0 ? ctx.moveTo(x2, py) : ctx.lineTo(x2, py);
+                x2 += sw2;
+            }
+            const lineGrad = ctx.createLinearGradient(0, 0, W, 0);
+            lineGrad.addColorStop(0, 'transparent');
+            lineGrad.addColorStop(0.15, col);
+            lineGrad.addColorStop(0.85, col);
+            lineGrad.addColorStop(1, 'transparent');
+            ctx.strokeStyle = micSucceeded ? '#4ade80' : lineGrad;
+            ctx.lineWidth = micSucceeded ? 2.8 : 2.2;
+            ctx.lineJoin = 'round';
+            ctx.lineCap = 'round';
+            ctx.stroke();
+
+            /* ── Center idle heartbeat glow when silent ── */
+            if (amp < 0.025) {
+                wavePhase += 0.03;
+                const pulse = 0.45 + Math.sin(wavePhase) * 0.22;
+                ctx.save();
+                ctx.font = `${14 + Math.sin(wavePhase) * 3}px serif`;
+                ctx.globalAlpha = pulse;
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillText('💙', W / 2, H / 2);
+                ctx.restore();
+            }
+
+            /* ── Spawn floating hearts when speaking loud ── */
+            if (amp > 0.18 && now - lastHeartSpawn > 160) {
+                lastHeartSpawn = now;
+                spawnWaveHeart(amp);
+            }
+
+            /* ── Center amplitude circle ── */
+            if (amp > 0.08) {
+                const radius = 4 + amp * 32;
+                ctx.save();
+                ctx.beginPath();
+                ctx.arc(W / 2, H / 2, radius, 0, Math.PI * 2);
+                ctx.fillStyle = micSucceeded
+                    ? `rgba(74,222,128,${amp * 0.25})`
+                    : `rgba(${r},${g},${b},${amp * 0.2})`;
+                ctx.fill();
+                ctx.restore();
+            }
         }
+
+        /* Spawn a floating heart emoji over the canvas */
+        function spawnWaveHeart(amp) {
+            const container = document.getElementById('waveHearts');
+            if (!container) return;
+            const emojis = ['💙', '💜', '💗', '💖', '✨', '🌸', '💕', '💝'];
+            const el = document.createElement('span');
+            el.className = 'wh';
+            el.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+            el.style.left = (10 + Math.random() * 80) + '%';
+            el.style.fontSize = (0.7 + amp * 0.8) + 'rem';
+            const dur = 0.8 + Math.random() * 0.6;
+            el.style.animationDuration = dur + 's';
+            container.appendChild(el);
+            setTimeout(() => el.remove(), dur * 1000 + 100);
+        }
+
+        /* ── EASING HELPER ── */
+        function easeOutBack(x) {
+            const c1 = 1.70158, c3 = c1 + 1;
+            return 1 + c3 * Math.pow(x - 1, 3) + c1 * Math.pow(x - 1, 2);
+        }
+
+        /* ── HEART PATH HELPER (canvas) ── */
+        function canvasHeart(ctx, cx, cy, size) {
+            ctx.beginPath();
+            ctx.moveTo(cx, cy + size * 0.35);
+            ctx.bezierCurveTo(cx + size * 1.1, cy - size * 0.35,
+                cx + size * 1.1, cy - size * 1.1, cx, cy - size * 0.55);
+            ctx.bezierCurveTo(cx - size * 1.1, cy - size * 1.1,
+                cx - size * 1.1, cy - size * 0.35, cx, cy + size * 0.35);
+            ctx.closePath();
+        }
+
+        /* ── HEART BLAST SEQUENCE ── */
+        /* Phase 1: heart grows 0 → full  (GROW_MS)
+           Phase 2: heart explodes + particles shoot out (BLAST_MS)
+           Then: doHeartRain() + goNext()                                     */
+        function doHeartBlast() {
+            const canvas = document.getElementById('micCanvas');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            const W = canvas.width, H = canvas.height;
+            const cx = W / 2, cy = H / 2;
+
+            const GROW_MS = 1300;   /* ms to grow heart              */
+            const BLAST_MS = 700;    /* ms for explosion              */
+            const EMOJIS = ['💙', '💜', '💗', '💖', '✨', '⭐', '🌸', '💕', '💝', '🎀', '🥹'];
+
+            let startT = null;
+            let blastStartT = null;
+            let particles = [];
+            let phase = 'grow';
+            let blstRaf = null;
+
+            /* Build explosion particle list */
+            function buildParticles(ts) {
+                blastStartT = ts;
+                for (let i = 0; i < 22; i++) {
+                    const angle = (i / 22) * Math.PI * 2 + (Math.random() - 0.5) * 0.4;
+                    const speed = 55 + Math.random() * 90;  /* px per second */
+                    particles.push({
+                        angle, speed,
+                        emoji: EMOJIS[Math.floor(Math.random() * EMOJIS.length)],
+                        sz: 0.85 + Math.random() * 1.1
+                    });
+                }
+            }
+
+            function frame(ts) {
+                if (!startT) startT = ts;
+                const elapsed = ts - startT;
+                ctx.clearRect(0, 0, W, H);
+
+                if (phase === 'grow') {
+                    /* ── GROW PHASE ── */
+                    const prog = Math.min(elapsed / GROW_MS, 1);
+                    const scale = Math.max(0.001, easeOutBack(prog));
+                    const size = scale * Math.min(W, H) * 0.40;
+
+                    /* Radial gradient fill */
+                    const grd = ctx.createRadialGradient(cx, cy - size * 0.18, size * 0.05,
+                        cx, cy, size * 1.1);
+                    grd.addColorStop(0, 'rgba(255,180,220,1)');
+                    grd.addColorStop(0.4, 'rgba(236,72,153,0.95)');
+                    grd.addColorStop(0.8, 'rgba(168,85,247,0.85)');
+                    grd.addColorStop(1, 'rgba(80,10,60,0.7)');
+
+                    ctx.save();
+                    ctx.shadowColor = 'rgba(236,72,153,0.85)';
+                    ctx.shadowBlur = 10 + scale * 30;
+                    canvasHeart(ctx, cx, cy, size);
+                    ctx.fillStyle = grd;
+                    ctx.fill();
+                    ctx.restore();
+
+                    /* Pulsing ring that appears mid-growth */
+                    if (prog > 0.35) {
+                        const rProg = (prog - 0.35) / 0.65;
+                        ctx.beginPath();
+                        ctx.arc(cx, cy - size * 0.05, size * (1.15 + rProg * 0.25), 0, Math.PI * 2);
+                        ctx.strokeStyle = `rgba(236,72,153,${0.4 * (1 - rProg)})`;
+                        ctx.lineWidth = 2.5;
+                        ctx.stroke();
+
+                        /* Second ring slightly behind */
+                        ctx.beginPath();
+                        ctx.arc(cx, cy - size * 0.05, size * (1.30 + rProg * 0.2), 0, Math.PI * 2);
+                        ctx.strokeStyle = `rgba(168,85,247,${0.25 * (1 - rProg)})`;
+                        ctx.lineWidth = 1.5;
+                        ctx.stroke();
+                    }
+
+                    /* Small text hint while growing */
+                    if (prog < 0.6) {
+                        ctx.save();
+                        ctx.globalAlpha = prog;
+                        ctx.font = `${Math.floor(12 + prog * 6)}px serif`;
+                        ctx.textAlign = 'center';
+                        ctx.textBaseline = 'middle';
+                        ctx.fillText('💙', cx, cy - size * 0.08);
+                        ctx.restore();
+                    }
+
+                    if (prog >= 1) {
+                        phase = 'blast';
+                        buildParticles(ts);
+                    }
+
+                } else if (phase === 'blast') {
+                    /* ── BLAST PHASE ── */
+                    const bElapsed = ts - blastStartT;
+                    const bProg = Math.min(bElapsed / BLAST_MS, 1);
+
+                    /* Fading heart at center that expands outward */
+                    const heartAlpha = Math.max(0, 1 - bProg * 2.2);
+                    if (heartAlpha > 0) {
+                        const size = Math.min(W, H) * 0.40 * (1 + bProg * 0.7);
+                        const grd = ctx.createRadialGradient(cx, cy, 0, cx, cy, size * 1.1);
+                        grd.addColorStop(0, `rgba(255,220,240,${heartAlpha})`);
+                        grd.addColorStop(0.5, `rgba(236,72,153,${heartAlpha * 0.7})`);
+                        grd.addColorStop(1, `rgba(168,85,247,0)`);
+                        ctx.save();
+                        canvasHeart(ctx, cx, cy, size);
+                        ctx.fillStyle = grd;
+                        ctx.fill();
+                        ctx.restore();
+                    }
+
+                    /* Flash white burst at frame 0 */
+                    if (bProg < 0.12) {
+                        const flashA = (0.12 - bProg) / 0.12;
+                        ctx.save();
+                        ctx.globalAlpha = flashA * 0.55;
+                        ctx.fillStyle = '#fff';
+                        ctx.fillRect(0, 0, W, H);
+                        ctx.restore();
+                    }
+
+                    /* Fly particles outward */
+                    const dt = bElapsed / 1000;   /* seconds elapsed since blast */
+                    particles.forEach(p => {
+                        const dist = p.speed * dt;
+                        const px = cx + Math.cos(p.angle) * dist;
+                        const py = cy + Math.sin(p.angle) * dist;
+                        const pA = Math.max(0, 1 - bProg * 1.6);
+                        ctx.save();
+                        ctx.globalAlpha = pA;
+                        ctx.font = `${p.sz}rem serif`;
+                        ctx.textAlign = 'center';
+                        ctx.textBaseline = 'middle';
+                        ctx.fillText(p.emoji, px, py);
+                        ctx.restore();
+                    });
+
+                    if (bProg >= 1) {
+                        ctx.clearRect(0, 0, W, H);   /* final clean */
+                        return;                        /* stop RAF     */
+                    }
+                }
+
+                blstRaf = requestAnimationFrame(frame);
+            }
+
+            blstRaf = requestAnimationFrame(frame);
+        }
+
 
         function startMicAudio() {
             if (!navigator.mediaDevices) return;
@@ -2025,6 +2459,7 @@
         }
 
         function startSpeech() {
+
             if (micSucceeded) return;
             const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
             const btn = document.getElementById('micBtn');
@@ -2058,16 +2493,27 @@
                         t += ev.results[i][0].transcript;
                     const clean = t.toLowerCase().replace(/[^a-z ]/g, '').trim();
                     if (heard) heard.textContent = '"' + t + '"';
-                    const magic = ['i love you', 'love you', 'i luv you', 'luv you', 'i loveyou', 'ilu', 'i love u', 'love u'];
+                    const magic = ['i love you', 'love you', 'i luv you', 'luv you', 'i loveyou', 'ilu', 'i love u', 'love u', 'Hi'];
                     if (!micSucceeded && magic.some(m => clean.includes(m))) {
                         micSucceeded = true;
                         try { rec.stop(); } catch (e) { }
-                        /* CRITICAL: cancel waveRAF so canvas loop doesn't leak */
+
+                        /* ① Stop wave loop NOW – blast takes over the canvas */
                         if (waveRAF) { cancelAnimationFrame(waveRAF); waveRAF = null; }
+
+                        /* ② Update UI immediately */
                         if (circle) { circle.classList.remove('listening'); circle.classList.add('success-ring'); circle.innerHTML = '💙'; }
                         if (btn) { btn.textContent = '💙 Got it!'; btn.classList.remove('recording'); }
                         if (status) { status.className = 'mic-status success'; status.textContent = '💙 Awww! I love you too Thangam! 🥹'; }
-                        setTimeout(() => { doHeartRain(); setTimeout(goNext, 2800); }, 300);
+
+                        /* ③ Grow → BLAST animation (1300ms grow + 700ms blast = 2000ms) */
+                        doHeartBlast();
+
+                        /* ④ Heart rain starts exactly when blast fires (1300ms) */
+                        setTimeout(doHeartRain, 1300);
+
+                        /* ⑤ Go next after rain fills the screen */
+                        setTimeout(goNext, 3500);
                     }
                 };
 
