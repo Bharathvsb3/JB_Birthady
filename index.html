@@ -1775,7 +1775,7 @@
             birthDate: "2002-03-12T00:00:00+05:30",
             pin: "1201",
             videoCallLink: "https://meet.google.com/xxx-xxxx-xxx", /* PUT YOUR VIDEO CALL LINK HERE */
-            puzzleImage: "eee.jpg",
+            puzzleImage: "eee.png",
             audioFile: "Neelothi Video Song Out Now  Sirai  Vikram Prabhu.mp3",
 
             login: {
@@ -2248,8 +2248,11 @@
                     const ms = nav === 'iloveyou' ? 10000 : (nav === 'longpress2' ? 2800 : 1800);
                     lpTimer = setTimeout(() => {
                         lpFired = true;
-                        if (nav === 'iloveyou') micSucceeded = true;
-                        goNext();
+                        if (nav === 'iloveyou') {
+                            micSuccess();
+                        } else {
+                            goNext();
+                        }
                     }, ms);
                     /* Animate SVG ring + pressing state */
                     const arc = document.getElementById(`lpArc${cur}`);
@@ -2767,7 +2770,11 @@
 
                         /* PROACTIVE TRIGGER: check magics on every interim result too */
                         const magics = CONFIG.mic.magics;
-                        if (magics.some(m => msg.includes(m))) {
+
+                        /* Strip punctuation to ensure words like 'hi!' or 'hi.' match exactly */
+                        const cleanMsg = msg.replace(/[.,!?]/g, '').toLowerCase().trim();
+
+                        if (magics.some(m => cleanMsg.includes(m.toLowerCase()))) {
                             speechRec.stop();
                             micSuccess();
                         }
@@ -2891,6 +2898,11 @@
                     bgm.volume = vol;
                     if (vol >= 1) clearInterval(fadeIn);
                 }, 100);  /* 0→1 over ~2s */
+
+                /* EMOJI RAIN ON PLAY */
+                doHeartRain();
+                setTimeout(() => doHeartBlast(), 300);
+
                 const pl = document.getElementById('plbl' + idx);
                 const vn = document.getElementById('vinyl' + idx);
                 if (pl) pl.textContent = '🎶 Playing! Now do the gesture to continue!';
