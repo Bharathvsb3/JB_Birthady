@@ -1711,10 +1711,12 @@
 <body>
     <!-- DEBUG MENU (For Testing Only) -->
     <div id="debugMenu"
-        style="position:fixed; top:12px; right:12px; z-index:9999; background:rgba(0,0,0,0.6); padding:6px 10px; border-radius:8px; border:1px solid #3b82f6; backdrop-filter:blur(10px);">
-        <select id="debugSelect" onchange="jumpToStep(this.value)"
-            style="background:transparent; color:#fff; border:none; outline:none; font-family:'Poppins', sans-serif; font-size:0.75rem; cursor:pointer;">
-            <option value="" style="color:#000;">-- Debug: Jump to Step --</option>
+        style="position:fixed; top:12px; right:12px; z-index:9999999; background:rgba(2,12,34,0.95); padding:8px 12px; border-radius:8px; border:1px solid #3b82f6; backdrop-filter:blur(10px); display:flex; flex-direction:column; gap:4px; pointer-events:auto;">
+        <span style="color:#60a5fa; font-size:0.65rem; font-weight:bold; letter-spacing:1px; text-align:center;">DEBUG
+            MODE</span>
+        <select id="debugSelect" onchange="if(this.value!=='') jumpToStep(this.value)"
+            style="background:#020c22; color:#fff; border:1px solid rgba(96,165,250,0.5); border-radius:6px; outline:none; font-family:'Poppins', sans-serif; font-size:0.85rem; padding:6px; cursor:pointer;">
+            <option value="" style="color:#fff; background:#020c22;">-- Jump to Step --</option>
         </select>
     </div>
 
@@ -1844,6 +1846,20 @@
                 if (s.txt) s.txt = s.txt.replace(/{NAME}/g, CONFIG.name);
                 if (s.head) s.head = s.head.replace(/{NAME}/g, CONFIG.name);
             });
+
+            /* Build Debug Dropdown */
+            const dbg = document.getElementById('debugSelect');
+            if (dbg) {
+                dbg.innerHTML = '<option value="" style="color:#fff; background:#020c22;">-- Debug: Jump to Step --</option>';
+                CONFIG.steps.forEach((s, idx) => {
+                    const opt = document.createElement('option');
+                    opt.value = idx;
+                    opt.style.color = '#fff';
+                    opt.style.background = '#020c22';
+                    opt.textContent = `Step ${idx + 1}: ${s.head || s.title || (s.isFinish ? 'Final' : '')} (${s.nav})`;
+                    dbg.appendChild(opt);
+                });
+            }
         }
 
         initConfig(); // Initialize Config values
@@ -1962,7 +1978,8 @@
         }
 
         /* ── BUILD DOM ── */
-        function startJourney() {
+        function startJourney(isJump = false) {
+            if (document.getElementById('stp0')) return; /* Prevent duplicate builds */
             sbadge.textContent = `1 / ${TOTAL}`;
             ST.forEach((s, i) => {
                 const d = document.createElement('div');
@@ -2063,7 +2080,9 @@
             startTicker();
             startPetals();
             /* Animate step 0 entrance */
-            setTimeout(() => animateStepIn(document.getElementById('stp0')), 150);
+            if (!isJump) {
+                setTimeout(() => animateStepIn(document.getElementById('stp0')), 150);
+            }
         }
 
         /* ── NAVIGATION LOCK – prevents overlap during transitions ── */
@@ -2208,6 +2227,11 @@
                 if (rb) rb.classList.remove('show');
             }
 
+            /* Ensure DOM is built before jumping */
+            if (!document.getElementById('stp0')) {
+                startJourney(true);
+            }
+
             lockNav();
             cleanupAnimations();
             runCleanup(cur);
@@ -2312,7 +2336,7 @@
 
             /* CLICK → TAP */
             area.addEventListener('click', e => {
-                if (e.target.closest('.no-adv,.pz-wrap,.drag-heart,.conf-btn,.love-sl,.vinyl,a,.mic-btn,.mic-circle,.mic-wrap')) return;
+                if (e.target.closest('#debugMenu') || e.target.closest('.no-adv,.pz-wrap,.drag-heart,.conf-btn,.love-sl,.vinyl,a,.mic-btn,.mic-circle,.mic-wrap')) return;
                 if (lpFired) { lpFired = false; return; }
                 if (ST[cur].nav === 'iloveyou') return; /* mic-only step */
                 if (ST[cur].nav === 'tap') goNext();
@@ -2320,6 +2344,7 @@
 
             /* TOUCHSTART */
             area.addEventListener('touchstart', e => {
+                if (e.target.closest('#debugMenu')) return; /* let debug menu handle its own touches */
                 const nav = ST[cur].nav, t = e.touches[0];
                 const now = Date.now();
                 sx = t.clientX; sy = t.clientY;
