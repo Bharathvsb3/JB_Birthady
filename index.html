@@ -1682,7 +1682,7 @@
             { nav: 'longpress', icon: '📱', head: 'August 2021 – First “Hi” 💙', txt: 'My hands were shaking when I typed “Hi...” 😅\nThat one small message changed our whole world!\nThe best “Hi” I ever sent! 💙', trick: '👆 LONG PRESS (2 sec) to unlock!' },
             { nav: 'swipeleft', icon: '💘', head: '“I Love You” Moment 💘', txt: 'My heart was beating so fast! 💓\nFinally I said it – “I love you Thangam!”\nAnd you just smiled... my world was complete! 🥹', trick: '⬅️ SWIPE LEFT to continue!' },
             { nav: 'tap3', icon: '🎉', head: 'Dec 28, 2021 – YES Day! 🎉', txt: 'The most magical moment of my life!\nYou said “YES”!! 🥳\nI will never forget that day. Never. 💙', trick: '👆 TAP 3 TIMES quickly!' },
-            { nav: 'iloveyou', icon: '🎤', head: 'Say It Out Loud! 💙', txt: 'I know you feel it too Thangam...\nNow take a deep breath,\nhold your phone close,\nand say the magic words! 🥹', trick: '🎤 Say "I Love You" into the mic!' },
+            { nav: 'iloveyou', icon: '🎤', head: 'Say It Out Loud! 💙', txt: 'I know you feel it too Thangam...\nNow take a deep breath,\nhold your phone close,\nand say the magic words! 🥹', trick: '🎤 Say "I Love You" or Hold screen for 10s to skip!' },
             { nav: 'pinch', icon: '🎵', head: 'Our Song – Neelothi 🎶', txt: 'This song is only for you Thangam!\nI sang it thinking of you every day! 💙', music: true, trick: '🎵 TAP to PLAY the song! Then PINCH to continue!' },
             { nav: 'spread', icon: '✈️', head: 'Our Future Plans ✨', txt: 'Maldives? Switzerland? Paris?\nEvery place is paradise when you are with me! 🌍\nWe will travel everywhere together! ✈️', trick: '🤲 SPREAD fingers OUT on screen!' },
             { nav: 'tilt', icon: '🤩', head: '15 Reasons I Love You ✨', txt: 'Your smile 😄 Your heart 💙 Your laugh 😂\nYour care 🤗 Your strength 💪 Your kindness 🌟\n...and being YOU is reason #15! ❤️', trick: '📱 TILT phone to the LEFT!' },
@@ -1734,7 +1734,7 @@
                         <div class="s-head">${s.head}</div>
                         <div class="s-txt">${s.txt}</div>
                         <div class="mic-wrap">
-                            <div class="mic-circle" id="micCircle">🎤</div>
+                            <div class="mic-circle" id="micCircle" onclick="startSpeech()">🎤</div>
                             <div class="love-wave-wrap" id="loveWaveWrap">
                                 <canvas id="micCanvas" width="340" height="90"></canvas>
                                 <div class="wave-hearts" id="waveHearts"></div>
@@ -2003,14 +2003,9 @@
 
             /* TOUCHSTART */
             area.addEventListener('touchstart', e => {
-                if (e.target.closest('.no-adv,.drag-heart,.love-sl,a,.mic-btn,.mic-circle,.mic-wrap')) return;
                 const nav = ST[cur].nav, t = e.touches[0];
-                sx = t.clientX; sy = t.clientY;
                 const now = Date.now();
-
-                /* DOUBLETAP */
-                if (now - lastTap < 340 && nav === 'doubletap') { lastTap = 0; goNext(); return; }
-                lastTap = now;
+                sx = t.clientX; sy = t.clientY;
 
                 /* LONGPRESS (Includes 10s Emergency Skip for Mic) */
                 if (nav === 'longpress' || nav === 'longpress2' || nav === 'iloveyou') {
@@ -2031,7 +2026,12 @@
                     if (stpEl) stpEl.classList.add('pressing');
                 }
 
-                /* MIC STEP – block other touch gestures AFTER longpress check */
+                /* Gesture blocking guard - moved AFTER longpress setup */
+                if (e.target.closest('.no-adv,.drag-heart,.love-sl,a,.mic-btn,.mic-circle,.mic-wrap')) return;
+
+                if (now - lastTap < 340 && nav === 'doubletap') { lastTap = 0; goNext(); return; }
+                lastTap = now;
+
                 if (nav === 'iloveyou') return;
 
                 /* TAP COUNT */
