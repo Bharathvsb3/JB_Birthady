@@ -1709,6 +1709,15 @@
 </head>
 
 <body>
+    <!-- DEBUG MENU (For Testing Only) -->
+    <div id="debugMenu"
+        style="position:fixed; top:12px; right:12px; z-index:9999; background:rgba(0,0,0,0.6); padding:6px 10px; border-radius:8px; border:1px solid #3b82f6; backdrop-filter:blur(10px);">
+        <select id="debugSelect" onchange="jumpToStep(this.value)"
+            style="background:transparent; color:#fff; border:none; outline:none; font-family:'Poppins', sans-serif; font-size:0.75rem; cursor:pointer;">
+            <option value="" style="color:#000;">-- Debug: Jump to Step --</option>
+        </select>
+    </div>
+
     <div class="bg">
         <div class="b b1"></div>
         <div class="b b2"></div>
@@ -2181,6 +2190,79 @@
                 if (ST[cur].nav === 'drag') setTimeout(setupDrag, 300);
                 if (ST[cur].nav === 'iloveyou') setTimeout(startSpeech, 600);
                 /* GSAP stagger entrance */
+                animateStepIn(nEl);
+            }, 520);
+        }
+
+        /* ── JUMP TO STEP (DEBUG) ── */
+        function jumpToStep(idx) {
+            const targetIndex = parseInt(idx);
+            if (isNaN(targetIndex) || targetIndex < 0 || targetIndex >= TOTAL || navBusy) return;
+
+            /* Bypass Login if visible */
+            const loginEl = document.getElementById('login');
+            if (loginEl.style.display !== 'none') {
+                loginEl.style.display = 'none';
+                document.getElementById('card').classList.add('show');
+                const rb = document.getElementById('resumeBanner');
+                if (rb) rb.classList.remove('show');
+            }
+
+            lockNav();
+            cleanupAnimations();
+            runCleanup(cur);
+            if (waveRAF) { cancelAnimationFrame(waveRAF); waveRAF = null; }
+
+            const curEl = document.getElementById('stp' + cur);
+            if (curEl) {
+                curEl.style.cssText = '';
+                curEl.classList.remove('active', 'from-left', 'snap-right');
+                curEl.classList.add('exit');
+            }
+
+            cur = targetIndex;
+            saveStep(cur);
+
+            /* Uncheck the dropdown so it can be changed to the same element again if needed */
+            document.getElementById('debugSelect').value = "";
+
+            setTimeout(() => {
+                const nEl = document.getElementById('stp' + cur);
+                if (!nEl) return;
+                nEl.style.cssText = '';
+                nEl.classList.remove('exit', 'from-left');
+                nEl.classList.add('snap-right');
+                void nEl.offsetWidth;
+                nEl.classList.remove('snap-right');
+                nEl.classList.add('active');
+                pbi.style.width = `${((cur + 1) / TOTAL) * 100}%`;
+                sbadge.textContent = `${cur + 1} / ${TOTAL}`;
+
+                if (ST[cur].puzzle && !document.getElementById('pzBoard')?.dataset.built) setTimeout(buildPuzzle, 300);
+                if (ST[cur].nav === 'drag') setTimeout(setupDrag, 300);
+                if (ST[cur].nav === 'iloveyou') setTimeout(startSpeech, 600);
+
+                if (cur === TOTAL - 1) {
+                    doConfetti(); startTicker();
+                    const finEl = nEl;
+                    const revTl = gsap.timeline();
+                    const finCrown = finEl.querySelector('.fin-crown');
+                    const finHb = finEl.querySelector('.fin-hb');
+                    const finName = finEl.querySelector('.fin-name');
+                    const finHrts = finEl.querySelectorAll('.fin-hrt');
+                    const finLetter = finEl.querySelector('.fin-letter');
+                    const finAge = finEl.querySelector('.fin-age-wrap');
+                    const finCta = finEl.querySelector('.fin-cta-row');
+                    if (finCrown) revTl.from(finCrown, { y: -60, scale: 0.3, opacity: 0, duration: 0.7, ease: 'back.out(1.8)' });
+                    if (finHb) revTl.from(finHb, { opacity: 0, y: 18, duration: 0.5 }, '-=0.2');
+                    if (finName) revTl.from(finName, { scale: 0.7, opacity: 0, duration: 0.65, ease: 'elastic.out(1,0.6)' }, '-=0.2');
+                    if (finHrts.length) revTl.from(finHrts, { scale: 0, opacity: 0, duration: 0.32, stagger: 0.08, ease: 'back.out(2)' }, '-=0.2');
+                    if (finLetter) revTl.from(finLetter, { y: 30, opacity: 0, duration: 0.6 }, '-=0.1');
+                    if (finAge) revTl.from(finAge, { y: 16, opacity: 0, duration: 0.4 }, '-=0.1');
+                    if (finCta) revTl.from(finCta, { scale: 0.6, opacity: 0, duration: 0.6, ease: 'elastic.out(1,0.5)' }, '-=0.1');
+                    registerTL(revTl);
+                }
+
                 animateStepIn(nEl);
             }, 520);
         }
@@ -2798,18 +2880,20 @@
 
                 speechRec.onend = () => {
                     micActive = false;
-                    if (!micSucceeded) {
+
+                    /* Continuous Mode: If they haven't succeeded and are STILL on the mic step, immediately reboot mic WITHOUT changing UI to 'stopped' */
+                    if (!micSucceeded && ST[cur].nav === 'iloveyou') {
+                        try {
+                            speechRec.start();
+                        } catch (e) {
+                            setTimeout(() => { if (!micSucceeded && !micActive) startSpeech(); }, 500);
+                        }
+                    } else if (micSucceeded || ST[cur].nav !== 'iloveyou') {
                         if (btn) {
                             btn.textContent = "🎤 Start Listening";
                             btn.classList.remove('recording');
                         }
                         if (circle) circle.classList.remove('listening');
-                        if (status) status.textContent = CONFIG.mic.stopped;
-
-                        /* Auto-restart if still on the mic step */
-                        if (ST[cur].nav === 'iloveyou') {
-                            setTimeout(() => { if (!micSucceeded && !micActive) startSpeech(); }, 1500);
-                        }
                     }
                 };
             }
