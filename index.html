@@ -2498,6 +2498,21 @@
             if (waveAn) {
                 waveAn.getByteTimeDomainData(waveData);
             }
+
+            /* SMART WAVE BACKUP: If the hardware muted the audio stream (wave is completely flat), 
+               we generate beautiful synthetic visual noise and reaction bursts. */
+            let sumRaw = 0;
+            for (let i = 0; i < waveData.length; i++) sumRaw += Math.abs(waveData[i] - 128);
+            if (sumRaw < 10 && micActive) {
+                window.fakeAmpBurst = (window.fakeAmpBurst || 0) * 0.90;
+                for (let i = 0; i < waveData.length; i++) {
+                    let w = window.fakeAmpBurst > 0.05
+                        ? (Math.random() * 60 - 30) * window.fakeAmpBurst
+                        : (Math.random() * 8 - 4); // idle subtle wobble
+                    waveData[i] = 128 + w;
+                }
+            }
+
             const ctx = canvas.getContext('2d');
             const W = canvas.width;
             const H = canvas.height;
@@ -2867,37 +2882,46 @@
                         const msg = transcript.toLowerCase().trim();
                         if (heard) heard.textContent = `Heard: "${msg}"`;
 
+                        /* ── WAVE BURST FOR MUTED HARDWARE ── */
+                        window.fakeAmpBurst = 1.0;
+
                         /* ── FLYING WORDS EFFECT ── */
                         if (window.lastFlyIndex !== e.resultIndex) {
                             window.lastFlyIndex = e.resultIndex;
+                            window.lastWordCount = 0;
                         }
 
-                        let words = msg.split(/\s+/);
-                        let lastWord = words[words.length - 1];
+                        let words = msg.split(/\s+/).filter(w => w.length > 0);
+                        let wCount = words.length;
 
-                        /* Spawn if it's a visibly new or expanded word from interim */
-                        if (lastWord && lastWord !== window.lastSpawnedWord) {
-                            window.lastSpawnedWord = lastWord;
+                        /* Spawn ALL newly detected words since the last interim chunk */
+                        if (wCount > (window.lastWordCount || 0)) {
+                            let newWords = words.slice(window.lastWordCount || 0);
+                            window.lastWordCount = wCount;
 
-                            const fw = document.createElement('div');
-                            fw.className = 'fly-word';
-                            fw.textContent = lastWord;
+                            newWords.forEach((fwText, idx) => {
+                                setTimeout(() => {
+                                    const fw = document.createElement('div');
+                                    fw.className = 'fly-word';
+                                    fw.textContent = fwText;
 
-                            const colors = ['#3b82f6', '#ec4899', '#facc15', '#a855f7', '#4ade80', '#60a5fa'];
-                            fw.style.color = colors[Math.floor(Math.random() * colors.length)];
-                            fw.style.left = (10 + Math.random() * 60) + 'vw';
-                            fw.style.top = (75 + Math.random() * 10) + 'vh';
-                            document.body.appendChild(fw);
+                                    const colors = ['#3b82f6', '#ec4899', '#facc15', '#a855f7', '#4ade80', '#60a5fa'];
+                                    fw.style.color = colors[Math.floor(Math.random() * colors.length)];
+                                    fw.style.left = (10 + Math.random() * 60) + 'vw';
+                                    fw.style.top = (75 + Math.random() * 10) + 'vh';
+                                    document.body.appendChild(fw);
 
-                            gsap.fromTo(fw,
-                                { scale: 0.2, opacity: 0, y: 0, rotation: -20 + Math.random() * 40 },
-                                {
-                                    scale: 1.2, opacity: 0.9, y: -(150 + Math.random() * 100), rotation: -40 + Math.random() * 80, duration: 1.8, ease: "power2.out",
-                                    onComplete: () => {
-                                        gsap.to(fw, { opacity: 0, y: "-=80", duration: 1.2, ease: "power1.in", onComplete: () => fw.remove() });
-                                    }
-                                }
-                            );
+                                    gsap.fromTo(fw,
+                                        { scale: 0.2, opacity: 0, y: 0, rotation: -20 + Math.random() * 40 },
+                                        {
+                                            scale: 1.2, opacity: 0.9, y: -(150 + Math.random() * 100), rotation: -40 + Math.random() * 80, duration: 1.8, ease: "power2.out",
+                                            onComplete: () => {
+                                                gsap.to(fw, { opacity: 0, y: "-=80", duration: 1.2, ease: "power1.in", onComplete: () => fw.remove() });
+                                            }
+                                        }
+                                    );
+                                }, idx * 250); // Stagger animations if multiple words caught at once
+                            });
                         }
 
                         /* PROACTIVE TRIGGER: check magics on every interim result too */
