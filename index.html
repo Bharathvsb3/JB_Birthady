@@ -1682,8 +1682,8 @@
             { nav: 'longpress', icon: '📱', head: 'August 2021 – First “Hi” 💙', txt: 'My hands were shaking when I typed “Hi...” 😅\nThat one small message changed our whole world!\nThe best “Hi” I ever sent! 💙', trick: '👆 LONG PRESS (2 sec) to unlock!' },
             { nav: 'swipeleft', icon: '💘', head: '“I Love You” Moment 💘', txt: 'My heart was beating so fast! 💓\nFinally I said it – “I love you Thangam!”\nAnd you just smiled... my world was complete! 🥹', trick: '⬅️ SWIPE LEFT to continue!' },
             { nav: 'tap3', icon: '🎉', head: 'Dec 28, 2021 – YES Day! 🎉', txt: 'The most magical moment of my life!\nYou said “YES”!! 🥳\nI will never forget that day. Never. 💙', trick: '👆 TAP 3 TIMES quickly!' },
-            { nav: 'pinch', icon: '🎵', head: 'Our Song – Neelothi 🎶', txt: 'This song is only for you Thangam!\nI sang it thinking of you every day! 💙', music: true, trick: '🎵 TAP to PLAY the song! Then PINCH to continue!' },
             { nav: 'iloveyou', icon: '🎤', head: 'Say It Out Loud! 💙', txt: 'I know you feel it too Thangam...\nNow take a deep breath,\nhold your phone close,\nand say the magic words! 🥹', trick: '🎤 Say "I Love You" into the mic!' },
+            { nav: 'pinch', icon: '🎵', head: 'Our Song – Neelothi 🎶', txt: 'This song is only for you Thangam!\nI sang it thinking of you every day! 💙', music: true, trick: '🎵 TAP to PLAY the song! Then PINCH to continue!' },
             { nav: 'spread', icon: '✈️', head: 'Our Future Plans ✨', txt: 'Maldives? Switzerland? Paris?\nEvery place is paradise when you are with me! 🌍\nWe will travel everywhere together! ✈️', trick: '🤲 SPREAD fingers OUT on screen!' },
             { nav: 'tilt', icon: '🤩', head: '15 Reasons I Love You ✨', txt: 'Your smile 😄 Your heart 💙 Your laugh 😂\nYour care 🤗 Your strength 💪 Your kindness 🌟\n...and being YOU is reason #15! ❤️', trick: '📱 TILT phone to the LEFT!' },
             { nav: 'rotate', icon: '🥳', head: 'The Fight Formula 😂', txt: 'You: 💢 Fight mode ON!\nMe: 😇 Sorry sorry sorry...\nYou: 😤 Still not enough!\nBut we ALWAYS come back stronger! 💙😂', trick: '↺ ROTATE phone 90° to continue!' },
@@ -2008,27 +2008,18 @@
                 sx = t.clientX; sy = t.clientY;
                 const now = Date.now();
 
-                /* MIC STEP – block ALL touch gestures */
-                if (nav === 'iloveyou') return;
-
                 /* DOUBLETAP */
                 if (now - lastTap < 340 && nav === 'doubletap') { lastTap = 0; goNext(); return; }
                 lastTap = now;
 
-                /* LONGPRESS */
+                /* LONGPRESS (Includes 10s Emergency Skip for Mic) */
                 if (nav === 'longpress' || nav === 'longpress2' || nav === 'iloveyou') {
                     lpFired = false;
-                    /* Mic step has 10s emergency override */
                     const ms = nav === 'iloveyou' ? 10000 : (nav === 'longpress2' ? 2800 : 1800);
                     lpTimer = setTimeout(() => {
                         lpFired = true;
-                        if (nav === 'iloveyou') {
-                            /* Silent force-success for emergency */
-                            micSucceeded = true;
-                            goNext();
-                        } else {
-                            goNext();
-                        }
+                        if (nav === 'iloveyou') micSucceeded = true;
+                        goNext();
                     }, ms);
                     /* Animate SVG ring + pressing state */
                     const arc = document.getElementById(`lpArc${cur}`);
@@ -2039,6 +2030,9 @@
                     }
                     if (stpEl) stpEl.classList.add('pressing');
                 }
+
+                /* MIC STEP – block other touch gestures AFTER longpress check */
+                if (nav === 'iloveyou') return;
 
                 /* TAP COUNT */
                 if (nav === 'tap3' || nav === 'tap5' || nav === 'tap7') {
@@ -2173,9 +2167,9 @@
             /* ── Compute amplitude (0–1) ── */
             let sumDev = 0;
             for (let i = 0; i < waveData.length; i++) sumDev += Math.abs(waveData[i] - 128);
-            /* INCREASED GAIN: was /60, now /12 to make small sounds look BIG */
-            const rawAmp = Math.min(sumDev / waveData.length / 12, 1);
-            lastAmp = lastAmp * 0.6 + rawAmp * 0.4;   /* faster response */
+            /* EXTREME GAIN: was /12, now /3 to make tiny sounds look MASSIVE */
+            const rawAmp = Math.min(sumDev / waveData.length / 3, 1);
+            lastAmp = lastAmp * 0.5 + rawAmp * 0.5;   /* instant response */
             const amp = lastAmp;
 
             /* ── Gradient color: pink ↔ blue by amplitude ── */
@@ -2516,7 +2510,7 @@
                         /* ② Update UI immediately */
                         if (circle) { circle.classList.remove('listening'); circle.classList.add('success-ring'); circle.innerHTML = '💙'; }
                         if (btn) { btn.textContent = '💙 Got it!'; btn.classList.remove('recording'); }
-                        if (status) { status.className = 'mic-status success'; status.textContent = '💙 Awww! I love you too Thangam! 🥹'; }
+                        if (status) { status.className = 'mic-status success'; status.textContent = '💙 Awww! I love you too Thangam! 🥹 unaku oru surprice eruku 🎁'; }
 
                         /* ③ Grow → BLAST animation (1300ms grow + 700ms blast = 2000ms) */
                         doHeartBlast();
