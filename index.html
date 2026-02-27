@@ -2206,6 +2206,177 @@
             setTimeout(() => el.remove(), dur * 1000 + 100);
         }
 
+        /* ── EASING HELPER ── */
+        function easeOutBack(x) {
+            const c1 = 1.70158, c3 = c1 + 1;
+            return 1 + c3 * Math.pow(x - 1, 3) + c1 * Math.pow(x - 1, 2);
+        }
+
+        /* ── HEART PATH HELPER (canvas) ── */
+        function canvasHeart(ctx, cx, cy, size) {
+            ctx.beginPath();
+            ctx.moveTo(cx, cy + size * 0.35);
+            ctx.bezierCurveTo(cx + size * 1.1, cy - size * 0.35,
+                cx + size * 1.1, cy - size * 1.1, cx, cy - size * 0.55);
+            ctx.bezierCurveTo(cx - size * 1.1, cy - size * 1.1,
+                cx - size * 1.1, cy - size * 0.35, cx, cy + size * 0.35);
+            ctx.closePath();
+        }
+
+        /* ── HEART BLAST SEQUENCE ── */
+        /* Phase 1: heart grows 0 → full  (GROW_MS)
+           Phase 2: heart explodes + particles shoot out (BLAST_MS)
+           Then: doHeartRain() + goNext()                                     */
+        function doHeartBlast() {
+            const canvas = document.getElementById('micCanvas');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            const W = canvas.width, H = canvas.height;
+            const cx = W / 2, cy = H / 2;
+
+            const GROW_MS = 1300;   /* ms to grow heart              */
+            const BLAST_MS = 700;    /* ms for explosion              */
+            const EMOJIS = ['💙', '💜', '💗', '💖', '✨', '⭐', '🌸', '💕', '💝', '🎀', '🥹'];
+
+            let startT = null;
+            let blastStartT = null;
+            let particles = [];
+            let phase = 'grow';
+            let blstRaf = null;
+
+            /* Build explosion particle list */
+            function buildParticles(ts) {
+                blastStartT = ts;
+                for (let i = 0; i < 22; i++) {
+                    const angle = (i / 22) * Math.PI * 2 + (Math.random() - 0.5) * 0.4;
+                    const speed = 55 + Math.random() * 90;  /* px per second */
+                    particles.push({
+                        angle, speed,
+                        emoji: EMOJIS[Math.floor(Math.random() * EMOJIS.length)],
+                        sz: 0.85 + Math.random() * 1.1
+                    });
+                }
+            }
+
+            function frame(ts) {
+                if (!startT) startT = ts;
+                const elapsed = ts - startT;
+                ctx.clearRect(0, 0, W, H);
+
+                if (phase === 'grow') {
+                    /* ── GROW PHASE ── */
+                    const prog = Math.min(elapsed / GROW_MS, 1);
+                    const scale = Math.max(0.001, easeOutBack(prog));
+                    const size = scale * Math.min(W, H) * 0.40;
+
+                    /* Radial gradient fill */
+                    const grd = ctx.createRadialGradient(cx, cy - size * 0.18, size * 0.05,
+                        cx, cy, size * 1.1);
+                    grd.addColorStop(0, 'rgba(255,180,220,1)');
+                    grd.addColorStop(0.4, 'rgba(236,72,153,0.95)');
+                    grd.addColorStop(0.8, 'rgba(168,85,247,0.85)');
+                    grd.addColorStop(1, 'rgba(80,10,60,0.7)');
+
+                    ctx.save();
+                    ctx.shadowColor = 'rgba(236,72,153,0.85)';
+                    ctx.shadowBlur = 10 + scale * 30;
+                    canvasHeart(ctx, cx, cy, size);
+                    ctx.fillStyle = grd;
+                    ctx.fill();
+                    ctx.restore();
+
+                    /* Pulsing ring that appears mid-growth */
+                    if (prog > 0.35) {
+                        const rProg = (prog - 0.35) / 0.65;
+                        ctx.beginPath();
+                        ctx.arc(cx, cy - size * 0.05, size * (1.15 + rProg * 0.25), 0, Math.PI * 2);
+                        ctx.strokeStyle = `rgba(236,72,153,${0.4 * (1 - rProg)})`;
+                        ctx.lineWidth = 2.5;
+                        ctx.stroke();
+
+                        /* Second ring slightly behind */
+                        ctx.beginPath();
+                        ctx.arc(cx, cy - size * 0.05, size * (1.30 + rProg * 0.2), 0, Math.PI * 2);
+                        ctx.strokeStyle = `rgba(168,85,247,${0.25 * (1 - rProg)})`;
+                        ctx.lineWidth = 1.5;
+                        ctx.stroke();
+                    }
+
+                    /* Small text hint while growing */
+                    if (prog < 0.6) {
+                        ctx.save();
+                        ctx.globalAlpha = prog;
+                        ctx.font = `${Math.floor(12 + prog * 6)}px serif`;
+                        ctx.textAlign = 'center';
+                        ctx.textBaseline = 'middle';
+                        ctx.fillText('💙', cx, cy - size * 0.08);
+                        ctx.restore();
+                    }
+
+                    if (prog >= 1) {
+                        phase = 'blast';
+                        buildParticles(ts);
+                    }
+
+                } else if (phase === 'blast') {
+                    /* ── BLAST PHASE ── */
+                    const bElapsed = ts - blastStartT;
+                    const bProg = Math.min(bElapsed / BLAST_MS, 1);
+
+                    /* Fading heart at center that expands outward */
+                    const heartAlpha = Math.max(0, 1 - bProg * 2.2);
+                    if (heartAlpha > 0) {
+                        const size = Math.min(W, H) * 0.40 * (1 + bProg * 0.7);
+                        const grd = ctx.createRadialGradient(cx, cy, 0, cx, cy, size * 1.1);
+                        grd.addColorStop(0, `rgba(255,220,240,${heartAlpha})`);
+                        grd.addColorStop(0.5, `rgba(236,72,153,${heartAlpha * 0.7})`);
+                        grd.addColorStop(1, `rgba(168,85,247,0)`);
+                        ctx.save();
+                        canvasHeart(ctx, cx, cy, size);
+                        ctx.fillStyle = grd;
+                        ctx.fill();
+                        ctx.restore();
+                    }
+
+                    /* Flash white burst at frame 0 */
+                    if (bProg < 0.12) {
+                        const flashA = (0.12 - bProg) / 0.12;
+                        ctx.save();
+                        ctx.globalAlpha = flashA * 0.55;
+                        ctx.fillStyle = '#fff';
+                        ctx.fillRect(0, 0, W, H);
+                        ctx.restore();
+                    }
+
+                    /* Fly particles outward */
+                    const dt = bElapsed / 1000;   /* seconds elapsed since blast */
+                    particles.forEach(p => {
+                        const dist = p.speed * dt;
+                        const px = cx + Math.cos(p.angle) * dist;
+                        const py = cy + Math.sin(p.angle) * dist;
+                        const pA = Math.max(0, 1 - bProg * 1.6);
+                        ctx.save();
+                        ctx.globalAlpha = pA;
+                        ctx.font = `${p.sz}rem serif`;
+                        ctx.textAlign = 'center';
+                        ctx.textBaseline = 'middle';
+                        ctx.fillText(p.emoji, px, py);
+                        ctx.restore();
+                    });
+
+                    if (bProg >= 1) {
+                        ctx.clearRect(0, 0, W, H);   /* final clean */
+                        return;                        /* stop RAF     */
+                    }
+                }
+
+                blstRaf = requestAnimationFrame(frame);
+            }
+
+            blstRaf = requestAnimationFrame(frame);
+        }
+
+
         function startMicAudio() {
             if (!navigator.mediaDevices) return;
             navigator.mediaDevices.getUserMedia({ audio: true, video: false }).then(stream => {
@@ -2220,6 +2391,7 @@
         }
 
         function startSpeech() {
+
             if (micSucceeded) return;
             const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
             const btn = document.getElementById('micBtn');
@@ -2257,19 +2429,23 @@
                     if (!micSucceeded && magic.some(m => clean.includes(m))) {
                         micSucceeded = true;
                         try { rec.stop(); } catch (e) { }
-                        /* success-glow on wave wrap */
-                        const wrap = document.getElementById('loveWaveWrap');
-                        if (wrap) wrap.classList.add('success-glow');
-                        /* Burst 8 hearts from wave area immediately */
-                        for (let bi = 0; bi < 8; bi++) setTimeout(() => spawnWaveHeart(0.8), bi * 60);
-                        /* Let wave run green for 1s then stop */
-                        setTimeout(() => {
-                            if (waveRAF) { cancelAnimationFrame(waveRAF); waveRAF = null; }
-                        }, 1000);
+
+                        /* ① Stop wave loop NOW – blast takes over the canvas */
+                        if (waveRAF) { cancelAnimationFrame(waveRAF); waveRAF = null; }
+
+                        /* ② Update UI immediately */
                         if (circle) { circle.classList.remove('listening'); circle.classList.add('success-ring'); circle.innerHTML = '💙'; }
                         if (btn) { btn.textContent = '💙 Got it!'; btn.classList.remove('recording'); }
                         if (status) { status.className = 'mic-status success'; status.textContent = '💙 Awww! I love you too Thangam! 🥹'; }
-                        setTimeout(() => { doHeartRain(); setTimeout(goNext, 2800); }, 400);
+
+                        /* ③ Grow → BLAST animation (1300ms grow + 700ms blast = 2000ms) */
+                        doHeartBlast();
+
+                        /* ④ Heart rain starts exactly when blast fires (1300ms) */
+                        setTimeout(doHeartRain, 1300);
+
+                        /* ⑤ Go next after rain fills the screen */
+                        setTimeout(goNext, 3500);
                     }
                 };
 
