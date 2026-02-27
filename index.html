@@ -1364,7 +1364,7 @@
         <div class="lc">
             <span class="hrt">💙</span>
             <div class="lt">Hi Thangam!</div>
-            <div class="ls">Unlock your 24-step Birthday Journey 🎁</div>
+            <div class="ls">Unlock your 15-step Birthday Journey 🎁</div>
             <div class="clue">
                 <div class="ct">Enter your secret PIN! 💙<br><span style="font-size:.78rem;opacity:.55;">Hint: Our
                         special date 🗓️</span></div>
@@ -1394,7 +1394,7 @@
         <div class="prog">
             <div id="pbi"></div>
         </div>
-        <div class="sbadge" id="sbadge">1 / 24</div>
+        <div class="sbadge" id="sbadge">1 / 15</div>
         <!-- Hidden back button – top-left corner secret tap -->
         <div id="backBtn" onclick="goPrev()"></div>
         <div class="sw" id="sw"></div>
@@ -1539,6 +1539,8 @@
             setupGestures();
             startTicker();
             startPetals();
+            /* Animate step 0 entrance */
+            setTimeout(() => animateStepIn(document.getElementById('stp0')), 150);
         }
 
         /* ── NAVIGATION LOCK – prevents overlap during transitions ── */
@@ -1573,11 +1575,15 @@
             /* cleanup all active animations before leaving */
             cleanupAnimations();
 
-            /* fade out music if on music step */
+            /* fade out music if on music step (native fade - GSAP can't tween media.volume) */
             if (ST[cur].music) {
                 const bgm = document.getElementById('bgm');
                 if (bgm && !bgm.paused) {
-                    gsap.to(bgm, { volume: 0, duration: 0.9, onComplete: () => bgm.pause() });
+                    const step = bgm.volume / 18;
+                    const fadeOut = setInterval(() => {
+                        if (bgm.volume > step) { bgm.volume -= step; }
+                        else { bgm.volume = 0; bgm.pause(); clearInterval(fadeOut); }
+                    }, 50);
                 }
             }
             /* cancel waveRAF */
@@ -1599,12 +1605,13 @@
                 gsap.fromTo(ov, { opacity: 0 }, { opacity: 1, duration: 0.4 });
                 let num = 3;
                 cdNum.textContent = num;
-                cdMsg.textContent = 'Almost there...';
+                cdMsg.textContent = 'Get ready...';
                 const cdInt = setInterval(() => {
                     num--;
                     if (num > 0) {
-                        gsap.fromTo(cdNum, { scale: 1.5, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.35, ease: 'back.out(2)' });
                         cdNum.textContent = num;
+                        cdMsg.textContent = num === 2 ? 'Almost there...' : 'Here we go!';
+                        gsap.fromTo(cdNum, { scale: 1.5, opacity: 0.5 }, { scale: 1, opacity: 1, duration: 0.35, ease: 'back.out(2)' });
                     } else {
                         clearInterval(cdInt);
                         cdMsg.textContent = '💙 Happy Birthday Thangam! 👑';
@@ -1626,13 +1633,20 @@
                                     /* GSAP reveal: crown, name, hearts, letter stagger */
                                     const finEl = nEl;
                                     const revTl = gsap.timeline();
-                                    revTl.from(finEl.querySelector('.fin-crown'), { y: -60, scale: 0.3, opacity: 0, duration: 0.7, ease: 'back.out(1.8)' })
-                                        .from(finEl.querySelector('.fin-hb'), { opacity: 0, y: 18, duration: 0.5 }, '-=0.2')
-                                        .from(finEl.querySelector('.fin-name'), { scale: 0.7, opacity: 0, duration: 0.65, ease: 'elastic.out(1,0.6)' }, '-=0.2')
-                                        .from(finEl.querySelectorAll('.fin-hrt'), { scale: 0, opacity: 0, duration: 0.32, stagger: 0.08, ease: 'back.out(2)' }, '-=0.2')
-                                        .from(finEl.querySelector('.fin-letter'), { scaleY: 0, opacity: 0, transformOrigin: 'top center', duration: 0.6 }, '-=0.1')
-                                        .from(finEl.querySelector('.fin-age-wrap'), { y: 16, opacity: 0, duration: 0.4 }, '-=0.1')
-                                        .from(finEl.querySelector('.fin-cta-row'), { scale: 0.6, opacity: 0, duration: 0.6, ease: 'elastic.out(1,0.5)' }, '-=0.1');
+                                    const finCrown = finEl.querySelector('.fin-crown');
+                                    const finHb = finEl.querySelector('.fin-hb');
+                                    const finName = finEl.querySelector('.fin-name');
+                                    const finHrts = finEl.querySelectorAll('.fin-hrt');
+                                    const finLetter = finEl.querySelector('.fin-letter');
+                                    const finAge = finEl.querySelector('.fin-age-wrap');
+                                    const finCta = finEl.querySelector('.fin-cta-row');
+                                    if (finCrown) revTl.from(finCrown, { y: -60, scale: 0.3, opacity: 0, duration: 0.7, ease: 'back.out(1.8)' });
+                                    if (finHb) revTl.from(finHb, { opacity: 0, y: 18, duration: 0.5 }, '-=0.2');
+                                    if (finName) revTl.from(finName, { scale: 0.7, opacity: 0, duration: 0.65, ease: 'elastic.out(1,0.6)' }, '-=0.2');
+                                    if (finHrts.length) revTl.from(finHrts, { scale: 0, opacity: 0, duration: 0.32, stagger: 0.08, ease: 'back.out(2)' }, '-=0.2');
+                                    if (finLetter) revTl.from(finLetter, { y: 30, opacity: 0, duration: 0.6 }, '-=0.1');
+                                    if (finAge) revTl.from(finAge, { y: 16, opacity: 0, duration: 0.4 }, '-=0.1');
+                                    if (finCta) revTl.from(finCta, { scale: 0.6, opacity: 0, duration: 0.6, ease: 'elastic.out(1,0.5)' }, '-=0.1');
                                     registerTL(revTl);
                                     /* Call button pulse */
                                     const callBtn = finEl.querySelector('.call-btn');
@@ -1954,15 +1968,19 @@
             bgm.volume = 0;                          /* start silent */
             const p = bgm.play();
             if (p) p.then(() => {
-                /* fade in over 2 s */
-                const fadeTl = gsap.to(bgm, { volume: 1, duration: 2, ease: 'power1.inOut' });
-                registerTL(fadeTl);
+                /* Native volume fade-in — GSAP core cannot tween HTMLMediaElement.volume */
+                let vol = 0;
+                const fadeIn = setInterval(() => {
+                    vol = Math.min(vol + 0.05, 1);
+                    bgm.volume = vol;
+                    if (vol >= 1) clearInterval(fadeIn);
+                }, 100);  /* 0→1 over ~2s */
                 const pl = document.getElementById('plbl' + idx);
                 const vn = document.getElementById('vinyl' + idx);
                 if (pl) pl.textContent = '🎶 Playing! Now do the gesture to continue!';
                 if (vn) {
-                    const spin = gsap.to(vn, { rotation: 360, duration: 1.2, ease: 'none', repeat: -1 });
-                    registerTL(spin);
+                    /* Speed up spin via CSS (GSAP rotation conflicts with CSS spin animation) */
+                    vn.style.animationDuration = '0.9s';
                 }
             }).catch(() => {
                 const pl = document.getElementById('plbl' + idx);
@@ -2056,31 +2074,22 @@
             const pe = pzPcs[pzS];
             const wrap = document.getElementById('pzWrap');
 
-            /* Animate piece snapping into place with spring ease */
-            pe.style.transition = 'none';
-            gsap.fromTo(pe,
-                { attr: { transform: pe.getAttribute('transform') } },
-                {
-                    attr: { transform: 'translate(0,0)' },
-                    duration: 0.55, ease: 'back.out(1.7)',
-                    onComplete: () => {
-                        /* Glow flash: blue → normal */
-                        gsap.timeline()
-                            .to(pe, { attr: { filter: 'drop-shadow(0 0 14px rgba(96,165,250,1))' }, duration: 0.18 })
-                            .to(pe, { attr: { filter: 'drop-shadow(2px 3px 5px rgba(0,0,0,.55))' }, duration: 0.32 });
-                    }
-                }
-            );
+            /* CSS spring transition on SVG path transform (no AttrPlugin needed) */
+            pe.style.transition = 'transform 0.55s cubic-bezier(0.34,1.56,0.64,1), filter 0.3s ease';
+            pe.setAttribute('transform', 'translate(0,0)');
+            pe.style.filter = 'drop-shadow(0 0 14px rgba(96,165,250,1))';
+            setTimeout(() => { pe.style.filter = 'drop-shadow(2px 3px 5px rgba(0,0,0,.55))'; }, 340);
+
             pzS++;
             const stat = document.getElementById('pzStat');
             stat.textContent = pzS < 9 ? `✨ ${pzS}/9 placed!` : '🎉 Perfect! Her smile revealed! 💙';
             if (pzS === 9) {
                 savePz();
-                /* Whole-board celebration glow */
+                /* GSAP board pulse (boxShadow + scale) on the wrapper div */
                 gsap.timeline()
                     .to(wrap, { boxShadow: '0 0 40px rgba(96,165,250,0.75)', scale: 1.04, duration: 0.35, ease: 'power2.out' })
-                    .to(wrap, { boxShadow: '0 0 0px rgba(96,165,250,0)', scale: 1, duration: 0.5, ease: 'elastic.out(1,0.5)' });
-                setTimeout(goNext, 1800);
+                    .to(wrap, { boxShadow: '0 0 0px rgba(96,165,250,0)', scale: 1, duration: 0.55, ease: 'elastic.out(1,0.5)' });
+                setTimeout(goNext, 1850);
             }
         }
 
