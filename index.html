@@ -3015,9 +3015,14 @@
                 drawWave();
             } catch (e) {
                 console.error("Audio Context Error. Faking wave fallback.", e);
-                // Fallback to fake wave if Desktop fails
+                // Fallback to detailed fake wave if Desktop/Android fails
                 waveData = new Uint8Array(256);
-                fakeWaveTmr = setInterval(() => { if (micActive) waveData.fill(128 + Math.random() * 20); }, 100);
+                fakeWaveTmr = setInterval(() => {
+                    if (!micActive) return;
+                    for (let i = 0; i < waveData.length; i++) {
+                        waveData[i] = 128 + (Math.random() > 0.5 ? Math.random() * 40 : -Math.random() * 40);
+                    }
+                }, 80);
                 drawWave();
             }
         }
