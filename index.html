@@ -1766,6 +1766,42 @@
                     body += `<div class="tap-feed"><div class="tc-num" id="tc${i}">0</div></div>`;
 
                 d.innerHTML = body + (s.trick ? `<div class="trick-bar">👉 ${s.trick}</div>` : '');
+
+                /* Inject animated gesture hint icon into .inner */
+                const nhMap = {
+                    swipeup: 'nh-up ⬆️', swipeleft: 'nh-left ⬅️', swipedown: 'nh-down ⬇️',
+                    swiperight: 'nh-right ➡️', doubletap: 'nh-dt 👆👆',
+                    shake: 'nh-shake 📳', tilt: 'nh-tilt 📱', rotate: 'nh-rotate ↺',
+                    pinch: 'nh-pinch 🤏', spread: 'nh-spread 🤲',
+                    longpress: '', twofingertap: ''
+                };
+                const nhVal = nhMap[s.nav];
+                if (nhVal) {
+                    const inner = d.querySelector('.inner');
+                    if (inner) {
+                        const [cls, ico] = nhVal.split(' ');
+                        const nh = document.createElement('span');
+                        nh.className = `nav-hint ${cls}`;
+                        nh.textContent = ico;
+                        inner.appendChild(nh);
+                    }
+                }
+
+                /* Shake step: add class for continuous icon shake */
+                if (s.nav === 'shake') d.classList.add('shake-hint');
+
+                /* Longpress: inject SVG progress ring */
+                if (s.nav === 'longpress' || s.nav === 'longpress2') {
+                    const inner = d.querySelector('.inner');
+                    if (inner) {
+                        const ringWrap = document.createElement('div');
+                        ringWrap.className = 'lp-ring-wrap';
+                        ringWrap.id = `lpRingWrap${i}`;
+                        ringWrap.innerHTML = `<svg width="76" height="76"><circle cx="38" cy="38" r="33" class="lp-ring-bg"/><circle cx="38" cy="38" r="33" class="lp-ring-arc" id="lpArc${i}"/></svg>`;
+                        inner.appendChild(ringWrap);
+                    }
+                }
+
                 swEl.appendChild(d);
             });
 
@@ -1983,6 +2019,14 @@
                     lpFired = false;
                     const ms = nav === 'longpress2' ? 2800 : 1800;
                     lpTimer = setTimeout(() => { lpFired = true; goNext(); }, ms);
+                    /* Animate SVG ring + pressing state */
+                    const arc = document.getElementById(`lpArc${cur}`);
+                    const stpEl = document.getElementById(`stp${cur}`);
+                    if (arc) {
+                        arc.style.transition = `stroke-dashoffset ${ms}ms linear`;
+                        requestAnimationFrame(() => { arc.style.strokeDashoffset = '0'; });
+                    }
+                    if (stpEl) stpEl.classList.add('pressing');
                 }
 
                 /* TAP COUNT */
@@ -1990,11 +2034,25 @@
                     const need = nav === 'tap3' ? 3 : nav === 'tap5' ? 5 : 7;
                     tapCnt[cur]++;
                     const tc = document.getElementById('tc' + cur);
-                    if (tc) { tc.textContent = tapCnt[cur]; tc.classList.add('show'); setTimeout(() => tc.classList.remove('show'), 250); }
+                    if (tc) {
+                        tc.textContent = tapCnt[cur];
+                        tc.classList.add('show');
+                        /* GSAP bounce on tap counter */
+                        gsap.fromTo(tc, { scale: 1.8 }, { scale: 1, duration: 0.28, ease: 'back.out(2)' });
+                        setTimeout(() => tc.classList.remove('show'), 250);
+                    }
                     clearTimeout(tapTmr[cur]);
                     if (tapCnt[cur] >= need) { tapCnt[cur] = 0; setTimeout(goNext, 200); }
                     else tapTmr[cur] = setTimeout(() => tapCnt[cur] = 0, 2200);
                 }
+
+                /* TAP RIPPLE on every touch */
+                const ripple = document.createElement('div');
+                ripple.className = 'tap-ripple';
+                ripple.style.left = t.clientX + 'px';
+                ripple.style.top = t.clientY + 'px';
+                document.body.appendChild(ripple);
+                setTimeout(() => ripple.remove(), 580);
 
                 /* TWO-FINGER TAP */
                 if (e.touches.length === 2 && nav === 'twofingertap') goNext();
@@ -2013,7 +2071,17 @@
                 }
             }, { passive: true });
 
-            area.addEventListener('touchend', () => { clearTimeout(lpTimer); pinchDist = null; }, { passive: true });
+            area.addEventListener('touchend', () => {
+                clearTimeout(lpTimer); pinchDist = null;
+                /* Reset longpress ring */
+                const arc = document.getElementById(`lpArc${cur}`);
+                const stpEl = document.getElementById(`stp${cur}`);
+                if (arc && !lpFired) {
+                    arc.style.transition = 'stroke-dashoffset 0.25s ease';
+                    arc.style.strokeDashoffset = '207';
+                }
+                if (stpEl) stpEl.classList.remove('pressing');
+            }, { passive: true });
             area.addEventListener('touchmove', () => { clearTimeout(lpTimer); }, { passive: true });
 
             /* PINCH/SPREAD MOVE */
