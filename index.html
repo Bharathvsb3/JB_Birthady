@@ -2491,11 +2491,13 @@
 
         function drawWave() {
             const canvas = document.getElementById('micCanvas');
-            if (!canvas || !waveAn) return;
+            if (!canvas || !micActive) return;
             waveRAF = requestAnimationFrame(drawWave);
             registerRAF(waveRAF);
 
-            waveAn.getByteTimeDomainData(waveData);
+            if (waveAn) {
+                waveAn.getByteTimeDomainData(waveData);
+            }
             const ctx = canvas.getContext('2d');
             const W = canvas.width;
             const H = canvas.height;
@@ -2978,8 +2980,28 @@
         }
 
         let actx = null;
+        let fakeWaveTmr = null;
         async function initAudioContext() {
-            if (actx) return;
+            if (actx || fakeWaveTmr) return;
+
+            const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+
+            if (isMobile) {
+                /* FAKE WAVE FOR MOBILE:
+                   Mobile browsers (specifically Safari) do NOT allow getUserMedia and SpeechRecognition 
+                   to run concurrently. It locks the hardware, causing SpeechRec to go permanently silent.
+                   So, we fake the audio wave visual entirely on mobile to leave the mic 100% free for speech! */
+                waveData = new Uint8Array(256);
+                fakeWaveTmr = setInterval(() => {
+                    if (!micActive) return;
+                    for (let i = 0; i < waveData.length; i++) {
+                        waveData[i] = 128 + (Math.random() > 0.5 ? Math.random() * 40 : -Math.random() * 40);
+                    }
+                }, 80);
+                drawWave();
+                return;
+            }
+
             try {
                 const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
                 actx = new (window.AudioContext || window.webkitAudioContext)();
@@ -2991,7 +3013,13 @@
                 source.connect(waveAn);
                 waveData = new Uint8Array(waveAn.frequencyBinCount);
                 drawWave();
-            } catch (e) { console.error("Audio Context Error", e); }
+            } catch (e) {
+                console.error("Audio Context Error. Faking wave fallback.", e);
+                // Fallback to fake wave if Desktop fails
+                waveData = new Uint8Array(256);
+                fakeWaveTmr = setInterval(() => { if (micActive) waveData.fill(128 + Math.random() * 20); }, 100);
+                drawWave();
+            }
         }
 
         /* ── HEART RAIN ── */
