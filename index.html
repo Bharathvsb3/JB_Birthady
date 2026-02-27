@@ -2984,13 +2984,13 @@
         async function initAudioContext() {
             if (actx || fakeWaveTmr) return;
 
-            const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+            /* ONLY apply fake wave to iOS (Safari/Chrome on iOS)
+               Android Chrome actually *benefits* from getUserMedia to keep interimResults fully active and streaming!
+               iOS Safari strictly blocks SpeechRec if getUserMedia is running simultaneously. */
+            const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
 
-            if (isMobile) {
-                /* FAKE WAVE FOR MOBILE:
-                   Mobile browsers (specifically Safari) do NOT allow getUserMedia and SpeechRecognition 
-                   to run concurrently. It locks the hardware, causing SpeechRec to go permanently silent.
-                   So, we fake the audio wave visual entirely on mobile to leave the mic 100% free for speech! */
+            if (isIOS) {
+                /* FAKE WAVE FOR iOS */
                 waveData = new Uint8Array(256);
                 fakeWaveTmr = setInterval(() => {
                     if (!micActive) return;
