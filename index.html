@@ -1351,7 +1351,147 @@
                 max-width: 500px;
             }
         }
+
+        /* ── REAL PUZZLE GAME ── */
+        .pz-game-inner {
+            padding: 26px 10px 8px !important;
+            gap: 5px !important;
+            justify-content: flex-start !important;
+            overflow: hidden;
+        }
+
+        .pz-real-board {
+            display: grid;
+            gap: 3px;
+            border-radius: 14px;
+            overflow: hidden;
+            background: rgba(0, 0, 0, .35);
+            border: 2px solid rgba(96, 165, 250, .3);
+            flex-shrink: 0;
+        }
+
+        .pz-slot {
+            position: relative;
+            border: 1.5px dashed rgba(96, 165, 250, .22);
+            background: rgba(59, 130, 246, .04);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: border-color .2s, background .2s;
+            overflow: hidden;
+        }
+
+        .pz-slot.pz-highlight {
+            border-color: #60a5fa;
+            background: rgba(96, 165, 250, .15);
+        }
+
+        .pz-slot.pz-filled {
+            border: none;
+        }
+
+        .pz-slot.pz-correct {
+            animation: pzCorrect .5s ease;
+        }
+
+        .pz-slot.pz-wrong {
+            animation: pzWrong .38s ease;
+        }
+
+        @keyframes pzCorrect {
+            0% {
+                box-shadow: inset 0 0 0 0 rgba(74, 222, 128, 0);
+            }
+
+            40% {
+                box-shadow: inset 0 0 0 8px rgba(74, 222, 128, .7);
+            }
+
+            100% {
+                box-shadow: inset 0 0 0 0 rgba(74, 222, 128, 0);
+            }
+        }
+
+        @keyframes pzWrong {
+
+            0%,
+            100% {
+                transform: translateX(0);
+            }
+
+            25% {
+                transform: translateX(-7px);
+            }
+
+            75% {
+                transform: translateX(7px);
+            }
+        }
+
+        .pz-tray-grid {
+            display: grid;
+            gap: 4px;
+            justify-content: center;
+            width: 100%;
+            overflow-y: auto;
+            scrollbar-width: none;
+            flex-shrink: 0;
+        }
+
+        .pz-tray-grid::-webkit-scrollbar {
+            display: none;
+        }
+
+        .pz-tile {
+            border-radius: 8px;
+            cursor: grab;
+            border: 2px solid rgba(96, 165, 250, .35);
+            touch-action: none;
+            user-select: none;
+            background-color: rgba(2, 8, 30, .5);
+            transition: opacity .3s, box-shadow .2s;
+            will-change: transform;
+        }
+
+        .pz-tile:active {
+            box-shadow: 0 8px 24px rgba(96, 165, 250, .5);
+        }
+
+        .pz-tile.pz-placed {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .pz-drag-clone {
+            position: fixed;
+            z-index: 9001;
+            pointer-events: none;
+            border-radius: 10px;
+            border: 2.5px solid rgba(96, 165, 250, .8);
+            box-shadow: 0 16px 40px rgba(96, 165, 250, .55);
+            transform: scale(1.1);
+            opacity: .93;
+        }
+
+        .pz-prog-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-size: .78rem;
+            font-weight: 700;
+            color: #60a5fa;
+            min-height: 20px;
+        }
+
+        .pz-tray-lbl {
+            font-size: .7rem;
+            color: rgba(255, 255, 255, .28);
+            text-align: center;
+            letter-spacing: .3px;
+        }
     </style>
+
 </head>
 
 <body>
@@ -1467,7 +1607,7 @@
             { nav: 'spread', icon: '✈️', head: 'Our Future Plans ✨', txt: 'Maldives? Switzerland? Paris?\nEvery place is paradise when you are with me! 🌍\nWe will travel everywhere together! ✈️', trick: '🤲 SPREAD fingers OUT on screen!' },
             { nav: 'tilt', icon: '🤩', head: '15 Reasons I Love You ✨', txt: 'Your smile 😄 Your heart 💙 Your laugh 😂\nYour care 🤗 Your strength 💪 Your kindness 🌟\n...and being YOU is reason #15! ❤️', trick: '📱 TILT phone to the LEFT!' },
             { nav: 'rotate', icon: '🥳', head: 'The Fight Formula 😂', txt: 'You: 💢 Fight mode ON!\nMe: 😇 Sorry sorry sorry...\nYou: 😤 Still not enough!\nBut we ALWAYS come back stronger! 💙😂', trick: '↺ ROTATE phone 90° to continue!' },
-            { nav: 'twofingertap', icon: '🧩', head: 'Memory Puzzle 🧩', txt: 'Build our special memory!\nTap each piece to place it! 💙', puzzle: true, trick: 'Tap 9 pieces to build the photo!' },
+            { nav: 'twofingertap', icon: '🧩', head: 'Memory Puzzle 🧩', txt: 'Drag each piece to its correct place\nand reveal our special photo! 💙', puzzle: true, trick: '✋ Drag all 12 pieces to complete the photo!' },
             { nav: 'meter', icon: '📊', head: 'Love Meter 💙', txt: 'Show me how much you love me!\nSlide it ALL the way to 100%!\n(I already know you will! 😏)', trick: 'Slide to 100% to unlock next step!' },
             { nav: 'finish', isFinish: true, trick: '' }
         ];
@@ -1486,6 +1626,16 @@
             activeTimelines = []; activeRAFs = [];
         }
 
+        /* ── PER-STEP CLEANUP REGISTRY (for event listeners etc.) ── */
+        const stepCleanupFns = {};
+        function registerCleanup(idx, fn) { stepCleanupFns[idx] = fn; }
+        function runCleanup(idx) {
+            if (stepCleanupFns[idx]) {
+                try { stepCleanupFns[idx](); } catch (e) { }
+                delete stepCleanupFns[idx];
+            }
+        }
+
         /* ── BUILD DOM ── */
         function startJourney() {
             sbadge.textContent = `1 / ${TOTAL}`;
@@ -1497,7 +1647,7 @@
                 if (s.isFinish) {
                     body = buildFinishHtml();
                 } else if (s.puzzle) {
-                    body = `<div class="inner"><div class="s-head">${s.head}</div><div class="s-txt">${s.txt}</div><div class="pz-wrap" id="pzWrap" onclick="tapPz()"></div><div class="pz-stat" id="pzStat">👆 Tap the puzzle!</div></div>`;
+                    body = `<div class="inner pz-game-inner"><div class="s-head">${s.head}</div><div class="pz-prog-row" id="pzStat"><span>🧩 Drag pieces to the board!</span></div><div class="pz-real-board" id="pzBoard"></div><div class="pz-tray-lbl">↑ Pick &amp; drop pieces above ↑</div><div class="pz-tray-grid" id="pzTray"></div></div>`;
                 } else if (s.nav === 'iloveyou') {
                     body = `<div class="inner" style="gap:8px;padding-top:36px">
                         <span class="s-icon">${s.icon}</span>
@@ -1572,8 +1722,9 @@
             if (cur >= TOTAL - 1 || navBusy) return;
             lockNav();
 
-            /* cleanup all active animations before leaving */
+            /* cleanup all active animations + step-specific listeners */
             cleanupAnimations();
+            runCleanup(cur);
 
             /* fade out music if on music step (native fade - GSAP can't tween media.volume) */
             if (ST[cur].music) {
@@ -1672,7 +1823,7 @@
                 nEl.classList.add('active');
                 pbi.style.width = `${((cur + 1) / TOTAL) * 100}%`;
                 sbadge.textContent = `${cur + 1} / ${TOTAL}`;
-                if (ST[cur].puzzle && !pzPcs.length) setTimeout(buildPuzzle, 300);
+                if (ST[cur].puzzle && !document.getElementById('pzBoard')?.dataset.built) setTimeout(buildPuzzle, 300);
                 if (ST[cur].nav === 'drag') setTimeout(setupDrag, 300);
                 /* GSAP stagger entrance */
                 animateStepIn(nEl);
@@ -1684,7 +1835,9 @@
             if (cur <= 0 || navBusy) return;
             lockNav();
             cleanupAnimations();
+            runCleanup(cur);
             if (waveRAF) { cancelAnimationFrame(waveRAF); waveRAF = null; }
+
 
             const curEl = document.getElementById('stp' + cur);
             curEl.style.cssText = '';
@@ -1989,109 +2142,190 @@
         }
 
 
-        /* ── PUZZLE (SVG Jigsaw) ── */
-        const PIC = 'https://images.unsplash.com/photo-1516589174184-e67823dbf48e?auto=format&fit=crop&q=80&w=600';
-        function ppPath(r, c, ps, t) {
-            const x = c * ps, y = r * ps, mx = x + ps / 2, my = y + ps / 2, q = ps * 0.22;
-            const top = r === 0 ? 0 : -1, right = c === 2 ? 0 : 1, bot = r === 2 ? 0 : 1, left = c === 0 ? 0 : -1;
-            let d = `M ${x} ${y} `;
-            // TOP (left→right)
-            d += `L ${mx - q} ${y} `;
-            if (top) d += `C ${mx - q} ${y - top * t} ${mx + q} ${y - top * t} ${mx + q} ${y} `; else d += `L ${mx + q} ${y} `;
-            d += `L ${x + ps} ${y} `;
-            // RIGHT (top→bot)
-            d += `L ${x + ps} ${my - q} `;
-            if (right) d += `C ${x + ps + right * t} ${my - q} ${x + ps + right * t} ${my + q} ${x + ps} ${my + q} `; else d += `L ${x + ps} ${my + q} `;
-            d += `L ${x + ps} ${y + ps} `;
-            // BOTTOM (right←left)
-            d += `L ${mx + q} ${y + ps} `;
-            if (bot) d += `C ${mx + q} ${y + ps + bot * t} ${mx - q} ${y + ps + bot * t} ${mx - q} ${y + ps} `; else d += `L ${mx - q} ${y + ps} `;
-            d += `L ${x} ${y + ps} `;
-            // LEFT (bot→top)
-            d += `L ${x} ${my + q} `;
-            if (left) d += `C ${x - left * t} ${my + q} ${x - left * t} ${my - q} ${x} ${my - q} `; else d += `L ${x} ${my - q} `;
-            return d + `L ${x} ${y} Z`;
-        }
+        /* ── REAL PUZZLE GAME – 4×3 = 12 pieces drag-and-drop ── */
+        const PIC = 'eee.jpg';   /* 📸 Replace eee.jpg with your actual love photo */
+        const PZ_COLS = 4, PZ_ROWS = 3; /* 12 pieces */
+
         function buildPuzzle() {
-            const wrap = document.getElementById('pzWrap');
-            if (!wrap || wrap.querySelector('svg')) return;
-            const maxW = Math.min(window.innerWidth * 0.82, 258);
-            const sz = Math.floor(maxW / 3) * 3, ps = sz / 3, t = ps * 0.3;
-            const pad = Math.ceil(t) + 4;
-            const NS = 'http://www.w3.org/2000/svg';
-            const svg = document.createElementNS(NS, 'svg');
-            svg.setAttribute('width', sz); svg.setAttribute('height', sz);
-            svg.setAttribute('viewBox', `${-pad} ${-pad} ${sz + 2 * pad} ${sz + 2 * pad}`);
-            svg.style.cssText = 'overflow:visible;cursor:pointer;display:block;margin:auto;';
-            // Pattern
-            const defs = document.createElementNS(NS, 'defs');
-            const pat = document.createElementNS(NS, 'pattern');
-            pat.id = 'ppat'; pat.setAttribute('patternUnits', 'userSpaceOnUse');
-            pat.setAttribute('width', sz); pat.setAttribute('height', sz);
-            const img = document.createElementNS(NS, 'image');
-            img.setAttribute('href', PIC); img.setAttribute('width', sz); img.setAttribute('height', sz);
-            img.setAttribute('preserveAspectRatio', 'xMidYMid slice');
-            pat.appendChild(img); defs.appendChild(pat); svg.appendChild(defs);
-            // BG grid
-            const bg = document.createElementNS(NS, 'rect');
-            bg.setAttribute('x', 0); bg.setAttribute('y', 0);
-            bg.setAttribute('width', sz); bg.setAttribute('height', sz);
-            bg.setAttribute('rx', 6); bg.setAttribute('fill', 'rgba(255,255,255,.05)');
-            bg.setAttribute('stroke', 'rgba(96,165,250,.2)'); bg.setAttribute('stroke-width', '1');
-            svg.appendChild(bg);
-            // Grid lines for ghost guides
-            for (let i = 1; i < 3; i++) {
-                const hl = document.createElementNS(NS, 'line');
-                hl.setAttribute('x1', i * ps); hl.setAttribute('y1', 0); hl.setAttribute('x2', i * ps); hl.setAttribute('y2', sz);
-                hl.setAttribute('stroke', 'rgba(96,165,250,.1)'); hl.setAttribute('stroke-width', '1'); svg.appendChild(hl);
-                const vl = document.createElementNS(NS, 'line');
-                vl.setAttribute('x1', 0); vl.setAttribute('y1', i * ps); vl.setAttribute('x2', sz); vl.setAttribute('y2', i * ps);
-                vl.setAttribute('stroke', 'rgba(96,165,250,.1)'); vl.setAttribute('stroke-width', '1'); svg.appendChild(vl);
-            }
-            // Scatter offsets [dx, dy]
-            const SC = [
-                [sz * .55, -sz * .55], [-sz * .25, -sz * .65], [-sz * .65, -sz * .2],
-                [sz * .65, sz * .1], [-sz * .6, sz * .5], [sz * .2, sz * .65],
-                [-sz * .5, sz * .1], [sz * .55, sz * .45], [-sz * .15, sz * .4]
-            ];
-            pzPcs = [];
-            for (let i = 0; i < 9; i++) {
-                const row = Math.floor(i / 3), col = i % 3;
-                const pe = document.createElementNS(NS, 'path');
-                pe.setAttribute('d', ppPath(row, col, ps, t));
-                pe.setAttribute('fill', 'url(#ppat)');
-                pe.setAttribute('stroke', 'rgba(255,255,255,.7)'); pe.setAttribute('stroke-width', '1.5');
-                pe.setAttribute('stroke-linejoin', 'round');
-                pe.style.cssText = `transition:transform .58s cubic-bezier(.34,1.56,.64,1);filter:drop-shadow(2px 3px 5px rgba(0,0,0,.55));`;
-                pe.setAttribute('transform', `translate(${SC[i][0]},${SC[i][1]})`);
-                svg.appendChild(pe); pzPcs.push(pe);
-            }
-            wrap.appendChild(svg);
-            svg.addEventListener('click', tapPz);
-        }
-        function tapPz() {
-            if (pzS >= 9) return;
-            const pe = pzPcs[pzS];
-            const wrap = document.getElementById('pzWrap');
-
-            /* CSS spring transition on SVG path transform (no AttrPlugin needed) */
-            pe.style.transition = 'transform 0.55s cubic-bezier(0.34,1.56,0.64,1), filter 0.3s ease';
-            pe.setAttribute('transform', 'translate(0,0)');
-            pe.style.filter = 'drop-shadow(0 0 14px rgba(96,165,250,1))';
-            setTimeout(() => { pe.style.filter = 'drop-shadow(2px 3px 5px rgba(0,0,0,.55))'; }, 340);
-
-            pzS++;
+            const board = document.getElementById('pzBoard');
+            const tray = document.getElementById('pzTray');
             const stat = document.getElementById('pzStat');
-            stat.textContent = pzS < 9 ? `✨ ${pzS}/9 placed!` : '🎉 Perfect! Her smile revealed! 💙';
-            if (pzS === 9) {
-                savePz();
-                /* GSAP board pulse (boxShadow + scale) on the wrapper div */
-                gsap.timeline()
-                    .to(wrap, { boxShadow: '0 0 40px rgba(96,165,250,0.75)', scale: 1.04, duration: 0.35, ease: 'power2.out' })
-                    .to(wrap, { boxShadow: '0 0 0px rgba(96,165,250,0)', scale: 1, duration: 0.55, ease: 'elastic.out(1,0.5)' });
-                setTimeout(goNext, 1850);
+            if (!board || board.dataset.built) return;
+            board.dataset.built = '1';
+
+            /* ── Responsive piece size ── */
+            const cardW = document.getElementById('card').offsetWidth || 360;
+            const PW = Math.floor((cardW - 28) / PZ_COLS) - 2;   /* piece width  */
+            const PH = Math.floor(PW * 0.75);                      /* 4:3 ratio    */
+            const TOTAL = PZ_COLS * PZ_ROWS;
+            let placed = 0;
+            let dragTile = null, dragPid = -1, dragClone = null;
+
+            /* Apply grid dimensions */
+            board.style.gridTemplateColumns = `repeat(${PZ_COLS}, ${PW}px)`;
+            board.style.gridTemplateRows = `repeat(${PZ_ROWS}, ${PH}px)`;
+            tray.style.gridTemplateColumns = `repeat(${PZ_COLS}, ${PW}px)`;
+            tray.style.maxHeight = (PH * 2 + 4 * 3) + 'px';  /* show 2 rows */
+
+            /* ── Build board slots ── */
+            for (let i = 0; i < TOTAL; i++) {
+                const slot = document.createElement('div');
+                slot.className = 'pz-slot';
+                slot.dataset.slotId = i;
+                /* Ghost hint: faint image in background so user knows correct position */
+                slot.style.backgroundImage = `url('${PIC}')`;
+                slot.style.backgroundSize = `${PZ_COLS * PW}px ${PZ_ROWS * PH}px`;
+                slot.style.backgroundPosition = `-${(i % PZ_COLS) * PW}px -${Math.floor(i / PZ_COLS) * PH}px`;
+                slot.style.opacity = '1';
+                /* Ghost filter – very dark until filled */
+                slot.style.filter = 'brightness(0.12) saturate(0.3)';
+                board.appendChild(slot);
             }
+
+            /* ── Build shuffled tray pieces ── */
+            const ids = [...Array(TOTAL).keys()].sort(() => Math.random() - 0.5);
+            ids.forEach(pid => {
+                const r = Math.floor(pid / PZ_COLS), c = pid % PZ_COLS;
+                const tile = document.createElement('div');
+                tile.className = 'pz-tile';
+                tile.dataset.pid = pid;
+                tile.style.width = PW + 'px';
+                tile.style.height = PH + 'px';
+                tile.style.backgroundImage = `url('${PIC}')`;
+                tile.style.backgroundSize = `${PZ_COLS * PW}px ${PZ_ROWS * PH}px`;
+                tile.style.backgroundPosition = `-${c * PW}px -${r * PH}px`;
+                tray.appendChild(tile);
+            });
+
+            /* ── Drag Manager ── */
+            function startDrag(tile, cx, cy) {
+                dragTile = tile;
+                dragPid = parseInt(tile.dataset.pid);
+                dragClone = document.createElement('div');
+                dragClone.className = 'pz-drag-clone';
+                dragClone.style.width = PW + 'px';
+                dragClone.style.height = PH + 'px';
+                dragClone.style.backgroundImage = tile.style.backgroundImage;
+                dragClone.style.backgroundSize = tile.style.backgroundSize;
+                dragClone.style.backgroundPosition = tile.style.backgroundPosition;
+                dragClone.style.left = (cx - PW / 2) + 'px';
+                dragClone.style.top = (cy - PH / 2) + 'px';
+                document.body.appendChild(dragClone);
+                tile.style.opacity = '.3';
+            }
+
+            function moveDrag(cx, cy) {
+                if (!dragClone) return;
+                dragClone.style.left = (cx - PW / 2) + 'px';
+                dragClone.style.top = (cy - PH / 2) + 'px';
+                board.querySelectorAll('.pz-slot').forEach(s => s.classList.remove('pz-highlight'));
+                const el = document.elementFromPoint(cx, cy);
+                const slot = el && el.closest('.pz-slot');
+                if (slot && !slot.dataset.filled) slot.classList.add('pz-highlight');
+            }
+
+            function endDrag(cx, cy) {
+                if (!dragClone || !dragTile) return;
+                dragClone.remove(); dragClone = null;
+                board.querySelectorAll('.pz-slot').forEach(s => s.classList.remove('pz-highlight'));
+                const pid = dragPid;
+                const tile = dragTile;
+                dragTile = null; dragPid = -1;
+                tile.style.opacity = '';
+
+                const el = document.elementFromPoint(cx, cy);
+                const slot = el && el.closest('.pz-slot');
+                if (!slot || slot.dataset.filled) return;
+
+                if (parseInt(slot.dataset.slotId) === pid) {
+                    /* ✅ CORRECT */
+                    slot.dataset.filled = '1';
+                    slot.classList.add('pz-filled');
+                    slot.style.filter = 'none';  /* reveal full-colour piece */
+                    slot.style.border = 'none';
+                    tile.classList.add('pz-placed');
+
+                    /* Green flash */
+                    slot.classList.add('pz-correct');
+                    setTimeout(() => slot.classList.remove('pz-correct'), 520);
+
+                    /* GSAP micro-scale bounce on the slot */
+                    gsap.fromTo(slot, { scale: 1.12 }, { scale: 1, duration: 0.4, ease: 'back.out(1.6)' });
+
+                    placed++;
+                    stat.innerHTML = `<span>✨ ${placed}/${TOTAL} placed!</span>`;
+
+                    if (placed === TOTAL) {
+                        stat.innerHTML = '<span>🎉 Perfect! Our memory is revealed! 💙</span>';
+                        savePz();
+                        /* GSAP board celebration glow */
+                        gsap.timeline()
+                            .to(board, { boxShadow: '0 0 50px rgba(96,165,250,.85)', scale: 1.04, duration: 0.4, ease: 'power2.out' })
+                            .to(board, { boxShadow: '0 0 0px rgba(96,165,250,0)', scale: 1, duration: 0.7, ease: 'elastic.out(1,0.5)' });
+                        doConfetti();
+                        setTimeout(goNext, 2400);
+                    }
+                } else {
+                    /* ❌ WRONG – shake slot */
+                    slot.classList.add('pz-wrong');
+                    setTimeout(() => slot.classList.remove('pz-wrong'), 400);
+                }
+            }
+
+            /* Touch handlers */
+            const stepEl = board.closest('.stp');
+            const onTS = e => {
+                const tile = e.target.closest('.pz-tile:not(.pz-placed)');
+                if (!tile) return;
+                e.stopPropagation();
+                const t = e.touches[0];
+                startDrag(tile, t.clientX, t.clientY);
+            };
+            const onTM = e => {
+                if (!dragClone) return;
+                const t = e.touches[0];
+                moveDrag(t.clientX, t.clientY);
+            };
+            const onTE = e => {
+                if (!dragClone) return;
+                const t = e.changedTouches[0];
+                endDrag(t.clientX, t.clientY);
+            };
+
+            /* Mouse handlers */
+            const onMS = e => {
+                const tile = e.target.closest('.pz-tile:not(.pz-placed)');
+                if (!tile) return;
+                e.preventDefault();
+                startDrag(tile, e.clientX, e.clientY);
+            };
+            const onMM = e => { if (dragClone) moveDrag(e.clientX, e.clientY); };
+            const onMU = e => { if (dragClone) endDrag(e.clientX, e.clientY); };
+
+            stepEl.addEventListener('touchstart', onTS, { passive: true });
+            document.addEventListener('touchmove', onTM, { passive: true });
+            document.addEventListener('touchend', onTE, { passive: true });
+            stepEl.addEventListener('mousedown', onMS);
+            document.addEventListener('mousemove', onMM);
+            document.addEventListener('mouseup', onMU);
+
+            /* Cleanup when leaving this step */
+            const pzIdx = ST.findIndex(s => s.puzzle);
+            registerCleanup(pzIdx, () => {
+                stepEl.removeEventListener('touchstart', onTS);
+                document.removeEventListener('touchmove', onTM);
+                document.removeEventListener('touchend', onTE);
+                stepEl.removeEventListener('mousedown', onMS);
+                document.removeEventListener('mousemove', onMM);
+                document.removeEventListener('mouseup', onMU);
+                if (dragClone) { dragClone.remove(); dragClone = null; }
+            });
         }
+
+        /* Legacy no-op (was tap-to-place, now replaced by drag-engine above) */
+        function tapPz() { }
+
+
 
         /* ── METER ── */
         function updMeter(v) {
