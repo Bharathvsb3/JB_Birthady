@@ -260,18 +260,17 @@
             width: 100%;
             max-width: 360px;
             background: linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.03));
-            backdrop-filter: blur(40px);
-            -webkit-backdrop-filter: blur(40px);
+            /* Removed backdrop-filter blur which lagged low-end phones */
             border-radius: 44px;
             border: 1px solid rgba(255, 255, 255, 0.15);
-            box-shadow: 0 40px 100px rgba(0, 0, 0, 0.7), inset 0 0 20px rgba(96, 165, 250, 0.1);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.7);
             padding: 24px 22px 20px;
             max-height: 98vh;
             overflow-y: auto;
             scrollbar-width: none;
             text-align: center;
             opacity: 0;
-            transform: translateY(30px) rotateX(10deg);
+            transform: translateY(30px);
             will-change: transform, opacity;
         }
 
@@ -283,13 +282,13 @@
 
             0%,
             100% {
-                transform: translateY(0px) rotateX(0deg);
-                box-shadow: 0 40px 100px rgba(0, 0, 0, 0.7), inset 0 0 20px rgba(96, 165, 250, 0.1);
+                transform: translateY(0px);
+                box-shadow: 0 15px 40px rgba(0, 0, 0, 0.7);
             }
 
             50% {
-                transform: translateY(-8px) rotateX(-2deg);
-                box-shadow: 0 45px 110px rgba(0, 0, 0, 0.8), inset 0 0 35px rgba(96, 165, 250, 0.25);
+                transform: translateY(-8px);
+                box-shadow: 0 20px 45px rgba(0, 0, 0, 0.8);
             }
         }
 
@@ -1723,6 +1722,16 @@
         </select>
     </div>
     -->
+
+    <div id="loaderScreen"
+        style="position:fixed; inset:0; z-index:999999; background:#020c22; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:16px;">
+        <span style="font-size:3rem; animation: flt 2s infinite ease-in-out;">💙</span>
+        <div
+            style="color:#60a5fa; font-weight:700; font-size:0.9rem; letter-spacing:1px; font-family:'Poppins', sans-serif;">
+            Loading Your Surprise...</div>
+        <div style="font-size:0.75rem; color:rgba(255,255,255,0.4); text-align:center;">Checking connection & preparing
+            assets! 🎉</div>
+    </div>
 
     <div class="bg">
         <div class="b b1"></div>
@@ -3388,11 +3397,62 @@
         }
         /* ── INITIAL LOAD ── */
         window.onload = () => {
+            const loginSection = document.getElementById('login');
             const lc = document.querySelector('.lc');
             const items = document.querySelectorAll('.lc-item');
+            const loader = document.getElementById('loaderScreen');
+            const bgm = document.getElementById('bgm');
+
+            function startLoginScreen() {
+                /* Remove loader */
+                if (loader) {
+                    gsap.to(loader, { opacity: 0, duration: 0.8, onComplete: () => loader.remove() });
+                }
+
+                /* Build Starry background */
+                for (let i = 0; i < 60; i++) {
+                    const st = document.createElement('div');
+                    st.className = 'star';
+                    st.style.left = Math.random() * 100 + 'vw';
+                    st.style.top = Math.random() * 100 + 'vh';
+                    st.style.animationDelay = Math.random() * 5 + 's';
+                    document.body.appendChild(st);
+                }
+
+                /* Staggered entrance, then start mobile breathing effect */
+                gsap.to(lc, {
+                    opacity: 1, y: 0, rotateX: 0, duration: 1, ease: 'power3.out',
+                    onComplete: () => {
+                        /* Only apply float once entrance is completely done, looks better on mobile */
+                        lc.style.transform = '';
+                        lc.classList.add('lc-float');
+                    }
+                });
+                gsap.to(items, { opacity: 1, y: 0, stagger: 0.1, duration: 0.8, ease: 'power2.out', delay: 0.3 });
+            }
+
+            /* ── WAIT FOR AUDIO TO BUFFER BEFORE SHOWING ── */
+            let isLoaded = false;
+            function tryLoad() {
+                if (isLoaded) return;
+                isLoaded = true;
+                startLoginScreen();
+            }
+
+            if (bgm && bgm.readyState >= 3) {
+                // Already fully loaded and ready to play
+                tryLoad();
+            } else if (bgm) {
+                // Wait for network to download enough of it
+                bgm.addEventListener('canplaythrough', tryLoad);
+
+                // Fallback in case network is too slow, force load after 8 seconds anyway
+                setTimeout(tryLoad, 8000);
+            } else {
+                tryLoad();
+            }
 
             /* Magic Sparkles around Login for Mobile First */
-            const loginSection = document.getElementById('login');
             setInterval(() => {
                 if (loginSection.style.display === 'none' || loginSection.classList.contains('out')) return;
                 const sp = document.createElement('div');
@@ -3417,25 +3477,16 @@
                 });
             }, 300);
 
-            /* Staggered entrance, then start mobile breathing effect */
-            gsap.to(lc, {
-                opacity: 1, y: 0, rotateX: 0, duration: 1, ease: 'power3.out',
-                onComplete: () => {
-                    /* Only apply float once entrance is completely done, looks better on mobile */
-                    lc.style.transform = '';
-                    lc.classList.add('lc-float');
-                }
-            });
-            gsap.to(items, { opacity: 1, y: 0, stagger: 0.1, duration: 0.8, ease: 'power2.out', delay: 0.3 });
-
-            /* Interactive parallax tilt (still active if they drag/move) */
-            document.addEventListener('mousemove', e => {
-                if (loginSection.style.display === 'none') return;
-                const x = (e.clientX / window.innerWidth - 0.5) * 15;
-                const y = (e.clientY / window.innerHeight - 0.5) * -15;
-                /* Note: overrides breath rotation slightly for interactivity */
-                gsap.to(lc, { rotateY: x, rotateX: y, duration: 0.8, ease: 'power2.out' });
-            });
+            /* Parallax tilt mapped specifically to lower power devices */
+            let isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+            if (!isMobile) {
+                document.addEventListener('mousemove', e => {
+                    if (loginSection.style.display === 'none') return;
+                    const x = (e.clientX / window.innerWidth - 0.5) * 10;
+                    const y = (e.clientY / window.innerHeight - 0.5) * -10;
+                    gsap.to(lc, { rotateY: x, rotateX: y, duration: 0.8, ease: 'power2.out' });
+                });
+            }
 
             /* Keypad elastic touch */
             document.querySelectorAll('.pb').forEach(btn => {
