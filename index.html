@@ -2257,8 +2257,9 @@
             cleanupAnimations();
             runCleanup(cur);
 
-            /* cancel waveRAF */
+            /* cancel waveRAF and confetti */
             if (waveRAF) { cancelAnimationFrame(waveRAF); waveRAF = null; }
+            if (typeof stopConfetti === 'function') stopConfetti();
 
             const curEl = document.getElementById('stp' + cur);
             curEl.style.cssText = '';
@@ -3501,13 +3502,25 @@
         }
 
         /* ── CONFETTI ── */
+        let confettiRAF = null;
         function doConfetti() {
+            stopConfetti();
             const end = Date.now() + 7000;
             (function fire() {
                 confetti({ particleCount: 12, angle: 60, spread: 70, origin: { x: 0 }, colors: ['#3b82f6', '#a855f7', '#ec4899', '#facc15'] });
                 confetti({ particleCount: 12, angle: 120, spread: 70, origin: { x: 1 }, colors: ['#3b82f6', '#60a5fa', '#818cf8', '#f0abfc'] });
-                if (Date.now() < end) requestAnimationFrame(fire);
+                if (Date.now() < end) confettiRAF = requestAnimationFrame(fire);
             })();
+        }
+
+        function stopConfetti() {
+            if (confettiRAF) {
+                cancelAnimationFrame(confettiRAF);
+                confettiRAF = null;
+            }
+            if (typeof confetti !== 'undefined' && confetti.reset) {
+                confetti.reset();
+            }
         }
 
         /* ── PETALS ── */
