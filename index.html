@@ -1,10 +1,10 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-    <title>Happy Birthday Jenifar 💙</title>
+    <title>Happy Birthday Jenifar ðŸ’™</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Great+Vibes&display=swap"
         rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
@@ -957,7 +957,7 @@
             }
         }
 
-        /* ── FINISH SCREEN ── */
+        /* â”€â”€ FINISH SCREEN â”€â”€ */
         .fin-wrap {
             width: 100%;
             flex: 1;
@@ -1091,7 +1091,7 @@
         }
 
         .fin-letter::before {
-            content: '💌';
+            content: 'ðŸ’Œ';
             position: absolute;
             top: -14px;
             left: 50%;
@@ -1549,7 +1549,7 @@
             }
         }
 
-        /* ── REAL PUZZLE GAME ── */
+        /* â”€â”€ REAL PUZZLE GAME â”€â”€ */
         .pz-game-inner {
             padding: 26px 10px 8px !important;
             gap: 5px !important;
@@ -1688,7 +1688,7 @@
             letter-spacing: .3px;
         }
 
-        /* ── LOVE WAVE ── */
+        /* â”€â”€ LOVE WAVE â”€â”€ */
         .mic-love-inner {
             gap: 5px !important;
         }
@@ -1797,178 +1797,421 @@
     </div>
     -->
 
-    <!-- ══ CINEMATIC LOADER ══ -->
-    <div id="loaderScreen"
-        style="position:fixed;inset:0;z-index:999999;background:#020c22;display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden;">
+    <!-- ══════════════════════════════════════
+         💙 CINEMATIC JB LOADER
+    ══════════════════════════════════════ -->
+    <style>
+        @keyframes ldHeartbeat {
 
-        <!-- Floating emoji particles -->
-        <div id="ldParticles" style="position:absolute;inset:0;pointer-events:none;overflow:hidden;"></div>
+            0%,
+            100% {
+                transform: scale(1);
+            }
 
-        <!-- Heartbeat ring -->
-        <div
-            style="position:relative;width:110px;height:110px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-            <svg style="position:absolute;inset:0;width:100%;height:100%;animation:ldRingSpin 3s linear infinite;"
-                viewBox="0 0 110 110">
-                <circle cx="55" cy="55" r="50" fill="none" stroke="rgba(96,165,250,0.12)" stroke-width="3" />
-                <circle cx="55" cy="55" r="50" fill="none" stroke="url(#ldGrad)" stroke-width="3" stroke-dasharray="314"
-                    stroke-dashoffset="220" stroke-linecap="round" />
+            14% {
+                transform: scale(1.22);
+            }
+
+            28% {
+                transform: scale(1);
+            }
+
+            42% {
+                transform: scale(1.14);
+            }
+
+            56% {
+                transform: scale(1);
+            }
+        }
+
+        @keyframes ldSpin1 {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes ldSpin2 {
+            to {
+                transform: rotate(-360deg);
+            }
+        }
+
+        @keyframes ldGlow {
+
+            0%,
+            100% {
+                text-shadow: 0 0 18px rgba(96, 165, 250, .6), 0 0 40px rgba(129, 140, 248, .3);
+            }
+
+            50% {
+                text-shadow: 0 0 32px rgba(96, 165, 250, .9), 0 0 70px rgba(129, 140, 248, .5);
+            }
+        }
+
+        @keyframes ldShimmer {
+            0% {
+                background-position: 200% center;
+            }
+
+            100% {
+                background-position: -200% center;
+            }
+        }
+
+        @keyframes ldFloat {
+            0% {
+                transform: translateY(110vh) rotate(0deg);
+                opacity: 0;
+            }
+
+            8% {
+                opacity: .6;
+            }
+
+            92% {
+                opacity: .5;
+            }
+
+            100% {
+                transform: translateY(-8vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        @keyframes ldFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes ldTypeCursor {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0;
+            }
+        }
+
+        @keyframes ldBlobMove1 {
+            to {
+                transform: translate(140px, 180px) scale(1.15);
+            }
+        }
+
+        @keyframes ldBlobMove2 {
+            to {
+                transform: translate(-120px, -140px) scale(.85);
+            }
+        }
+
+        #loaderScreen {
+            position: fixed;
+            inset: 0;
+            z-index: 999999;
+            background: radial-gradient(ellipse at 55% 35%, rgba(30, 64, 175, .5) 0%, #020c22 65%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 0;
+            overflow: hidden;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        #ldBlob1,
+        #ldBlob2 {
+            position: absolute;
+            border-radius: 50%;
+            pointer-events: none;
+            filter: blur(80px);
+            opacity: .32;
+        }
+
+        #ldBlob1 {
+            width: 350px;
+            height: 350px;
+            top: -100px;
+            left: -100px;
+            background: radial-gradient(circle, #1e40af, transparent 70%);
+            animation: ldBlobMove1 20s infinite alternate;
+        }
+
+        #ldBlob2 {
+            width: 300px;
+            height: 300px;
+            bottom: -70px;
+            right: -70px;
+            background: radial-gradient(circle, #4f46e5, transparent 70%);
+            animation: ldBlobMove2 25s infinite alternate;
+        }
+
+        #ldParticles {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        #ldLogoWrap {
+            position: relative;
+            width: clamp(140px, 35vw, 170px);
+            height: clamp(140px, 35vw, 170px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        #ldRing1 {
+            position: absolute;
+            inset: 0;
+            animation: ldSpin1 5s linear infinite;
+        }
+
+        #ldRing2 {
+            position: absolute;
+            inset: 10px;
+            animation: ldSpin2 3s linear infinite;
+        }
+
+        #ldJB {
+            font-family: 'Great Vibes', cursive;
+            font-size: clamp(3.2rem, 11vw, 4.4rem);
+            background: linear-gradient(135deg, #60a5fa 0%, #fff 45%, #818cf8 100%);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: ldGlow 2.5s ease-in-out infinite, ldShimmer 3s linear infinite;
+            line-height: 1;
+            letter-spacing: -2px;
+            user-select: none;
+        }
+
+        #ldHBadge {
+            position: absolute;
+            bottom: -4px;
+            right: -4px;
+            font-size: 1.2rem;
+            animation: ldHeartbeat 1.3s ease-in-out infinite;
+        }
+
+        #ldMsgWrap {
+            margin-top: 16px;
+            text-align: center;
+            padding: 0 28px;
+            animation: ldFadeIn .6s ease;
+        }
+
+        #ldMsg {
+            font-family: 'Great Vibes', cursive;
+            font-size: clamp(1.1rem, 5vw, 1.6rem);
+            color: #93c5fd;
+            text-shadow: 0 0 18px rgba(96, 165, 250, .4);
+            min-height: 2rem;
+            display: inline;
+        }
+
+        #ldCursor {
+            display: inline-block;
+            width: 2px;
+            height: 1.2em;
+            background: #60a5fa;
+            vertical-align: middle;
+            margin-left: 2px;
+            border-radius: 2px;
+            animation: ldTypeCursor .75s step-end infinite;
+        }
+
+        #ldSub {
+            margin-top: 5px;
+            font-size: clamp(.55rem, 1.8vw, .66rem);
+            font-weight: 600;
+            color: rgba(255, 255, 255, .28);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+
+        #ldProgressWrap {
+            margin-top: 18px;
+            width: clamp(160px, 48vw, 220px);
+        }
+
+        #ldBarTrack {
+            width: 100%;
+            height: 4px;
+            background: rgba(255, 255, 255, .07);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        #ldBar {
+            height: 100%;
+            width: 0%;
+            border-radius: 10px;
+            background: linear-gradient(90deg, #1d4ed8, #38bdf8, #818cf8, #38bdf8);
+            background-size: 300% 100%;
+            animation: ldShimmer 1.6s linear infinite;
+            transition: width .35s ease;
+        }
+
+        #ldPct {
+            margin-top: 5px;
+            font-size: .6rem;
+            font-weight: 700;
+            color: rgba(255, 255, 255, .25);
+            letter-spacing: 1px;
+            text-align: right;
+        }
+    </style>
+
+    <div id="loaderScreen">
+        <div id="ldBlob1"></div>
+        <div id="ldBlob2"></div>
+        <div id="ldParticles"></div>
+
+        <div id="ldLogoWrap">
+            <svg id="ldRing1" viewBox="0 0 170 170">
+                <circle cx="85" cy="85" r="79" fill="none" stroke="rgba(96,165,250,0.09)" stroke-width="2" />
+                <circle cx="85" cy="85" r="79" fill="none" stroke="url(#ldG1)" stroke-width="2.5" stroke-dasharray="496"
+                    stroke-dashoffset="370" stroke-linecap="round" />
                 <defs>
-                    <linearGradient id="ldGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-                        <stop offset="0%" style="stop-color:#3b82f6;stop-opacity:1" />
-                        <stop offset="100%" style="stop-color:#818cf8;stop-opacity:1" />
+                    <linearGradient id="ldG1" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" style="stop-color:#3b82f6" />
+                        <stop offset="100%" style="stop-color:#818cf8" />
                     </linearGradient>
                 </defs>
             </svg>
-            <span id="ldHeart"
-                style="font-size:3.2rem;animation:ldHeartbeat 1.2s ease-in-out infinite;filter:drop-shadow(0 0 18px rgba(96,165,250,.7));">💙</span>
+            <svg id="ldRing2" viewBox="0 0 150 150">
+                <circle cx="75" cy="75" r="69" fill="none" stroke="rgba(129,140,248,0.08)" stroke-width="1.5" />
+                <circle cx="75" cy="75" r="69" fill="none" stroke="url(#ldG2)" stroke-width="2" stroke-dasharray="433"
+                    stroke-dashoffset="320" stroke-linecap="round" />
+                <defs>
+                    <linearGradient id="ldG2" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" style="stop-color:#818cf8" />
+                        <stop offset="100%" style="stop-color:#38bdf8" />
+                    </linearGradient>
+                </defs>
+            </svg>
+            <div id="ldJB">JB</div>
+            <div id="ldHBadge">💙</div>
         </div>
 
-        <!-- Typewriter message -->
-        <div id="ldMsg"
-            style="font-family:'Great Vibes',cursive;font-size:clamp(1.4rem,6vw,2rem);color:#60a5fa;text-align:center;padding:0 24px;min-height:2.6rem;letter-spacing:.5px;text-shadow:0 0 20px rgba(96,165,250,.4);">
+        <div id="ldMsgWrap">
+            <span id="ldMsg"></span><span id="ldCursor"></span>
+            <div id="ldSub">Just for you 💙</div>
         </div>
 
-        <!-- Sub label -->
-        <div
-            style="font-family:'Poppins',sans-serif;font-size:.72rem;font-weight:600;color:rgba(255,255,255,.35);letter-spacing:2px;text-transform:uppercase;">
-            Just for you 💙</div>
-
-        <!-- Shimmer progress bar -->
-        <div
-            style="width:180px;height:3px;background:rgba(255,255,255,.07);border-radius:10px;overflow:hidden;margin-top:4px;">
-            <div id="ldBar"
-                style="height:100%;width:0%;border-radius:10px;background:linear-gradient(90deg,#1d4ed8,#38bdf8,#818cf8);background-size:200% 100%;animation:ldShimmer 1.4s linear infinite;transition:width .4s ease;">
+        <div id="ldProgressWrap">
+            <div id="ldBarTrack">
+                <div id="ldBar"></div>
             </div>
+            <div id="ldPct">0%</div>
         </div>
-
-        <style>
-            @keyframes ldHeartbeat {
-
-                0%,
-                100% {
-                    transform: scale(1);
-                }
-
-                14% {
-                    transform: scale(1.22);
-                }
-
-                28% {
-                    transform: scale(1);
-                }
-
-                42% {
-                    transform: scale(1.14);
-                }
-
-                56% {
-                    transform: scale(1);
-                }
-            }
-
-            @keyframes ldRingSpin {
-                to {
-                    transform: rotate(360deg);
-                }
-            }
-
-            @keyframes ldShimmer {
-                0% {
-                    background-position: 200% 0;
-                }
-
-                100% {
-                    background-position: -200% 0;
-                }
-            }
-
-            @keyframes ldFloat {
-                0% {
-                    transform: translateY(110vh) rotate(0deg);
-                    opacity: 0;
-                }
-
-                10% {
-                    opacity: .7;
-                }
-
-                90% {
-                    opacity: .5;
-                }
-
-                100% {
-                    transform: translateY(-10vh) rotate(360deg);
-                    opacity: 0;
-                }
-            }
-        </style>
     </div>
 
     <script>
-        /* ── LOADER LOGIC ── */
         (function () {
-            const msgs = [
-                "Un kooda oru special surprise\nwait panradhu… 💙",
-                "Indha journey sirf unakkaga\nmatrum dhaan 🌟",
-                "Konjam neram… en manasule\nonna think pannitu irukken 💭",
-                "Nee ready ah irukiya? 🎁",
-                "Heart full of love\ncoming your way… 💙"
-            ];
-            let mi = 0, ci = 0, erasing = false, tmr;
-            const el = document.getElementById('ldMsg');
-            const bar = document.getElementById('ldBar');
+            var IMAGES = ['IMG20230312122458.jpg', '1.jpg', '2.jpg', 'IMG20230129154348.jpg',
+                '4.jpg', '444.jpg', '3.jpg', '666.png',
+                'Picsart_26-01-16_22-59-05-218.jpg', 'puzzil.jpg'];
+            var AUDIO_SRC = 'song1.mp3';
+            var MIN_MS = 3500;
+            var TOTAL = IMAGES.length + 1;
+            var bar = document.getElementById('ldBar');
+            var pct = document.getElementById('ldPct');
+            var msgEl = document.getElementById('ldMsg');
+            var loaded = 0;
+            var startTime = Date.now();
+            var done = false;
 
+            function onAsset() {
+                loaded = Math.min(loaded + 1, TOTAL);
+                var p = Math.round((loaded / TOTAL) * 100);
+                if (bar) bar.style.width = p + '%';
+                if (pct) pct.textContent = p + '%';
+                if (loaded >= TOTAL && !done) tryFinish();
+            }
+
+            IMAGES.forEach(function (src) {
+                var img = new Image();
+                img.onload = img.onerror = onAsset;
+                img.src = src;
+            });
+
+            var bgmPre = document.createElement('audio');
+            bgmPre.preload = 'auto';
+            bgmPre.src = AUDIO_SRC;
+            var aDone = function () { bgmPre.removeEventListener('canplaythrough', aDone); bgmPre.removeEventListener('error', aDone); onAsset(); };
+            bgmPre.addEventListener('canplaythrough', aDone);
+            bgmPre.addEventListener('error', aDone);
+            bgmPre.load();
+            setTimeout(aDone, 7000);
+
+            function tryFinish() {
+                done = true;
+                var elapsed = Date.now() - startTime;
+                var wait = Math.max(0, MIN_MS - elapsed);
+                setTimeout(function () {
+                    if (typeof window._loaderComplete === 'function') window._loaderComplete();
+                }, wait);
+            }
+
+            var msgs = [
+                "Un kooda oru special surprise wait panradhu 💙",
+                "Indha journey sirf unakkaga matrum dhaan 🌟",
+                "En manasule onna think pannitu irukken 💭",
+                "Nee ready ah irukiya? 🎁",
+                "Heart full of love... coming your way 💙"
+            ];
+            var mi = 0, ci = 0, erasing = false, tmr;
             function typeNext() {
-                const txt = msgs[mi];
+                if (!msgEl) return;
+                var txt = msgs[mi];
                 if (!erasing) {
-                    if (ci <= txt.length) {
-                        el.textContent = txt.slice(0, ci++);
-                        tmr = setTimeout(typeNext, ci === 1 ? 400 : 42);
-                    } else {
-                        tmr = setTimeout(() => { erasing = true; typeNext(); }, 2200);
-                    }
+                    if (ci <= txt.length) { msgEl.textContent = txt.slice(0, ci++); tmr = setTimeout(typeNext, ci === 1 ? 350 : 36); }
+                    else { tmr = setTimeout(function () { erasing = true; typeNext(); }, 1900); }
                 } else {
-                    if (ci >= 0) {
-                        el.textContent = txt.slice(0, ci--);
-                        tmr = setTimeout(typeNext, 28);
-                    } else {
-                        erasing = false; ci = 0; mi = (mi + 1) % msgs.length;
-                        tmr = setTimeout(typeNext, 300);
-                    }
+                    if (ci >= 0) { msgEl.textContent = txt.slice(0, ci--); tmr = setTimeout(typeNext, 20); }
+                    else { erasing = false; ci = 0; mi = (mi + 1) % msgs.length; tmr = setTimeout(typeNext, 240); }
                 }
             }
             typeNext();
 
-            /* Progress bar fill over 7s */
-            let prog = 0;
-            const pInt = setInterval(() => {
-                prog = Math.min(prog + (prog < 70 ? 1.2 : 0.3), 96);
-                if (bar) bar.style.width = prog + '%';
-                if (prog >= 96) clearInterval(pInt);
-            }, 80);
-
-            /* Floating emoji particles */
-            const EMOJIS = ['💙', '✨', '💜', '💫', '⭐', '🌟', '💗', '💖'];
-            const cont = document.getElementById('ldParticles');
+            var EMJS = ['💙', '✨', '💜', '💫', '⭐', '🌟', '💗', '💖', '🎀'];
+            var cont = document.getElementById('ldParticles');
             if (cont) {
-                for (let i = 0; i < 18; i++) {
-                    setTimeout(() => {
-                        const p = document.createElement('div');
-                        p.textContent = EMOJIS[Math.floor(Math.random() * EMOJIS.length)];
-                        const sz = 0.8 + Math.random() * 1.1;
-                        const dur = 5 + Math.random() * 7;
-                        const del = Math.random() * 4;
-                        p.style.cssText = `position:absolute;left:${Math.random() * 100}%;bottom:-2rem;font-size:${sz}rem;opacity:0;animation:ldFloat ${dur}s ${del}s linear infinite;pointer-events:none;`;
-                        cont.appendChild(p);
-                    }, i * 200);
+                for (var i = 0; i < 20; i++) {
+                    (function (i) {
+                        setTimeout(function () {
+                            var p = document.createElement('div');
+                            p.textContent = EMJS[Math.floor(Math.random() * EMJS.length)];
+                            var sz = (0.75 + Math.random() * 1).toFixed(2);
+                            var dur = (6 + Math.random() * 8).toFixed(1);
+                            var del = (Math.random() * 3).toFixed(1);
+                            var left = (Math.random() * 100).toFixed(1);
+                            p.style.cssText = 'position:absolute;left:' + left + '%;bottom:-2rem;font-size:' + sz + 'rem;opacity:0;animation:ldFloat ' + dur + 's ' + del + 's linear infinite;pointer-events:none;';
+                            cont.appendChild(p);
+                        }, i * 180);
+                    })(i);
                 }
             }
 
-            /* Complete bar when loader is removed */
             window._loaderComplete = function () {
-                if (bar) bar.style.width = '100%';
                 clearTimeout(tmr);
-                clearInterval(pInt);
+                if (bar) { bar.style.width = '100%'; }
+                if (pct) { pct.textContent = '100%'; }
             };
         })();
     </script>
@@ -1980,12 +2223,12 @@
     </div>
     <div id="login">
         <div class="lc">
-            <span class="hrt lc-item">💙</span>
+            <span class="hrt lc-item">ðŸ’™</span>
             <div class="lt lc-item">Hi Thangam!</div>
-            <div class="ls lc-item">Unlock your 15-step Birthday Journey 🎁</div>
+            <div class="ls lc-item">Unlock your 15-step Birthday Journey ðŸŽ</div>
             <div class="clue lc-item">
-                <div class="ct">Enter your secret PIN! 💙<br><span style="font-size:.78rem;opacity:.55;">Hint: Our
-                        special date 🗓️</span></div>
+                <div class="ct">Enter your secret PIN! ðŸ’™<br><span style="font-size:.78rem;opacity:.55;">Hint: Our
+                        special date ðŸ—“ï¸</span></div>
             </div>
             <div class="dots lc-item">
                 <div class="dot" id="d0"></div>
@@ -2001,7 +2244,7 @@
                     class="pb" onclick="pp('6')">6</button>
                 <button class="pb" onclick="pp('7')">7</button><button class="pb" onclick="pp('8')">8</button><button
                     class="pb" onclick="pp('9')">9</button>
-                <button class="pb z" onclick="pp('0')">0</button><button class="pb del" onclick="pd()">⌫</button>
+                <button class="pb z" onclick="pp('0')">0</button><button class="pb del" onclick="pd()">âŒ«</button>
             </div>
         </div>
     </div>
@@ -2013,7 +2256,7 @@
             <div id="pbi"></div>
         </div>
         <div class="sbadge" id="sbadge">1 / 15</div>
-        <!-- Hidden back button – top-left corner secret tap -->
+        <!-- Hidden back button â€“ top-left corner secret tap -->
         <div id="backBtn" onclick="goPrev()"></div>
         <div class="sw" id="sw"></div>
     </div>
@@ -2024,13 +2267,13 @@
         <div id="cdMsg">Get ready...</div>
     </div>
     <div id="resumeBanner">
-        <span id="resumeMsg">💙 Continue from Step 1?</span>
-        <button class="rb-yes" onclick="doResume()">Continue ▶</button>
+        <span id="resumeMsg">ðŸ’™ Continue from Step 1?</span>
+        <button class="rb-yes" onclick="doResume()">Continue â–¶</button>
         <button class="rb-no" onclick="dismissResume()">Start Over</button>
     </div>
     <script>
         /* =========================================================================
-           💙 FULL CONFIGURATION 💙
+           ðŸ’™ FULL CONFIGURATION ðŸ’™
            Change any text, date, pin, or link here easily!
            ========================================================================= */
         const CONFIG = {
@@ -2043,163 +2286,163 @@
             audioFile: "song1.mp3",
 
             login: {
-                title: "Hi Thangam 💙",
-                subtitle: "Un 15-step Birthday Journey unlock pannalama? 🎁",
-                hint: "Namma secret PIN enter pannu 💙<br><span style='font-size:.78rem;opacity:.55;'>Hint: Namma special date 🗓️</span>",
-                success: "Welcome ma 💙",
-                error: "Idhu namma PIN illa di 😜"
+                title: "Hi Thangam ðŸ’™",
+                subtitle: "Un 15-step Birthday Journey unlock pannalama? ðŸŽ",
+                hint: "Namma secret PIN enter pannu ðŸ’™<br><span style='font-size:.78rem;opacity:.55;'>Hint: Namma special date ðŸ—“ï¸</span>",
+                success: "Welcome ma ðŸ’™",
+                error: "Idhu namma PIN illa di ðŸ˜œ"
             },
 
             mic: {
                 magics: ['i love you', 'love you', 'loveyou', 'ily', 'thangam', 'hi', 'hai', 'hello', 'hey', 'i love u', 'love u', 'naan unnai kadhalikkiren', 'jenifar', 'jenny', 'chellam', 'babe', 'baby'],
-                successMsg: "Nee sonna andha vaarthai enaku romba mukkiyam 🥹 Naanum unna romba love panren Thangam 💙 Innum oru surprise iruku 🎁",
-                notSupported: "Mic support illa 😔 🎤 10 thadava click panni continue pannu!",
-                denied: "Mic permission kudukala 🛑 🎤 10 thadava click pannu.",
-                error: "Konjam error vandhuduchi 😅 Innum oru thadava try pannu illa 🎤 10 click pannu.",
-                listening: "Kekuren ma… sollu 💙",
-                stopped: "Stop aagiduchi. 🎤 10 click panni skip pannalaam."
+                successMsg: "Nee sonna andha vaarthai enaku romba mukkiyam ðŸ¥¹ Naanum unna romba love panren Thangam ðŸ’™ Innum oru surprise iruku ðŸŽ",
+                notSupported: "Mic support illa ðŸ˜” ðŸŽ¤ 10 thadava click panni continue pannu!",
+                denied: "Mic permission kudukala ðŸ›‘ ðŸŽ¤ 10 thadava click pannu.",
+                error: "Konjam error vandhuduchi ðŸ˜… Innum oru thadava try pannu illa ðŸŽ¤ 10 click pannu.",
+                listening: "Kekuren maâ€¦ sollu ðŸ’™",
+                stopped: "Stop aagiduchi. ðŸŽ¤ 10 click panni skip pannalaam."
             },
 
             final: {
-                countdownMsg: ["Ready ah irukiya…", "Konjam wait pannuu…", "Idhu unakkaga…"],
-                hbdMsg: "💙 Happy Birthday En Thangam 👑",
+                countdownMsg: ["Ready ah irukiyaâ€¦", "Konjam wait pannuuâ€¦", "Idhu unakkagaâ€¦"],
+                hbdMsg: "ðŸ’™ Happy Birthday En Thangam ðŸ‘‘",
                 subTitle: "HAPPY BIRTHDAY MA",
                 ageLabel: "YEARS OF CUTENESS",
-                message: "<b>En Uyir {NAME},</b><br><br>Un life un ishtapadi amaiyanum nu naan manasukulla daily pray panren. Nee enaku love mattum illa… nee enaku strength, peace, motivation ellam dhaan.<br><br>Enna nadandhalum naan un kooda dhaan iruppen. Support pannuren. Protect pannuren. Love pannitu dhaan iruppen.<br><br>Indha Bharath oda life la nee dhaan biggest blessing. Forever un Thangam 💙",
-                btnText: "Click to meet something interesting ✨"
+                message: "<b>En Uyir {NAME},</b><br><br>Un life un ishtapadi amaiyanum nu naan manasukulla daily pray panren. Nee enaku love mattum illaâ€¦ nee enaku strength, peace, motivation ellam dhaan.<br><br>Enna nadandhalum naan un kooda dhaan iruppen. Support pannuren. Protect pannuren. Love pannitu dhaan iruppen.<br><br>Indha Bharath oda life la nee dhaan biggest blessing. Forever un Thangam ðŸ’™",
+                btnText: "Click to meet something interesting âœ¨"
             },
 
             steps: [
 
                 {
                     nav: 'tap',
-                    icon: '💙',
-                    title: 'Hi En Thangam 💙',
-                    txt: "Happy Birthday {NAME}! 🎂\nIdhu just steps illa ma… namma story.\nBayam la start aagi forever varai pona love 💙",
-                    trick: "Screen ah tap pannu 👆"
+                    icon: 'ðŸ’™',
+                    title: 'Hi En Thangam ðŸ’™',
+                    txt: "Happy Birthday {NAME}! ðŸŽ‚\nIdhu just steps illa maâ€¦ namma story.\nBayam la start aagi forever varai pona love ðŸ’™",
+                    trick: "Screen ah tap pannu ðŸ‘†"
                 },
 
                 {
                     nav: 'shake',
-                    icon: '🎂',
-                    head: 'March 12, 2002 🌟',
-                    txt: "Indha naal la dhaan indha ulagathuku oru azhagana ponnu vandha.\nAparam konjam varushathuku apram… en life la vandha 💙",
+                    icon: 'ðŸŽ‚',
+                    head: 'March 12, 2002 ðŸŒŸ',
+                    txt: "Indha naal la dhaan indha ulagathuku oru azhagana ponnu vandha.\nAparam konjam varushathuku apramâ€¦ en life la vandha ðŸ’™",
                     liveAge: 'A',
                     img: 'IMG20230312122458.jpg',
-                    trick: "Phone shake pannu 📳"
+                    trick: "Phone shake pannu ðŸ“³"
                 },
 
                 {
                     nav: 'doubletap',
-                    icon: '👀',
-                    head: 'College Days 📖',
-                    txt: "Same college… same time.\nAana unakku en per kooda theriyadhu.\nNaan tholaivula irundhu paathutu irundhen 🙈",
+                    icon: 'ðŸ‘€',
+                    head: 'College Days ðŸ“–',
+                    txt: "Same collegeâ€¦ same time.\nAana unakku en per kooda theriyadhu.\nNaan tholaivula irundhu paathutu irundhen ðŸ™ˆ",
                     img: '1.jpg',
-                    trick: "Double tap pannu ✌️"
+                    trick: "Double tap pannu âœŒï¸"
                 },
 
                 {
                     nav: 'swipeup',
-                    icon: '😍',
-                    head: 'Andha First Smile 😍',
-                    txt: "First time un smile paatha…\nEn heart sema fast ah beat aachu.\nAndha oru smile enaku romba special 🥹",
+                    icon: 'ðŸ˜',
+                    head: 'Andha First Smile ðŸ˜',
+                    txt: "First time un smile paathaâ€¦\nEn heart sema fast ah beat aachu.\nAndha oru smile enaku romba special ðŸ¥¹",
                     img: '2.jpg',
-                    trick: "Swipe up pannu ⬆️"
+                    trick: "Swipe up pannu â¬†ï¸"
                 },
 
                 {
                     nav: 'longpress',
-                    icon: '📱',
-                    head: 'August 2021 – First Hi 💙',
-                    txt: "August 2021… sema bayathula naan first 'Hi' anupinen.\nKai aadi pochu ma.\nReply pannuva nu kooda theriyala.\n\nAana nee reply panna moment… naan romba happy.\nAndha small message en life la periya change 💙",
+                    icon: 'ðŸ“±',
+                    head: 'August 2021 â€“ First Hi ðŸ’™',
+                    txt: "August 2021â€¦ sema bayathula naan first 'Hi' anupinen.\nKai aadi pochu ma.\nReply pannuva nu kooda theriyala.\n\nAana nee reply panna momentâ€¦ naan romba happy.\nAndha small message en life la periya change ðŸ’™",
                     img: 'IMG20230129154348.jpg',
-                    trick: "2 sec long press pannu 👆"
+                    trick: "2 sec long press pannu ðŸ‘†"
                 },
 
                 {
                     nav: 'swipeleft',
-                    icon: '💘',
-                    head: 'First I Love You 💘',
-                    txt: "Konjam naal pesina apram… naan dhaan first love sonnen.\n'I love you.'\nEn heart sema beat.\nNee appo edhum sollala.\nAndha silence enaku bayama irundhudhu di.\nAana naan wait panna ready ah irundhen.",
+                    icon: 'ðŸ’˜',
+                    head: 'First I Love You ðŸ’˜',
+                    txt: "Konjam naal pesina apramâ€¦ naan dhaan first love sonnen.\n'I love you.'\nEn heart sema beat.\nNee appo edhum sollala.\nAndha silence enaku bayama irundhudhu di.\nAana naan wait panna ready ah irundhen.",
                     img: '4.jpg',
-                    trick: "Swipe left pannu ⬅️"
+                    trick: "Swipe left pannu â¬…ï¸"
                 },
 
                 {
                     nav: 'tap3',
-                    icon: '⏳',
-                    head: 'Andha Oru Week 💔',
-                    txt: "First okay sonna.\nAana 1 week apram 'No' sonna.\nAndha week enaku romba kashtam.\nVelila kaamikala… aana ullae romba hurt aayiten.\nStill… nee dhaan nu nambinen.",
-                    trick: "3 thadava tap pannu 👆"
+                    icon: 'â³',
+                    head: 'Andha Oru Week ðŸ’”',
+                    txt: "First okay sonna.\nAana 1 week apram 'No' sonna.\nAndha week enaku romba kashtam.\nVelila kaamikalaâ€¦ aana ullae romba hurt aayiten.\nStillâ€¦ nee dhaan nu nambinen.",
+                    trick: "3 thadava tap pannu ðŸ‘†"
                 },
 
                 {
                     nav: 'doubletap',
-                    icon: '🎉',
-                    head: 'Dec 28, 2021 💙',
-                    txt: "December 28, 2021.\nEn life la marakka mudiyadha naal.\nNee sonna — 'I love you Bharath.'\n\nAndha moment la en bayam ellam pochu.\nAndha naal la dhaan namma love official aachu Thangam 💙",
+                    icon: 'ðŸŽ‰',
+                    head: 'Dec 28, 2021 ðŸ’™',
+                    txt: "December 28, 2021.\nEn life la marakka mudiyadha naal.\nNee sonna â€” 'I love you Bharath.'\n\nAndha moment la en bayam ellam pochu.\nAndha naal la dhaan namma love official aachu Thangam ðŸ’™",
                     img: '444.jpg',
-                    trick: "Double tap pannu ✌️"
+                    trick: "Double tap pannu âœŒï¸"
                 },
 
                 {
                     nav: 'iloveyou',
-                    icon: '🎤',
-                    head: 'Ippo Nee Sollu 💙',
-                    txt: "Ippo phone ah close ah pudichu…\nAndha 3 vaarthai sollu ma 🥹",
-                    trick: "Say 'I Love You' illa 🎤 10 click pannu!"
+                    icon: 'ðŸŽ¤',
+                    head: 'Ippo Nee Sollu ðŸ’™',
+                    txt: "Ippo phone ah close ah pudichuâ€¦\nAndha 3 vaarthai sollu ma ðŸ¥¹",
+                    trick: "Say 'I Love You' illa ðŸŽ¤ 10 click pannu!"
                 },
 
                 {
                     nav: 'pinch',
-                    icon: '🎵',
-                    head: 'Namma Song 🎶',
-                    txt: "Indha song ketta udane enaku nee dhaan nyabagam varuva.\nIdhu namma feel 💙",
+                    icon: 'ðŸŽµ',
+                    head: 'Namma Song ðŸŽ¶',
+                    txt: "Indha song ketta udane enaku nee dhaan nyabagam varuva.\nIdhu namma feel ðŸ’™",
                     music: true,
-                    trick: "Play panni pinch pannu 🎵"
+                    trick: "Play panni pinch pannu ðŸŽµ"
                 },
 
                 {
                     nav: 'spread',
-                    icon: '✈️',
-                    head: 'Namma Future ✨',
-                    txt: "Enga ponaalum parava illa.\nNee kooda irundha podhum.\nEvery place paradise dhaan 🌍",
+                    icon: 'âœˆï¸',
+                    head: 'Namma Future âœ¨',
+                    txt: "Enga ponaalum parava illa.\nNee kooda irundha podhum.\nEvery place paradise dhaan ðŸŒ",
                     img: '3.jpg',
-                    trick: "Screen la fingers spread pannu 🤲"
+                    trick: "Screen la fingers spread pannu ðŸ¤²"
                 },
 
                 {
                     nav: 'tilt',
-                    icon: '🤩',
-                    head: 'Unna Love Panna Reason 💙',
-                    txt: "Un smile.\nUn heart.\nUn care.\nUn support.\nUn 'Thangam' nu koopdradhu.\nNee nee ah irukaradhu dhaan biggest reason ❤️",
+                    icon: 'ðŸ¤©',
+                    head: 'Unna Love Panna Reason ðŸ’™',
+                    txt: "Un smile.\nUn heart.\nUn care.\nUn support.\nUn 'Thangam' nu koopdradhu.\nNee nee ah irukaradhu dhaan biggest reason â¤ï¸",
                     img: '666.png',
-                    trick: "Phone left tilt pannu 📱"
+                    trick: "Phone left tilt pannu ðŸ“±"
                 },
 
                 {
                     nav: 'rotate',
-                    icon: '💼',
-                    head: 'Un Support 💙',
-                    txt: "College mudinju apram nee dhaan sonna IT job try pannu nu.\nNee nambina.\nAdhanala naan try pannen.\nInniku nalla job, nalla salary la iruken.\nIdhuku nee dhaan reason ma 💙",
+                    icon: 'ðŸ’¼',
+                    head: 'Un Support ðŸ’™',
+                    txt: "College mudinju apram nee dhaan sonna IT job try pannu nu.\nNee nambina.\nAdhanala naan try pannen.\nInniku nalla job, nalla salary la iruken.\nIdhuku nee dhaan reason ma ðŸ’™",
                     img: 'Picsart_26-01-16_22-59-05-218.jpg',
-                    trick: "Phone rotate pannu ↺"
+                    trick: "Phone rotate pannu â†º"
                 },
 
                 {
                     nav: 'twofingertap',
-                    icon: '🧩',
-                    head: 'Namma Memory 🧩',
-                    txt: "Puzzle maari namma love um piece by piece join aachu 💙",
+                    icon: 'ðŸ§©',
+                    head: 'Namma Memory ðŸ§©',
+                    txt: "Puzzle maari namma love um piece by piece join aachu ðŸ’™",
                     puzzle: true,
-                    trick: "Pieces drag pannu ✋"
+                    trick: "All pieces correct ah place pannu — next step unlock aagum! 🧩"
                 },
 
                 {
                     nav: 'meter',
-                    icon: '📊',
-                    head: 'Love Meter 💙',
-                    txt: "Evalo love panra nu kaatu.\n100% vara slide pannu 😌",
+                    icon: 'ðŸ“Š',
+                    head: 'Love Meter ðŸ’™',
+                    txt: "Evalo love panra nu kaatu.\n100% vara slide pannu ðŸ˜Œ",
                     trick: "100% ku slide pannu!"
                 },
 
@@ -2244,7 +2487,7 @@
         initConfig(); // Initialize Config values
         let ST = CONFIG.steps;
 
-        /* ── PIN ── */
+        /* â”€â”€ PIN â”€â”€ */
         const PIN = CONFIG.pin; let pv = '';
         function pp(n, el) { if (pv.length >= 4) return; pv += n; updD(); if (el) miniHeartBurst(el); if (pv.length === 4) chkPin(); }
         function pd() { pv = pv.slice(0, -1); updD(); ler(''); }
@@ -2254,7 +2497,7 @@
                 const wasOn = d.classList.contains('on');
                 const nowOn = i < pv.length;
                 d.classList.toggle('on', nowOn);
-                /* Instant visual pop – pure CSS, no GSAP lag */
+                /* Instant visual pop â€“ pure CSS, no GSAP lag */
                 if (nowOn && !wasOn) {
                     d.style.transform = 'scale(1.35)';
                     d.style.transition = 'transform 0.12s cubic-bezier(.34,1.56,.64,1)';
@@ -2265,12 +2508,12 @@
             }
         }
 
-        /* ── MINI HEART BURST on each PIN digit ── */
+        /* â”€â”€ MINI HEART BURST on each PIN digit â”€â”€ */
         function miniHeartBurst(btn) {
             const rect = btn.getBoundingClientRect();
             const cx = rect.left + rect.width / 2;
             const cy = rect.top + rect.height / 2;
-            const EMOJIS = ['💙', '💖', '✨', '💜', '⭐', '💗'];
+            const EMOJIS = ['ðŸ’™', 'ðŸ’–', 'âœ¨', 'ðŸ’œ', 'â­', 'ðŸ’—'];
             for (let i = 0; i < 8; i++) {
                 const el = document.createElement('div');
                 el.textContent = EMOJIS[Math.floor(Math.random() * EMOJIS.length)];
@@ -2295,7 +2538,7 @@
                 /* Success burst of hearts around the card */
                 for (let i = 0; i < 20; i++) {
                     const h = document.createElement('div');
-                    h.textContent = ['💙', '✨', '💖', '⭐'][Math.floor(Math.random() * 4)];
+                    h.textContent = ['ðŸ’™', 'âœ¨', 'ðŸ’–', 'â­'][Math.floor(Math.random() * 4)];
                     h.style.position = 'fixed';
                     const rect = lc.getBoundingClientRect();
                     h.style.left = (rect.left + rect.width / 2) + 'px';
@@ -2327,7 +2570,7 @@
             else { ler(CONFIG.login.error); const e = document.getElementById('lerr'); e.style.animation = 'none'; void e.offsetWidth; e.style.animation = 'shk .4s ease'; pv = ''; updD(); }
         }
 
-        /* ── BIRTH & LIVE AGE ── */
+        /* â”€â”€ BIRTH & LIVE AGE â”€â”€ */
         const BIRTH = new Date(CONFIG.birthDate);
         function calcAge() {
             const now = new Date(), diff = now - BIRTH;
@@ -2363,7 +2606,7 @@
         const swEl = document.getElementById('sw'), pbi = document.getElementById('pbi'), sbadge = document.getElementById('sbadge');
         const TOTAL = ST.length;
 
-        /* ── ANIMATION CLEANUP REGISTRY ── */
+        /* â”€â”€ ANIMATION CLEANUP REGISTRY â”€â”€ */
         let activeTimelines = [], activeRAFs = [];
         function registerTL(tl) { activeTimelines.push(tl); }
         function registerRAF(id) { activeRAFs.push(id); }
@@ -2373,7 +2616,7 @@
             activeTimelines = []; activeRAFs = [];
         }
 
-        /* ── PER-STEP CLEANUP REGISTRY (for event listeners etc.) ── */
+        /* â”€â”€ PER-STEP CLEANUP REGISTRY (for event listeners etc.) â”€â”€ */
         const stepCleanupFns = {};
         function registerCleanup(idx, fn) { stepCleanupFns[idx] = fn; }
         function runCleanup(idx) {
@@ -2383,7 +2626,7 @@
             }
         }
 
-        /* ── BUILD DOM ── */
+        /* â”€â”€ BUILD DOM â”€â”€ */
         function startJourney(isJump = false) {
             if (document.getElementById('stp0')) return; /* Prevent duplicate builds */
             sbadge.textContent = `1 / ${TOTAL}`;
@@ -2395,30 +2638,30 @@
                 if (s.isFinish) {
                     body = buildFinishHtml();
                 } else if (s.puzzle) {
-                    body = `<div class="inner pz-game-inner"><div class="s-head">${s.head}</div><div class="pz-prog-row" id="pzStat"><span>🧩 Drag pieces to the board!</span></div><div class="pz-real-board" id="pzBoard"></div><div class="pz-tray-lbl">↑ Pick &amp; drop pieces above ↑</div><div class="pz-tray-grid" id="pzTray"></div></div>`;
+                    body = `<div class="inner pz-game-inner"><div class="s-head">${s.head}</div><div class="pz-prog-row" id="pzStat"><span>ðŸ§© Drag pieces to the board!</span></div><div class="pz-real-board" id="pzBoard"></div><div class="pz-tray-lbl">â†‘ Pick &amp; drop pieces above â†‘</div><div class="pz-tray-grid" id="pzTray"></div></div>`;
                 } else if (s.nav === 'iloveyou') {
                     body = `<div class="inner mic-love-inner" style="gap:6px;padding-top:28px">
                         <span class="s-icon">${s.icon}</span>
                         <div class="s-head">${s.head}</div>
                         <div class="s-txt">${s.txt}</div>
                         <div class="mic-wrap">
-                            <div class="mic-circle" id="micCircle" onclick="micCircleClick()">🎤</div>
+                            <div class="mic-circle" id="micCircle" onclick="micCircleClick()">ðŸŽ¤</div>
                             <div class="tap-feed"><div class="tc-num" id="micTc">0</div></div>
                             <div class="love-wave-wrap" id="loveWaveWrap">
                                 <canvas id="micCanvas" width="340" height="90"></canvas>
                                 <div class="wave-hearts" id="waveHearts"></div>
                             </div>
-                            <div class="mic-status" id="micStatus">Tap below &amp; say "I Love You" 💙</div>
+                            <div class="mic-status" id="micStatus">Tap below &amp; say "I Love You" ðŸ’™</div>
                             <div class="mic-heard" id="micHeard"></div>
-                            <button class="mic-btn" id="micBtn" onclick="micCircleClick()">🎤 Start Listening</button>
+                            <button class="mic-btn" id="micBtn" onclick="micCircleClick()">ðŸŽ¤ Start Listening</button>
                         </div>
                     </div>`;
                 } else if (s.nav === 'meter') {
-                    body = `<div class="inner"><span class="s-icon">${s.icon}</span><div class="s-head">${s.head}</div><div class="s-txt">${s.txt}</div><div class="sw-wrap"><input type="range" min="1" max="100" value="1" class="love-sl" oninput="updMeter(this.value)"></div><div class="m-lbl" id="mLbl">Slide it! ❤️</div></div>`;
+                    body = `<div class="inner"><span class="s-icon">${s.icon}</span><div class="s-head">${s.head}</div><div class="s-txt">${s.txt}</div><div class="sw-wrap"><input type="range" min="1" max="100" value="1" class="love-sl" oninput="updMeter(this.value)"></div><div class="m-lbl" id="mLbl">Slide it! â¤ï¸</div></div>`;
                 } else if (s.nav === 'type') {
                     body = `<div class="inner"><span class="s-icon">${s.icon}</span><div class="s-head">${s.head}</div><div class="s-txt">${s.txt}</div><input type="tel" class="yr-input no-adv" id="yrInput" placeholder="????" maxlength="4" oninput="chkYear(this.value)"></div>`;
                 } else if (s.nav === 'drag') {
-                    body = `<div class="inner"><span class="s-icon">${s.icon}</span><div class="s-head">${s.head}</div><div class="s-txt">${s.txt}</div><div class="drag-zone" id="dragZone"><div class="drag-heart" id="dragHeart">💙</div><div class="drag-target" id="dragTarget"><span>❤️</span><span class="drag-lbl">Drop!</span></div></div></div>`;
+                    body = `<div class="inner"><span class="s-icon">${s.icon}</span><div class="s-head">${s.head}</div><div class="s-txt">${s.txt}</div><div class="drag-zone" id="dragZone"><div class="drag-heart" id="dragHeart">ðŸ’™</div><div class="drag-target" id="dragTarget"><span>â¤ï¸</span><span class="drag-lbl">Drop!</span></div></div></div>`;
                 } else {
                     /* Per-image best crop position */
                     const imgPos = {
@@ -2440,21 +2683,21 @@
         ${s.img ? `<div class="mf"><img src="${s.img}" loading="lazy" alt="" data-pos="1" style="object-position:${pos}"></div>` : ''}
         ${s.liveAge ? buildAgeHtml(s.liveAge) : ''}
         <div class="s-txt">${s.txt}</div>
-        ${s.music ? `<span class="vinyl" id="vinyl${i}" onclick="playS()">🎵</span><div class="plbl" id="plbl${i}">Tap 🎵 to play!</div>` : ''}
+        ${s.music ? `<span class="vinyl" id="vinyl${i}" onclick="playS()">ðŸŽµ</span><div class="plbl" id="plbl${i}">Tap ðŸŽµ to play!</div>` : ''}
       </div>`;
                 }
 
                 if (s.nav === 'tap3' || s.nav === 'tap5' || s.nav === 'tap7')
                     body += `<div class="tap-feed"><div class="tc-num" id="tc${i}">0</div></div>`;
 
-                d.innerHTML = body + (s.trick ? `<div class="trick-bar">👉 ${s.trick}</div>` : '');
+                d.innerHTML = body + (s.trick ? `<div class="trick-bar">ðŸ‘‰ ${s.trick}</div>` : '');
 
                 /* Inject animated gesture hint icon into .inner */
                 const nhMap = {
-                    swipeup: 'nh-up ⬆️', swipeleft: 'nh-left ⬅️', swipedown: 'nh-down ⬇️',
-                    swiperight: 'nh-right ➡️', doubletap: 'nh-dt 👆👆',
-                    shake: 'nh-shake 📳', tilt: 'nh-tilt 📱', rotate: 'nh-rotate ↺',
-                    pinch: 'nh-pinch 🤏', spread: 'nh-spread 🤲',
+                    swipeup: 'nh-up â¬†ï¸', swipeleft: 'nh-left â¬…ï¸', swipedown: 'nh-down â¬‡ï¸',
+                    swiperight: 'nh-right âž¡ï¸', doubletap: 'nh-dt ðŸ‘†ðŸ‘†',
+                    shake: 'nh-shake ðŸ“³', tilt: 'nh-tilt ðŸ“±', rotate: 'nh-rotate â†º',
+                    pinch: 'nh-pinch ðŸ¤', spread: 'nh-spread ðŸ¤²',
                     longpress: '', twofingertap: ''
                 };
                 const nhVal = nhMap[s.nav];
@@ -2505,16 +2748,16 @@
             }
         }
 
-        /* ── NAVIGATION LOCK – prevents overlap during transitions ── */
+        /* â”€â”€ NAVIGATION LOCK â€“ prevents overlap during transitions â”€â”€ */
         let navBusy = false;
         function lockNav() { navBusy = true; setTimeout(() => navBusy = false, 680); }
 
-        /* ── localStorage step save ── */
+        /* â”€â”€ localStorage step save â”€â”€ */
         function saveStep(i) { try { localStorage.setItem('bj_step', i); } catch (e) { } }
         function loadStep() { try { return Math.min(parseInt(localStorage.getItem('bj_step') || '0'), TOTAL - 1); } catch (e) { return 0; } }
         function savePz() { try { localStorage.setItem('bj_pz', '1'); } catch (e) { } }
 
-        /* ── STEP ENTER ANIMATIONS (GSAP) ── */
+        /* â”€â”€ STEP ENTER ANIMATIONS (GSAP) â”€â”€ */
         function animateStepIn(stepEl) {
             const kids = stepEl.querySelectorAll('.inner > *');
             if (!kids.length) return;
@@ -2529,7 +2772,7 @@
             }
         }
 
-        /* ── GO NEXT ── */
+        /* â”€â”€ GO NEXT â”€â”€ */
         function goNext() {
             if (cur >= TOTAL - 1 || navBusy) return;
             lockNav();
@@ -2569,7 +2812,7 @@
                     } else {
                         clearInterval(cdInt);
                         cdMsg.textContent = hbdMsg;
-                        cdNum.textContent = '✨';
+                        cdNum.textContent = 'âœ¨';
                         setTimeout(() => {
                             gsap.to(ov, {
                                 opacity: 0, duration: 0.5, onComplete: () => {
@@ -2613,7 +2856,7 @@
                         }, 700);
                     }
                 }, 1000);
-                return; /* exit early — final step handled inside timeout above */
+                return; /* exit early â€” final step handled inside timeout above */
             }
 
             setTimeout(() => {
@@ -2634,7 +2877,7 @@
             }, 520);
         }
 
-        /* ── JUMP TO STEP (DEBUG) ── */
+        /* â”€â”€ JUMP TO STEP (DEBUG) â”€â”€ */
         function jumpToStep(idx) {
             const targetIndex = parseInt(idx);
             if (isNaN(targetIndex) || targetIndex < 0 || targetIndex >= TOTAL || navBusy) return;
@@ -2712,7 +2955,7 @@
             }, 520);
         }
 
-        /* ── GO PREV (hidden back – tap top-left corner) ── */
+        /* â”€â”€ GO PREV (hidden back â€“ tap top-left corner) â”€â”€ */
         function goPrev() {
             if (cur <= 0 || navBusy) return;
             lockNav();
@@ -2746,7 +2989,7 @@
         }
 
 
-        /* ── GESTURES ── */
+        /* â”€â”€ GESTURES â”€â”€ */
         function setupGestures() {
             const area = swEl;
             let lastTap = 0, lpFired = false, lpTimer = null;
@@ -2755,7 +2998,7 @@
             let tapCnt = new Array(24).fill(0), tapTmr = new Array(24).fill(null);
             let emg = 0, emgT = null;
 
-            /* CLICK → TAP */
+            /* CLICK â†’ TAP */
             area.addEventListener('click', e => {
                 if (e.target.closest('#debugMenu') || e.target.closest('.no-adv,.pz-wrap,.drag-heart,.conf-btn,.love-sl,.vinyl,a,.mic-btn,.mic-circle,.mic-wrap')) return;
                 if (lpFired) { lpFired = false; return; }
@@ -2821,8 +3064,8 @@
                 document.body.appendChild(ripple);
                 setTimeout(() => ripple.remove(), 580);
 
-                /* TWO-FINGER TAP */
-                if (e.touches.length === 2 && nav === 'twofingertap') goNext();
+                /* TWO-FINGER TAP – blocked if this is the puzzle step (must solve puzzle first) */
+                if (e.touches.length === 2 && nav === 'twofingertap' && !ST[cur].puzzle) goNext();
 
                 /* PINCH/SPREAD START */
                 if (e.touches.length === 2 && (nav === 'pinch' || nav === 'spread')) {
@@ -2830,7 +3073,7 @@
                     pinchDist = Math.hypot(dx, dy);
                 }
 
-                /* EMERGENCY 7-TAP – disabled for mic step */
+                /* EMERGENCY 7-TAP â€“ disabled for mic step */
                 if (nav !== 'type' && nav !== 'iloveyou') {
                     emg++; clearTimeout(emgT);
                     if (emg >= 7) { emg = 0; goNext(); }
@@ -2903,7 +3146,7 @@
         }
 
 
-        /* ── LOVE WAVE ENGINE ── */
+        /* â”€â”€ LOVE WAVE ENGINE â”€â”€ */
         let wavePhase = 0;                   /* idle heartbeat phase    */
         let lastAmp = 0;                   /* smoothed amplitude       */
         let heartPool = [];                  /* floating heart timers    */
@@ -2940,7 +3183,7 @@
 
             ctx.clearRect(0, 0, W, H);
 
-            /* ── Compute amplitude (0–1) ── */
+            /* â”€â”€ Compute amplitude (0â€“1) â”€â”€ */
             let sumDev = 0;
             for (let i = 0; i < waveData.length; i++) sumDev += Math.abs(waveData[i] - 128);
             /* EXTREME GAIN: was /12, now /3 to make tiny sounds look MASSIVE */
@@ -2948,7 +3191,7 @@
             lastAmp = lastAmp * 0.5 + rawAmp * 0.5;   /* instant response */
             const amp = lastAmp;
 
-            /* ── Gradient color: pink ↔ blue by amplitude ── */
+            /* â”€â”€ Gradient color: pink â†” blue by amplitude â”€â”€ */
             const pinkR = 236, pinkG = 72, pinkB = 153;
             const blueR = 96, blueG = 165, blueB = 250;
             const t = micSucceeded ? 1 : amp;
@@ -2957,7 +3200,7 @@
             const b = Math.round(blueB + (pinkB - blueB) * Math.min(t * 2.5, 1));
             const col = micSucceeded ? '#4ade80' : `rgb(${r},${g},${b})`;
 
-            /* ── Draw dual mirrored filled waves ── */
+            /* â”€â”€ Draw dual mirrored filled waves â”€â”€ */
             function drawFilledWave(flip) {
                 ctx.beginPath();
                 const sliceW = W / (waveData.length - 1);
@@ -2985,7 +3228,7 @@
             drawFilledWave(false);   /* top wave  */
             drawFilledWave(true);    /* mirror    */
 
-            /* ── Stroke line on top wave (crisp) ── */
+            /* â”€â”€ Stroke line on top wave (crisp) â”€â”€ */
             ctx.beginPath();
             const sw2 = W / (waveData.length - 1);
             let x2 = 0;
@@ -3007,7 +3250,7 @@
             ctx.lineCap = 'round';
             ctx.stroke();
 
-            /* ── Center idle heartbeat glow when silent ── */
+            /* â”€â”€ Center idle heartbeat glow when silent â”€â”€ */
             if (amp < 0.025) {
                 wavePhase += 0.03;
                 const pulse = 0.45 + Math.sin(wavePhase) * 0.22;
@@ -3016,17 +3259,17 @@
                 ctx.globalAlpha = pulse;
                 ctx.textAlign = 'center';
                 ctx.textBaseline = 'middle';
-                ctx.fillText('💙', W / 2, H / 2);
+                ctx.fillText('ðŸ’™', W / 2, H / 2);
                 ctx.restore();
             }
 
-            /* ── Spawn floating hearts when speaking loud ── */
+            /* â”€â”€ Spawn floating hearts when speaking loud â”€â”€ */
             if (amp > 0.18 && now - lastHeartSpawn > 160) {
                 lastHeartSpawn = now;
                 spawnWaveHeart(amp);
             }
 
-            /* ── Center amplitude circle ── */
+            /* â”€â”€ Center amplitude circle â”€â”€ */
             if (amp > 0.08) {
                 const radius = 4 + amp * 32;
                 ctx.save();
@@ -3044,7 +3287,7 @@
         function spawnWaveHeart(amp) {
             const container = document.getElementById('waveHearts');
             if (!container) return;
-            const emojis = ['💙', '💜', '💗', '💖', '✨', '🌸', '💕', '💝'];
+            const emojis = ['ðŸ’™', 'ðŸ’œ', 'ðŸ’—', 'ðŸ’–', 'âœ¨', 'ðŸŒ¸', 'ðŸ’•', 'ðŸ’'];
             const el = document.createElement('span');
             el.className = 'wh';
             el.textContent = emojis[Math.floor(Math.random() * emojis.length)];
@@ -3056,13 +3299,13 @@
             setTimeout(() => el.remove(), dur * 1000 + 100);
         }
 
-        /* ── EASING HELPER ── */
+        /* â”€â”€ EASING HELPER â”€â”€ */
         function easeOutBack(x) {
             const c1 = 1.70158, c3 = c1 + 1;
             return 1 + c3 * Math.pow(x - 1, 3) + c1 * Math.pow(x - 1, 2);
         }
 
-        /* ── HEART PATH HELPER (canvas) ── */
+        /* â”€â”€ HEART PATH HELPER (canvas) â”€â”€ */
         function canvasHeart(ctx, cx, cy, size) {
             ctx.beginPath();
             ctx.moveTo(cx, cy + size * 0.35);
@@ -3073,8 +3316,8 @@
             ctx.closePath();
         }
 
-        /* ── HEART BLAST SEQUENCE ── */
-        /* Phase 1: heart grows 0 → full  (GROW_MS)
+        /* â”€â”€ HEART BLAST SEQUENCE â”€â”€ */
+        /* Phase 1: heart grows 0 â†’ full  (GROW_MS)
            Phase 2: heart explodes + particles shoot out (BLAST_MS)
            Then: doHeartRain() + goNext()                                     */
         function doHeartBlast() {
@@ -3086,7 +3329,7 @@
 
             const GROW_MS = 1300;   /* ms to grow heart              */
             const BLAST_MS = 700;    /* ms for explosion              */
-            const EMOJIS = ['💙', '💜', '💗', '💖', '✨', '⭐', '🌸', '💕', '💝', '🎀', '🥹'];
+            const EMOJIS = ['ðŸ’™', 'ðŸ’œ', 'ðŸ’—', 'ðŸ’–', 'âœ¨', 'â­', 'ðŸŒ¸', 'ðŸ’•', 'ðŸ’', 'ðŸŽ€', 'ðŸ¥¹'];
 
             let startT = null;
             let blastStartT = null;
@@ -3114,7 +3357,7 @@
                 ctx.clearRect(0, 0, W, H);
 
                 if (phase === 'grow') {
-                    /* ── GROW PHASE ── */
+                    /* â”€â”€ GROW PHASE â”€â”€ */
                     const prog = Math.min(elapsed / GROW_MS, 1);
                     const scale = Math.max(0.001, easeOutBack(prog));
                     const size = scale * Math.min(W, H) * 0.40;
@@ -3159,7 +3402,7 @@
                         ctx.font = `${Math.floor(12 + prog * 6)}px serif`;
                         ctx.textAlign = 'center';
                         ctx.textBaseline = 'middle';
-                        ctx.fillText('💙', cx, cy - size * 0.08);
+                        ctx.fillText('ðŸ’™', cx, cy - size * 0.08);
                         ctx.restore();
                     }
 
@@ -3169,7 +3412,7 @@
                     }
 
                 } else if (phase === 'blast') {
-                    /* ── BLAST PHASE ── */
+                    /* â”€â”€ BLAST PHASE â”€â”€ */
                     const bElapsed = ts - blastStartT;
                     const bProg = Math.min(bElapsed / BLAST_MS, 1);
 
@@ -3227,7 +3470,7 @@
         }
 
 
-        /* ── SPEECH RECOGNITION ── */
+        /* â”€â”€ SPEECH RECOGNITION â”€â”€ */
         let speechRec = null, micActive = false, micSucceeded = false;
         let waveAn = null, waveData = null, waveRAF = null;
         let micSkips = 0, micSkipTmr = null;
@@ -3285,7 +3528,7 @@
                         status.classList.add('active');
                     }
                     if (btn) {
-                        btn.textContent = "🔴 Listening...";
+                        btn.textContent = "ðŸ”´ Listening...";
                         btn.classList.add('recording');
                     }
                     if (circle) circle.classList.add('listening');
@@ -3302,10 +3545,10 @@
                         const msg = transcript.toLowerCase().trim();
                         if (heard) heard.textContent = `Heard: "${msg}"`;
 
-                        /* ── WAVE BURST FOR MUTED HARDWARE ── */
+                        /* â”€â”€ WAVE BURST FOR MUTED HARDWARE â”€â”€ */
                         window.fakeAmpBurst = 1.0;
 
-                        /* ── FLYING WORDS EFFECT ── */
+                        /* â”€â”€ FLYING WORDS EFFECT â”€â”€ */
                         if (window.lastFlyIndex !== e.resultIndex) {
                             window.lastFlyIndex = e.resultIndex;
                             window.lastWordCount = 0;
@@ -3366,7 +3609,7 @@
                         if (status) status.textContent = CONFIG.mic.error;
                     }
                     if (btn) {
-                        btn.textContent = "🎤 Start Listening";
+                        btn.textContent = "ðŸŽ¤ Start Listening";
                         btn.classList.remove('recording');
                     }
                     if (circle) circle.classList.remove('listening');
@@ -3384,7 +3627,7 @@
                         }
                     } else if (micSucceeded || ST[cur].nav !== 'iloveyou') {
                         if (btn) {
-                            btn.textContent = "🎤 Start Listening";
+                            btn.textContent = "ðŸŽ¤ Start Listening";
                             btn.classList.remove('recording');
                         }
                         if (circle) circle.classList.remove('listening');
@@ -3410,7 +3653,7 @@
             }
             if (circle) {
                 circle.classList.add('success-ring');
-                circle.textContent = '💖';
+                circle.textContent = 'ðŸ’–';
                 circle.classList.remove('listening');
             }
             if (canvasWrap) canvasWrap.classList.add('success-glow');
@@ -3471,12 +3714,12 @@
             }
         }
 
-        /* ── HEART RAIN ── */
+        /* â”€â”€ HEART RAIN â”€â”€ */
         function doHeartRain() {
             const container = document.createElement('div');
             container.className = 'heart-rain-container';
             document.body.appendChild(container);
-            const emojis = ['💙', '💜', '💖', '💗', '💝', '✨', '🥹', '💕', '💞', '🌟'];
+            const emojis = ['ðŸ’™', 'ðŸ’œ', 'ðŸ’–', 'ðŸ’—', 'ðŸ’', 'âœ¨', 'ðŸ¥¹', 'ðŸ’•', 'ðŸ’ž', 'ðŸŒŸ'];
             for (let i = 0; i < 40; i++) {
                 const h = document.createElement('div');
                 h.className = 'rain-heart';
@@ -3490,7 +3733,7 @@
             setTimeout(() => container.remove(), 5500);
         }
 
-        /* ── MUSIC ── */
+        /* â”€â”€ MUSIC â”€â”€ */
         let audioCtx;
         function playS() {
             const idx = cur;
@@ -3500,13 +3743,13 @@
             bgm.volume = 0;                          /* start silent */
             const p = bgm.play();
             if (p) p.then(() => {
-                /* Native volume fade-in — GSAP core cannot tween HTMLMediaElement.volume */
+                /* Native volume fade-in â€” GSAP core cannot tween HTMLMediaElement.volume */
                 let vol = 0;
                 const fadeIn = setInterval(() => {
                     vol = Math.min(vol + 0.05, 1);
                     bgm.volume = vol;
                     if (vol >= 1) clearInterval(fadeIn);
-                }, 100);  /* 0→1 over ~2s */
+                }, 100);  /* 0â†’1 over ~2s */
 
                 /* EMOJI RAIN ON PLAY */
                 doHeartRain();
@@ -3514,20 +3757,20 @@
 
                 const pl = document.getElementById('plbl' + idx);
                 const vn = document.getElementById('vinyl' + idx);
-                if (pl) pl.textContent = '🎶 Playing! Now do the gesture to continue!';
+                if (pl) pl.textContent = 'ðŸŽ¶ Playing! Now do the gesture to continue!';
                 if (vn) {
                     /* Speed up spin via CSS (GSAP rotation conflicts with CSS spin animation) */
                     vn.style.animationDuration = '0.9s';
                 }
             }).catch(() => {
                 const pl = document.getElementById('plbl' + idx);
-                if (pl) pl.innerHTML = '⚠️ <a href="https://youtu.be/neelothi" target="_blank" style="color:#60a5fa">🎵 Open Song on YouTube</a>';
+                if (pl) pl.innerHTML = 'âš ï¸ <a href="https://youtu.be/neelothi" target="_blank" style="color:#60a5fa">ðŸŽµ Open Song on YouTube</a>';
             });
         }
 
 
-        /* ── REAL PUZZLE GAME – 4×3 = 12 pieces drag-and-drop ── */
-        const PIC = CONFIG.puzzleImage;   /* 📸 Pulled from CONFIG */
+        /* â”€â”€ REAL PUZZLE GAME â€“ 4Ã—3 = 12 pieces drag-and-drop â”€â”€ */
+        const PIC = CONFIG.puzzleImage;   /* ðŸ“¸ Pulled from CONFIG */
         const PZ_COLS = 4, PZ_ROWS = 3; /* 12 pieces */
 
         function buildPuzzle() {
@@ -3537,7 +3780,7 @@
             if (!board || board.dataset.built) return;
             board.dataset.built = '1';
 
-            /* ── Responsive piece size ── */
+            /* â”€â”€ Responsive piece size â”€â”€ */
             const cardW = document.getElementById('card').offsetWidth || 360;
             const PW = Math.floor((cardW - 28) / PZ_COLS) - 2;   /* piece width  */
             const PH = Math.floor(PW * 0.75);                      /* 4:3 ratio    */
@@ -3551,7 +3794,7 @@
             tray.style.gridTemplateColumns = `repeat(${PZ_COLS}, ${PW}px)`;
             tray.style.maxHeight = (PH * 2 + 4 * 3) + 'px';  /* show 2 rows */
 
-            /* ── Build board slots ── */
+            /* â”€â”€ Build board slots â”€â”€ */
             for (let i = 0; i < TOTAL; i++) {
                 const slot = document.createElement('div');
                 slot.className = 'pz-slot';
@@ -3561,12 +3804,12 @@
                 slot.style.backgroundSize = `${PZ_COLS * PW}px ${PZ_ROWS * PH}px`;
                 slot.style.backgroundPosition = `-${(i % PZ_COLS) * PW}px -${Math.floor(i / PZ_COLS) * PH}px`;
                 slot.style.opacity = '1';
-                /* Ghost filter – very dark until filled */
+                /* Ghost filter â€“ very dark until filled */
                 slot.style.filter = 'brightness(0.12) saturate(0.3)';
                 board.appendChild(slot);
             }
 
-            /* ── Build shuffled tray pieces ── */
+            /* â”€â”€ Build shuffled tray pieces â”€â”€ */
             const ids = [...Array(TOTAL).keys()].sort(() => Math.random() - 0.5);
             ids.forEach(pid => {
                 const r = Math.floor(pid / PZ_COLS), c = pid % PZ_COLS;
@@ -3581,7 +3824,7 @@
                 tray.appendChild(tile);
             });
 
-            /* ── Drag Manager ── */
+            /* â”€â”€ Drag Manager â”€â”€ */
             function startDrag(tile, cx, cy) {
                 dragTile = tile;
                 dragPid = parseInt(tile.dataset.pid);
@@ -3622,7 +3865,7 @@
                 if (!slot || slot.dataset.filled) return;
 
                 if (parseInt(slot.dataset.slotId) === pid) {
-                    /* ✅ CORRECT */
+                    /* âœ… CORRECT */
                     slot.dataset.filled = '1';
                     slot.classList.add('pz-filled');
                     slot.style.filter = 'none';  /* reveal full-colour piece */
@@ -3637,10 +3880,10 @@
                     gsap.fromTo(slot, { scale: 1.12 }, { scale: 1, duration: 0.4, ease: 'back.out(1.6)' });
 
                     placed++;
-                    stat.innerHTML = `<span>✨ ${placed}/${TOTAL} placed!</span>`;
+                    stat.innerHTML = `<span>âœ¨ ${placed}/${TOTAL} placed!</span>`;
 
                     if (placed === TOTAL) {
-                        stat.innerHTML = '<span>🎉 Perfect! Our memory is revealed! 💙</span>';
+                        stat.innerHTML = '<span>ðŸŽ‰ Perfect! Our memory is revealed! ðŸ’™</span>';
                         savePz();
                         /* GSAP board celebration glow */
                         gsap.timeline()
@@ -3650,7 +3893,7 @@
                         setTimeout(goNext, 2400);
                     }
                 } else {
-                    /* ❌ WRONG – shake slot */
+                    /* âŒ WRONG â€“ shake slot */
                     slot.classList.add('pz-wrong');
                     setTimeout(() => slot.classList.remove('pz-wrong'), 400);
                 }
@@ -3711,19 +3954,19 @@
 
 
 
-        /* ── METER ── */
+        /* â”€â”€ METER â”€â”€ */
         function updMeter(v) {
             const n = parseInt(v), l = document.getElementById('mLbl');
-            if (n < 40) l.textContent = `${n}%... Really Thangam? 😏 Give more!`;
-            else if (n < 80) l.textContent = `${n}%... Getting closer! Come on! 🤭`;
-            else if (n < 100) l.textContent = `${n}%... Almost there! Keep going! 💙`;
-            else { l.textContent = '💯 100%! I knew it! That\'s my girl! 🎉'; l.style.color = '#4ade80'; setTimeout(goNext, 800); }
+            if (n < 40) l.textContent = `${n}%... Really Thangam? ðŸ˜ Give more!`;
+            else if (n < 80) l.textContent = `${n}%... Getting closer! Come on! ðŸ¤­`;
+            else if (n < 100) l.textContent = `${n}%... Almost there! Keep going! ðŸ’™`;
+            else { l.textContent = 'ðŸ’¯ 100%! I knew it! That\'s my girl! ðŸŽ‰'; l.style.color = '#4ade80'; setTimeout(goNext, 800); }
         }
 
-        /* ── TYPE ANSWER ── */
+        /* â”€â”€ TYPE ANSWER â”€â”€ */
         function chkYear(v) { if (v === '2021') { const inp = document.getElementById('yrInput'); inp.style.borderColor = '#4ade80'; inp.style.color = '#4ade80'; setTimeout(goNext, 600); } }
 
-        /* ── DRAG ── */
+        /* â”€â”€ DRAG â”€â”€ */
         function setupDrag() {
             const heart = document.getElementById('dragHeart'), zone = document.getElementById('dragZone');
             if (!heart || !zone) return;
@@ -3748,7 +3991,7 @@
             }, { passive: true });
         }
 
-        /* ── FINISH HTML ── */
+        /* â”€â”€ FINISH HTML â”€â”€ */
         function buildFinishHtml() {
             const stars = Array.from({ length: 18 }, (_, i) => {
                 const sz = 4 + Math.random() * 8, x = Math.random() * 100, y = Math.random() * 100;
@@ -3759,15 +4002,15 @@
             return `
             <div class="fin-wrap">
                 <div class="fin-stars">${stars}</div>
-                <div class="fin-crown">👑</div>
+                <div class="fin-crown">ðŸ‘‘</div>
                 <div class="fin-hb">${CONFIG.final.subTitle}</div>
-                <div class="fin-name">${CONFIG.name} 💙</div>
+                <div class="fin-name">${CONFIG.name} ðŸ’™</div>
                 <div class="fin-hearts-row">
-                    <span class="fin-hrt">💙</span>
-                    <span class="fin-hrt">💜</span>
-                    <span class="fin-hrt">💖</span>
-                    <span class="fin-hrt">⭐</span>
-                    <span class="fin-hrt">💙</span>
+                    <span class="fin-hrt">ðŸ’™</span>
+                    <span class="fin-hrt">ðŸ’œ</span>
+                    <span class="fin-hrt">ðŸ’–</span>
+                    <span class="fin-hrt">â­</span>
+                    <span class="fin-hrt">ðŸ’™</span>
                 </div>
                 <div class="fin-letter">
                     ${message}
@@ -3778,15 +4021,15 @@
                 </div>
                 <div class="fin-cta-row">
                     <a href="${CONFIG.videoCallLink}" class="mystery-hint" target="_blank">
-                        <span class="mystery-hint-icon">🌟</span>
+                        <span class="mystery-hint-icon">ðŸŒŸ</span>
                         <span class="mystery-hint-text">${CONFIG.final.btnText}</span>
-                        <span class="mystery-hint-sub">Tap here... 💙</span>
+                        <span class="mystery-hint-sub">Tap here... ðŸ’™</span>
                     </a>
                 </div>
             </div>`;
         }
 
-        /* ── CONFETTI ── */
+        /* â”€â”€ CONFETTI â”€â”€ */
         let confettiRAF = null;
         function doConfetti() {
             stopConfetti();
@@ -3808,17 +4051,17 @@
             }
         }
 
-        /* ── PETALS ── */
+        /* â”€â”€ PETALS â”€â”€ */
         function startPetals() {
             setInterval(() => {
                 const p = document.createElement('div'); p.className = 'pt';
-                p.innerText = ['💙', '✨', '⭐', '❄️', '💫'][Math.floor(Math.random() * 5)];
+                p.innerText = ['ðŸ’™', 'âœ¨', 'â­', 'â„ï¸', 'ðŸ’«'][Math.floor(Math.random() * 5)];
                 p.style.left = Math.random() * 100 + 'vw'; p.style.fontSize = (10 + Math.random() * 14) + 'px';
                 p.style.animationDuration = (5 + Math.random() * 5) + 's';
                 document.body.appendChild(p); setTimeout(() => p.remove(), 8000);
             }, 900);
         }
-        /* ── INITIAL LOAD ── */
+        /* â”€â”€ INITIAL LOAD â”€â”€ */
         window.onload = () => {
             const loginSection = document.getElementById('login');
             const lc = document.querySelector('.lc');
@@ -3854,7 +4097,7 @@
                 gsap.to(items, { opacity: 1, y: 0, stagger: 0.1, duration: 0.8, ease: 'power2.out', delay: 0.3 });
             }
 
-            /* ── WAIT FOR AUDIO TO BUFFER BEFORE SHOWING ── */
+            /* â”€â”€ WAIT FOR AUDIO TO BUFFER BEFORE SHOWING â”€â”€ */
             let isLoaded = false;
             function tryLoad() {
                 if (isLoaded) return;
@@ -3912,7 +4155,7 @@
                 });
             }
 
-            /* Keypad – pure CSS handles press, no GSAP for speed */
+            /* Keypad â€“ pure CSS handles press, no GSAP for speed */
             document.querySelectorAll('.pb').forEach(btn => {
                 /* Pass the button element so pp() can burst from its position */
                 const origOnclick = btn.getAttribute('onclick');
