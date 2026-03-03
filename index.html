@@ -252,21 +252,25 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 20px;
+            /* Less padding on short devices so card has full room */
+            padding: clamp(8px, 2vh, 20px);
             perspective: 1200px;
+            overflow: hidden;
         }
 
         .lc {
             width: 100%;
             max-width: 360px;
             background: linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.03));
-            /* Removed backdrop-filter blur which lagged low-end phones */
-            border-radius: 44px;
+            border-radius: clamp(24px, 5vw, 44px);
             border: 1px solid rgba(255, 255, 255, 0.15);
             box-shadow: 0 15px 40px rgba(0, 0, 0, 0.7);
-            padding: 24px 22px 20px;
-            max-height: 98vh;
+            /* Vertical padding scales with screen height */
+            padding: clamp(12px, 2.5vh, 24px) clamp(14px, 4vw, 22px) clamp(10px, 2vh, 20px);
+            /* Never taller than viewport — content must fit inside */
+            max-height: calc(100dvh - clamp(16px, 4vh, 40px));
             overflow-y: auto;
+            overflow-x: hidden;
             scrollbar-width: none;
             text-align: center;
             opacity: 0;
@@ -274,7 +278,12 @@
             will-change: transform, opacity;
         }
 
+        .lc::-webkit-scrollbar {
+            display: none;
+        }
+
         .lc-float {
+            /* Reduce float travel on short screens so it never clips bottom */
             animation: lcBreathing 6s ease-in-out infinite;
         }
 
@@ -287,8 +296,15 @@
             }
 
             50% {
-                transform: translateY(-8px);
+                transform: translateY(-5px);
                 box-shadow: 0 20px 45px rgba(0, 0, 0, 0.8);
+            }
+        }
+
+        /* Short screens — no float at all */
+        @media (max-height: 640px) {
+            .lc-float {
+                animation: none !important;
             }
         }
 
@@ -310,9 +326,9 @@
         }
 
         .hrt {
-            font-size: 3.8rem;
+            font-size: clamp(2.2rem, 7vh, 3.8rem);
             display: block;
-            margin-bottom: 14px;
+            margin-bottom: clamp(6px, 1.2vh, 14px);
             animation: hp 1.6s ease-in-out infinite;
         }
 
@@ -332,8 +348,8 @@
 
         .lt {
             font-family: 'Great Vibes', cursive;
-            font-size: clamp(2rem, 8vw, 2.8rem);
-            margin-bottom: 6px;
+            font-size: clamp(1.6rem, 6vw, 2.8rem);
+            margin-bottom: clamp(3px, 0.8vh, 6px);
             background: linear-gradient(100deg, #60a5fa 30%, #fff 50%, #60a5fa 70%);
             background-size: 200% auto;
             color: transparent;
@@ -360,35 +376,35 @@
         }
 
         .ls {
-            font-size: .82rem;
+            font-size: clamp(.72rem, 2vw, .82rem);
             color: rgba(255, 255, 255, .38);
-            margin-bottom: 18px;
+            margin-bottom: clamp(8px, 1.5vh, 18px);
         }
 
         .clue {
             background: rgba(59, 130, 246, .07);
             border: 1px solid rgba(59, 130, 246, .18);
-            border-radius: 20px;
-            padding: 14px;
-            margin-bottom: 20px;
+            border-radius: 16px;
+            padding: clamp(8px, 1.5vh, 14px);
+            margin-bottom: clamp(10px, 1.8vh, 20px);
         }
 
         .ct {
-            font-size: .82rem;
+            font-size: clamp(.72rem, 2vw, .82rem);
             color: rgba(255, 255, 255, .6);
-            line-height: 1.6;
+            line-height: 1.5;
         }
 
         .dots {
             display: flex;
             justify-content: center;
             gap: 13px;
-            margin-bottom: 14px;
+            margin-bottom: clamp(6px, 1.2vh, 14px);
         }
 
         .dot {
-            width: 17px;
-            height: 17px;
+            width: clamp(13px, 3.5vw, 17px);
+            height: clamp(13px, 3.5vw, 17px);
             border-radius: 50%;
             background: rgba(255, 255, 255, .07);
             border: 2px solid rgba(59, 130, 246, .22);
@@ -403,10 +419,10 @@
         }
 
         #lerr {
-            font-size: .82rem;
+            font-size: .78rem;
             font-weight: 700;
-            min-height: 22px;
-            margin-bottom: 10px;
+            min-height: 18px;
+            margin-bottom: clamp(4px, 1vh, 10px);
             color: #f87171;
         }
 
@@ -429,20 +445,20 @@
         .pgrid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 11px;
-            margin-bottom: 10px;
+            gap: clamp(6px, 1.5vw, 11px);
+            margin-bottom: clamp(4px, 1vh, 10px);
         }
 
         .pb {
             background: rgba(59, 130, 246, .07);
             border: 1px solid rgba(59, 130, 246, .18);
-            border-radius: 18px;
-            padding: 12px 0;
-            font-size: 1.15rem;
+            border-radius: clamp(12px, 3vw, 18px);
+            /* Height adapts to screen — on very short screens less padding */
+            padding: clamp(7px, 1.6vh, 12px) 0;
+            font-size: clamp(.95rem, 3.5vw, 1.15rem);
             font-weight: 700;
             color: #fff;
             cursor: pointer;
-            /* Ultra-fast press: no lingering transition */
             transition: transform 0.06s ease, background 0.06s ease;
             will-change: transform;
             touch-action: manipulation;
@@ -456,7 +472,7 @@
 
         .pb.del {
             color: rgba(255, 255, 255, .38);
-            font-size: 1rem;
+            font-size: clamp(.85rem, 3vw, 1rem);
         }
 
         .pb.z {
