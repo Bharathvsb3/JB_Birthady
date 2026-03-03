@@ -442,12 +442,16 @@
             font-weight: 700;
             color: #fff;
             cursor: pointer;
-            transition: all .15s;
+            /* Ultra-fast press: no lingering transition */
+            transition: transform 0.06s ease, background 0.06s ease;
+            will-change: transform;
+            touch-action: manipulation;
+            user-select: none;
         }
 
         .pb:active {
-            transform: scale(.88);
-            background: rgba(59, 130, 246, .3);
+            transform: scale(.82);
+            background: rgba(59, 130, 246, .38);
         }
 
         .pb.del {
@@ -645,8 +649,9 @@
         }
 
         .mf {
-            width: 90%;
-            height: 190px;
+            width: 94%;
+            /* Dynamic height: fills space without pushing content off-screen */
+            height: clamp(120px, 22vh, 180px);
             border-radius: 22px;
             overflow: hidden;
             flex-shrink: 0;
@@ -663,9 +668,14 @@
             display: block;
         }
 
+        /* Per-image object-position overrides */
+        .mf img[data-pos] {
+            object-position: var(--op, center 20%);
+        }
+
         .trick-bar {
             flex-shrink: 0;
-            padding: 13px 18px;
+            padding: 10px 18px;
             background: rgba(30, 64, 175, .12);
             border-top: 1px solid rgba(59, 130, 246, .18);
             font-size: .75rem;
@@ -678,37 +688,45 @@
         /* LIVE AGE COUNTER */
         .age-live {
             display: flex;
-            gap: 7px;
+            gap: 5px;
             justify-content: center;
+            align-items: stretch;
             flex-wrap: nowrap;
-            margin: 10px 0;
+            width: 100%;
+            margin: 8px 0;
+            box-sizing: border-box;
         }
 
         .ac-box {
             display: flex;
             flex-direction: column;
             align-items: center;
+            justify-content: center;
             background: rgba(59, 130, 246, .1);
             border: 1px solid rgba(59, 130, 246, .22);
-            border-radius: 14px;
-            padding: 10px 8px;
-            min-width: clamp(46px, 13vw, 62px);
+            border-radius: 12px;
+            padding: 8px 4px;
+            /* Each box takes equal share of full width */
+            flex: 1 1 0;
+            min-width: 0;
         }
 
         .ac-n {
-            font-size: clamp(1.1rem, 4.5vw, 1.6rem);
+            font-size: clamp(.9rem, 3.8vw, 1.35rem);
             font-weight: 800;
             color: #60a5fa;
             font-variant-numeric: tabular-nums;
             letter-spacing: -1px;
+            line-height: 1;
         }
 
         .ac-u {
-            font-size: .6rem;
+            font-size: clamp(.5rem, 1.8vw, .6rem);
             color: rgba(255, 255, 255, .37);
             text-transform: uppercase;
-            letter-spacing: .4px;
-            margin-top: 2px;
+            letter-spacing: .3px;
+            margin-top: 3px;
+            white-space: nowrap;
         }
 
         /* MUSIC */
@@ -1155,6 +1173,61 @@
             flex-wrap: wrap;
             justify-content: center;
             margin-top: 8px;
+            width: 100%;
+        }
+
+        /* Mystery hint replacing call button */
+        .mystery-hint {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+            padding: 14px 20px;
+            background: rgba(59, 130, 246, .08);
+            border: 1px dashed rgba(96, 165, 250, .35);
+            border-radius: 28px;
+            transition: background .2s, border-color .2s;
+            text-decoration: none;
+            -webkit-tap-highlight-color: transparent;
+            animation: mystGlow 2.5s ease-in-out infinite;
+        }
+
+        .mystery-hint:active {
+            background: rgba(59, 130, 246, .22);
+        }
+
+        .mystery-hint-icon {
+            font-size: 2rem;
+            animation: flt 3.2s ease-in-out infinite;
+        }
+
+        .mystery-hint-text {
+            font-size: .8rem;
+            font-weight: 700;
+            color: #93c5fd;
+            letter-spacing: .5px;
+            text-align: center;
+        }
+
+        .mystery-hint-sub {
+            font-size: .68rem;
+            color: rgba(255, 255, 255, .35);
+            letter-spacing: .3px;
+        }
+
+        @keyframes mystGlow {
+
+            0%,
+            100% {
+                box-shadow: 0 0 0 0 rgba(96, 165, 250, 0);
+                border-color: rgba(96, 165, 250, .35);
+            }
+
+            50% {
+                box-shadow: 0 0 22px 4px rgba(96, 165, 250, .2);
+                border-color: rgba(96, 165, 250, .65);
+            }
         }
 
         /* MIC STEP */
@@ -1767,7 +1840,7 @@
         </div>
     </div>
     <audio id="bgm" loop>
-        <source src="Neelothi Video Song Out Now  Sirai  Vikram Prabhu.mp3" type="audio/mpeg">
+        <source src="song1.mp3" type="audio/mpeg">
     </audio>
     <div id="card">
         <div class="prog">
@@ -1801,7 +1874,7 @@
             pin: "1201",
             videoCallLink: "https://meet.google.com/xxx-xxxx-xxx",
             puzzleImage: "puzzil.jpg",
-            audioFile: "Neelothi Video Song Out Now Sirai Vikram Prabhu.mp3",
+            audioFile: "song1.mp3",
 
             login: {
                 title: "Hi Thangam 💙",
@@ -1827,7 +1900,7 @@
                 subTitle: "HAPPY BIRTHDAY MA",
                 ageLabel: "YEARS OF CUTENESS",
                 message: "<b>En Uyir {NAME},</b><br><br>Un life un ishtapadi amaiyanum nu naan manasukulla daily pray panren. Nee enaku love mattum illa… nee enaku strength, peace, motivation ellam dhaan.<br><br>Enna nadandhalum naan un kooda dhaan iruppen. Support pannuren. Protect pannuren. Love pannitu dhaan iruppen.<br><br>Indha Bharath oda life la nee dhaan biggest blessing. Forever un Thangam 💙",
-                btnText: "Call Pannu Di 💕"
+                btnText: "Click to meet something interesting ✨"
             },
 
             steps: [
@@ -1977,7 +2050,9 @@
             document.querySelector('.lt').textContent = CONFIG.login.title;
             document.querySelector('.ls').textContent = CONFIG.login.subtitle;
             document.querySelector('.clue .ct').innerHTML = CONFIG.login.hint;
-            document.getElementById('bgm').querySelector('source').src = CONFIG.audioFile;
+            const bgmEl = document.getElementById('bgm');
+            bgmEl.src = CONFIG.audioFile;
+            bgmEl.load();
 
             CONFIG.steps.forEach(s => {
                 if (s.title) s.title = s.title.replace(/{NAME}/g, CONFIG.name);
@@ -2005,7 +2080,7 @@
 
         /* ── PIN ── */
         const PIN = CONFIG.pin; let pv = '';
-        function pp(n) { if (pv.length >= 4) return; pv += n; updD(); if (pv.length === 4) chkPin(); }
+        function pp(n, el) { if (pv.length >= 4) return; pv += n; updD(); if (el) miniHeartBurst(el); if (pv.length === 4) chkPin(); }
         function pd() { pv = pv.slice(0, -1); updD(); ler(''); }
         function updD() {
             for (let i = 0; i < 4; i++) {
@@ -2013,9 +2088,36 @@
                 const wasOn = d.classList.contains('on');
                 const nowOn = i < pv.length;
                 d.classList.toggle('on', nowOn);
+                /* Instant visual pop – pure CSS, no GSAP lag */
                 if (nowOn && !wasOn) {
-                    gsap.fromTo(d, { scale: 1.6, boxShadow: '0 0 20px #3b82f6' }, { scale: 1, boxShadow: '0 0 0px #3b82f6', duration: 0.3, ease: 'back.out(2)' });
+                    d.style.transform = 'scale(1.35)';
+                    d.style.transition = 'transform 0.12s cubic-bezier(.34,1.56,.64,1)';
+                    requestAnimationFrame(() => {
+                        requestAnimationFrame(() => { d.style.transform = 'scale(1)'; });
+                    });
                 }
+            }
+        }
+
+        /* ── MINI HEART BURST on each PIN digit ── */
+        function miniHeartBurst(btn) {
+            const rect = btn.getBoundingClientRect();
+            const cx = rect.left + rect.width / 2;
+            const cy = rect.top + rect.height / 2;
+            const EMOJIS = ['💙', '💖', '✨', '💜', '⭐', '💗'];
+            for (let i = 0; i < 8; i++) {
+                const el = document.createElement('div');
+                el.textContent = EMOJIS[Math.floor(Math.random() * EMOJIS.length)];
+                el.style.cssText = `position:fixed;left:${cx}px;top:${cy}px;pointer-events:none;z-index:9999;font-size:${0.9 + Math.random() * 0.7}rem;line-height:1;transform:translate(-50%,-50%);`;
+                document.body.appendChild(el);
+                const angle = (i / 8) * Math.PI * 2 + (Math.random() - 0.5) * 0.6;
+                const dist = 40 + Math.random() * 55;
+                const dx = Math.cos(angle) * dist;
+                const dy = Math.sin(angle) * dist - 20;
+                el.style.setProperty('--dx', dx + 'px');
+                el.style.setProperty('--dy', dy + 'px');
+                el.style.animation = 'hburst 0.55s ease-out forwards';
+                setTimeout(() => el.remove(), 600);
             }
         }
         function ler(m, c) { const e = document.getElementById('lerr'); e.textContent = m; e.style.color = c || '#f87171'; }
@@ -2152,11 +2254,24 @@
                 } else if (s.nav === 'drag') {
                     body = `<div class="inner"><span class="s-icon">${s.icon}</span><div class="s-head">${s.head}</div><div class="s-txt">${s.txt}</div><div class="drag-zone" id="dragZone"><div class="drag-heart" id="dragHeart">💙</div><div class="drag-target" id="dragTarget"><span>❤️</span><span class="drag-lbl">Drop!</span></div></div></div>`;
                 } else {
+                    /* Per-image best crop position */
+                    const imgPos = {
+                        'IMG20230312122458.jpg': 'center 10%',
+                        '1.jpg': 'center 25%',
+                        '2.jpg': 'center 15%',
+                        'IMG20230129154348.jpg': 'center 20%',
+                        '4.jpg': 'center 20%',
+                        '444.jpg': 'center 15%',
+                        '3.jpg': 'center 30%',
+                        '666.png': 'center 10%',
+                        'Picsart_26-01-16_22-59-05-218.jpg': 'center 15%'
+                    };
+                    const pos = s.img ? (imgPos[s.img] || 'center 20%') : '';
                     body = `<div class="inner">
         <span class="s-icon">${s.icon}</span>
         ${s.title ? `<div class="s-title">${s.title}</div>` : ''}
         ${s.head ? `<div class="s-head">${s.head}</div>` : ''}
-        ${s.img ? `<div class="mf"><img src="${s.img}" loading="lazy" alt=""></div>` : ''}
+        ${s.img ? `<div class="mf"><img src="${s.img}" loading="lazy" alt="" data-pos="1" style="object-position:${pos}"></div>` : ''}
         ${s.liveAge ? buildAgeHtml(s.liveAge) : ''}
         <div class="s-txt">${s.txt}</div>
         ${s.music ? `<span class="vinyl" id="vinyl${i}" onclick="playS()">🎵</span><div class="plbl" id="plbl${i}">Tap 🎵 to play!</div>` : ''}
@@ -2321,8 +2436,8 @@
                                     if (finAge) revTl.from(finAge, { y: 16, opacity: 0, duration: 0.4 }, '-=0.1');
                                     if (finCta) revTl.from(finCta, { scale: 0.6, opacity: 0, duration: 0.6, ease: 'elastic.out(1,0.5)' }, '-=0.1');
                                     registerTL(revTl);
-                                    /* Call button pulse */
-                                    const callBtn = finEl.querySelector('.call-btn');
+                                    /* Mystery hint pulse */
+                                    const callBtn = finEl.querySelector('.mystery-hint');
                                     if (callBtn) {
                                         const pulse = gsap.to(callBtn, { scale: 1.07, duration: 0.8, yoyo: true, repeat: -1, ease: 'power1.inOut' });
                                         registerTL(pulse);
@@ -3496,7 +3611,11 @@
                     ${buildAgeHtml('B')}
                 </div>
                 <div class="fin-cta-row">
-                    <a href="${CONFIG.videoCallLink}" class="call-btn" target="_blank">${CONFIG.final.btnText}</a>
+                    <a href="${CONFIG.videoCallLink}" class="mystery-hint" target="_blank">
+                        <span class="mystery-hint-icon">🌟</span>
+                        <span class="mystery-hint-text">${CONFIG.final.btnText}</span>
+                        <span class="mystery-hint-sub">Tap here... 💙</span>
+                    </a>
                 </div>
             </div>`;
         }
@@ -3626,20 +3745,16 @@
                 });
             }
 
-            /* Keypad elastic touch */
+            /* Keypad – pure CSS handles press, no GSAP for speed */
             document.querySelectorAll('.pb').forEach(btn => {
-                btn.addEventListener('touchstart', () => {
-                    gsap.to(btn, { scale: 0.85, duration: 0.15, ease: 'power2.out' });
-                });
-                btn.addEventListener('touchend', () => {
-                    gsap.to(btn, { scale: 1, duration: 0.4, ease: 'elastic.out(1, 0.3)' });
-                });
-                btn.addEventListener('mousedown', () => {
-                    gsap.to(btn, { scale: 0.85, duration: 0.15, ease: 'power2.out' });
-                });
-                btn.addEventListener('mouseup', () => {
-                    gsap.to(btn, { scale: 1, duration: 0.4, ease: 'elastic.out(1, 0.3)' });
-                });
+                /* Pass the button element so pp() can burst from its position */
+                const origOnclick = btn.getAttribute('onclick');
+                if (origOnclick && origOnclick.startsWith("pp(")) {
+                    const digit = origOnclick.match(/pp\('(\d)'\)/)?.[1];
+                    if (digit !== undefined) {
+                        btn.setAttribute('onclick', `pp('${digit}',this)`);
+                    }
+                }
             });
         };
     </script>
