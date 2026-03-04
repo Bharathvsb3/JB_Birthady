@@ -654,9 +654,9 @@ body {
 
 .mf {
     width: auto;
-    max-width: 94%;
+    max-width: 90vw;
     height: auto;
-    max-height: clamp(120px, 25vh, 220px);
+    max-height: 40vh;
     border-radius: 22px;
     overflow: hidden;
     flex-shrink: 0;
@@ -673,7 +673,7 @@ body {
     width: auto;
     height: auto;
     max-width: 100%;
-    max-height: clamp(120px, 25vh, 220px);
+    max-height: 40vh;
     object-fit: contain;
     object-position: center;
     display: block;
