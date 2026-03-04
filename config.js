@@ -158,7 +158,7 @@ const CONFIG = {
             head: 'Namma Memory 🧩',
             txt: "Puzzle maari namma love um piece by piece join aachu 💙",
             puzzle: true,
-            trick: "All pieces correct ah place pannu � next step unlock aagum! ??"
+            trick: "All pieces correct ah place pannu, next step unlock aagum! 🧩"
         },
 
         {
