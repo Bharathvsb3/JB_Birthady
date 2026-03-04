@@ -653,24 +653,27 @@ body {
 }
 
 .mf {
-    width: 94%;
-    /* Dynamic height: fills space without pushing content off-screen */
-    height: clamp(120px, 22vh, 180px);
+    width: auto;
+    max-width: 94%;
+    height: auto;
+    max-height: clamp(120px, 25vh, 220px);
     border-radius: 22px;
     overflow: hidden;
     flex-shrink: 0;
     transform: rotate(-1.5deg);
     box-shadow: 0 14px 40px rgba(0, 0, 0, .35);
     border: 2px solid rgba(255, 255, 255, .1);
-    background: rgba(0, 0, 0, 0.4);
-    display: flex;
+    background: transparent;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
 }
 
 .mf img {
-    width: 100%;
-    height: 100%;
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    max-height: clamp(120px, 25vh, 220px);
     object-fit: contain;
     object-position: center;
     display: block;
