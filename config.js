@@ -32,8 +32,8 @@
         hbdMsg: "💙 Happy Birthday En Thangam 👑",
         subTitle: "HAPPY BIRTHDAY MA",
         ageLabel: "YEARS OF CUTENESS",
-        message: "<b>En Uyir {NAME},</b><br><br>Un life un ishtapadi amaiyanum nu naan manasukulla daily pray panren. Nee enaku love mattum illa… nee enaku strength, peace, motivation ellam dhaan.<br><br>Enna nadandhalum naan un kooda dhaan iruppen. Support pannuren. Protect pannuren. Love pannitu dhaan iruppen.<br><br>Indha Bharath oda life la nee dhaan biggest blessing. Forever un Thangam 💙",
-        btnText: "Click to meet something interesting ✨"
+        message: "<b>En Uyir {NAME},</b><br><br>Un life un ishtapadi amaiyanum nu daily pray panren. Nee enaku love mattum illa… nee enaku strength, peace, motivation.<br><br>Enna nadandhalum naan un kooda dhaan iruppen. Support panni, protect panni, love pannitu dhaan iruppen.<br><br>Forever un Thangam 💙",
+        btnText: "Tap to meet something interesting ✨"
     },
 
     steps: [
