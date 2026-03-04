@@ -4,7 +4,7 @@
     coupleName: "JB",
     birthDate: "2002-03-12T00:00:00+05:30",
     pin: "1201",
-    videoCallLink: "https://meet.google.com/xxx-xxxx-xxx",
+    videoCallLink: "https://call.whatsapp.com/video/nPRKjNrtp9bj97hTt4xMbQ",
     puzzleImage: "puzzil.jpg",
     audioFile: "song1.mp3",
     loadingMinTimeMs: 20000, // minimum loading time in ms
