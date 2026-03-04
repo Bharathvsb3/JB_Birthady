@@ -117,7 +117,7 @@
             bgmPre.addEventListener('canplaythrough', aDone);
             bgmPre.addEventListener('error', aDone);
             bgmPre.load();
-            setTimeout(aDone, 7000);
+            setTimeout(aDone, Math.max(25000, MIN_MS + 2000));
 
             function tryFinish() {
                 done = true;
@@ -132,6 +132,11 @@
                 "Unakkaga oru special surprise wait pannudhu 🎁",
                 "Indha journey unakkaga mattum dhaan 💙",
                 "En manasula unna dhaan nenaichitu irukken ✨",
+                "Konjam wait pannu Thangam... 😍",
+                "Idhu romba special ah irukkum promise 😌",
+                "Namma memories ellam load aagudhu 🧩",
+                "Unakku pudicha maari ready aagitu iruku 💖",
+                "Un smile ah paaka dhaan indha surprise 🌟",
                 "Nee ready ah irukiya? 😍",
                 "Heart full of love... coming your way 💖"
             ];
@@ -1898,8 +1903,9 @@
                 // Wait for network to download enough of it
                 bgm.addEventListener('canplaythrough', tryLoad);
 
-                // Fallback in case network is too slow, force load after 8 seconds anyway
-                setTimeout(tryLoad, 8000);
+                // Fallback in case network is too slow, force load after sufficient time
+                var waitTime = (typeof CONFIG !== 'undefined' && CONFIG.loadingMinTimeMs) ? Math.max(20000, CONFIG.loadingMinTimeMs + 2000) : 20000;
+                setTimeout(tryLoad, waitTime);
             } else {
                 tryLoad();
             }

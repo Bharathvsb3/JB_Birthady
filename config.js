@@ -7,7 +7,7 @@
     videoCallLink: "https://meet.google.com/xxx-xxxx-xxx",
     puzzleImage: "puzzil.jpg",
     audioFile: "song1.mp3",
-    loadingMinTimeMs: 15000, // loading timne delay
+    loadingMinTimeMs: 20000, // minimum loading time in ms
 
     login: {
         title: "Hi Thangam 💙",
