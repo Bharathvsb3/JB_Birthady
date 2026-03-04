@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -1987,6 +1987,7 @@
             align-items: center;
             justify-content: center;
             flex-shrink: 0;
+            overflow: visible;
         }
 
         #ldRing1 {
@@ -2003,15 +2004,17 @@
 
         #ldJB {
             font-family: 'Great Vibes', cursive;
-            font-size: clamp(3.2rem, 11vw, 4.4rem);
+            font-size: clamp(3rem, 10vw, 4rem);
             background: linear-gradient(135deg, #60a5fa 0%, #fff 45%, #818cf8 100%);
             background-size: 200% auto;
             -webkit-background-clip: text;
             background-clip: text;
             -webkit-text-fill-color: transparent;
             animation: ldGlow 2.5s ease-in-out infinite, ldShimmer 3s linear infinite;
-            line-height: 1;
-            letter-spacing: -2px;
+            line-height: 1.4;
+            letter-spacing: 2px;
+            padding: 0.1em 0.2em;
+            display: block;
             user-select: none;
         }
 
@@ -2121,7 +2124,7 @@
                 </defs>
             </svg>
             <div id="ldJB">JB</div>
-            <div id="ldHBadge">??</div>
+            <div id="ldHBadge">💙</div>
         </div>
 
         <div id="ldMsgWrap">

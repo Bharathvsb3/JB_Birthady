@@ -1,4 +1,4 @@
-﻿
+
         @keyframes hburst {
             0% {
                 opacity: 1;
@@ -256,7 +256,7 @@
             box-shadow: 0 15px 40px rgba(0, 0, 0, 0.7);
             /* Vertical padding scales with screen height */
             padding: clamp(12px, 2.5vh, 24px) clamp(14px, 4vw, 22px) clamp(10px, 2vh, 20px);
-            /* Never taller than viewport — content must fit inside */
+            /* Never taller than viewport � content must fit inside */
             max-height: calc(100dvh - clamp(16px, 4vh, 40px));
             overflow-y: auto;
             overflow-x: hidden;
@@ -290,7 +290,7 @@
             }
         }
 
-        /* Short screens — no float at all */
+        /* Short screens � no float at all */
         @media (max-height: 640px) {
             .lc-float {
                 animation: none !important;
@@ -442,7 +442,7 @@
             background: rgba(59, 130, 246, .07);
             border: 1px solid rgba(59, 130, 246, .18);
             border-radius: clamp(12px, 3vw, 18px);
-            /* Height adapts to screen — on very short screens less padding */
+            /* Height adapts to screen � on very short screens less padding */
             padding: clamp(7px, 1.6vh, 12px) 0;
             font-size: clamp(.95rem, 3.5vw, 1.15rem);
             font-weight: 700;
@@ -962,7 +962,7 @@
             }
         }
 
-        /* â”€â”€ FINISH SCREEN â”€â”€ */
+        /* ── FINISH SCREEN ── */
         .fin-wrap {
             width: 100%;
             flex: 1;
@@ -1096,7 +1096,7 @@
         }
 
         .fin-letter::before {
-            content: 'ðŸ’Œ';
+            content: '💌';
             position: absolute;
             top: -14px;
             left: 50%;
@@ -1626,7 +1626,7 @@
             }
         }
 
-        /* â”€â”€ REAL PUZZLE GAME â”€â”€ */
+        /* ── REAL PUZZLE GAME ── */
         .pz-game-inner {
             padding: 26px 10px 8px !important;
             gap: 5px !important;
@@ -1765,7 +1765,7 @@
             letter-spacing: .3px;
         }
 
-        /* â”€â”€ LOVE WAVE â”€â”€ */
+        /* ── LOVE WAVE ── */
         .mic-love-inner {
             gap: 5px !important;
         }
