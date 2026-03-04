@@ -2841,6 +2841,8 @@
                 if (e.target.closest('#debugMenu') || e.target.closest('.no-adv,.pz-wrap,.drag-heart,.conf-btn,.love-sl,.vinyl,a,.mic-btn,.mic-circle,.mic-wrap')) return;
                 if (lpFired) { lpFired = false; return; }
                 if (ST[cur].nav === 'iloveyou') return; /* mic-only step */
+
+                /* Prevent simple tap from advancing shake/doubletap/etc steps */
                 if (ST[cur].nav === 'tap') goNext();
             });
 
@@ -2870,9 +2872,9 @@
                 }
 
                 /* Gesture blocking guard - moved AFTER longpress setup */
-                if (e.target.closest('.no-adv,.drag-heart,.love-sl,a,.mic-btn,.mic-circle,.mic-wrap')) return;
+                if (e.target.closest('.no-adv,.drag-heart,.love-sl,a,.mic-btn,.mic-circle,.mic-wrap,.pz-wrap')) return;
 
-                if (now - lastTap < 340 && nav === 'doubletap') { lastTap = 0; goNext(); return; }
+                if (now - lastTap < 400 && nav === 'doubletap') { lastTap = 0; goNext(); return; }
                 lastTap = now;
 
                 if (nav === 'iloveyou') return;
@@ -3004,14 +3006,19 @@
                we generate beautiful synthetic visual noise and reaction bursts. */
             let sumRaw = 0;
             for (let i = 0; i < waveData.length; i++) sumRaw += Math.abs(waveData[i] - 128);
+
+            /* Add some artificial movement to make wave always look alive */
+            let baseWobble = micActive ? 4 : 0;
+
             if (sumRaw < 10 && micActive) {
                 window.fakeAmpBurst = (window.fakeAmpBurst || 0) * 0.90;
-                for (let i = 0; i < waveData.length; i++) {
-                    let w = window.fakeAmpBurst > 0.05
-                        ? (Math.random() * 60 - 30) * window.fakeAmpBurst
-                        : (Math.random() * 8 - 4); // idle subtle wobble
-                    waveData[i] = 128 + w;
-                }
+                /* Even higher continuous wave if we get nothing from mic */
+                baseWobble = window.fakeAmpBurst > 0.05 ? window.fakeAmpBurst * 80 : 15;
+            }
+
+            for (let i = 0; i < waveData.length; i++) {
+                let w = (Math.random() * baseWobble * 2) - baseWobble;
+                waveData[i] = Math.min(255, Math.max(0, waveData[i] + w));
             }
 
             const ctx = canvas.getContext('2d');
@@ -3458,11 +3465,11 @@
 
                     /* Continuous Mode: If they haven't succeeded and are STILL on the mic step, immediately reboot mic WITHOUT changing UI to 'stopped' */
                     if (!micSucceeded && ST[cur].nav === 'iloveyou') {
-                        try {
-                            speechRec.start();
-                        } catch (e) {
-                            setTimeout(() => { if (!micSucceeded && !micActive) startSpeech(); }, 500);
-                        }
+                        setTimeout(() => {
+                            if (!micSucceeded && ST[cur].nav === 'iloveyou') {
+                                try { speechRec.start(); } catch (e) { startSpeech(); }
+                            }
+                        }, 250);
                     } else if (micSucceeded || ST[cur].nav !== 'iloveyou') {
                         if (btn) {
                             btn.textContent = "🎤 Start Listening";
