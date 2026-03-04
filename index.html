@@ -2146,7 +2146,7 @@
                 '4.jpg', '444.jpg', '3.jpg', '666.png',
                 'Picsart_26-01-16_22-59-05-218.jpg', 'puzzil.jpg'];
             var AUDIO_SRC = 'song1.mp3';
-            var MIN_MS = 3500;
+            var MIN_MS = (typeof CONFIG !== 'undefined' && CONFIG.loadingMinTimeMs) ? CONFIG.loadingMinTimeMs : 3500;
             var TOTAL = IMAGES.length + 1;
             var bar = document.getElementById('ldBar');
             var pct = document.getElementById('ldPct');

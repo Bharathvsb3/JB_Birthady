@@ -1,4 +1,4 @@
-const CONFIG = {
+﻿const CONFIG = {
 
     name: "Jenifar",
     coupleName: "JB",
@@ -7,6 +7,7 @@ const CONFIG = {
     videoCallLink: "https://meet.google.com/xxx-xxxx-xxx",
     puzzleImage: "puzzil.jpg",
     audioFile: "song1.mp3",
+    loadingMinTimeMs: 3500, // loading timne delay
 
     login: {
         title: "Hi Thangam 💙",
