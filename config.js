@@ -6,7 +6,7 @@
     pin: "1201",
     videoCallLink: "https://call.whatsapp.com/video/nPRKjNrtp9bj97hTt4xMbQ",
     puzzleImage: "puzzil.jpg",
-    audioFile: "song1.mp3",
+    audioFile: "song1.aac",
     loadingMinTimeMs: 20000, // minimum loading time in ms
 
     login: {

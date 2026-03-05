@@ -86,7 +86,7 @@
                     });
                 }
             }
-            var AUDIO_SRC = (typeof CONFIG !== 'undefined' && CONFIG.audioFile) ? CONFIG.audioFile : 'song1.mp3';
+            var AUDIO_SRC = (typeof CONFIG !== 'undefined' && CONFIG.audioFile) ? CONFIG.audioFile : 'song1.aac';
             var MIN_MS = (typeof CONFIG !== 'undefined' && CONFIG.loadingMinTimeMs) ? CONFIG.loadingMinTimeMs : 3500;
             var TOTAL = IMAGES.length + 1;
             var bar = document.getElementById('ldBar');
@@ -214,7 +214,7 @@
         </div>
     </div>
     <audio id="bgm" loop>
-        <source src="song1.mp3" type="audio/mpeg">
+        <source src="song1.aac" type="audio/mpeg">
     </audio>
     <div id="card">
         <div class="prog">
