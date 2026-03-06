@@ -1552,6 +1552,43 @@
                     /* Speed up spin via CSS (GSAP rotation conflicts with CSS spin animation) */
                     vn.style.animationDuration = '0.9s';
                 }
+
+                /* CONTINUOUS WAVE EMOJIS WHEN SONG PLAYS */
+                if (window.musicWaveInt) clearInterval(window.musicWaveInt);
+                let waveCont = document.getElementById('mWaveCont');
+                if (!waveCont) {
+                    waveCont = document.createElement('div');
+                    waveCont.id = 'mWaveCont';
+                    waveCont.style.cssText = 'position:fixed;bottom:0;left:0;width:100vw;height:100vh;pointer-events:none;z-index:900;overflow:hidden;';
+                    document.body.appendChild(waveCont);
+                    
+                    const st = document.createElement('style');
+                    st.innerHTML = `
+                        @keyframes mWaveFloat {
+                            0% { transform: translateY(10vh) scale(0.6); opacity: 0; }
+                            10% { opacity: 0.9; transform: translateY(0vh) scale(1) translateX(calc(-15px + 30px * var(--rnd))); }
+                            90% { opacity: 0.9; }
+                            100% { transform: translateY(-110vh) scale(1.6) translateX(calc(-50px + 100px * var(--rnd))); opacity: 0; }
+                        }
+                    `;
+                    document.head.appendChild(st);
+                }
+                const emojis = ['💙','🎵','🎶','✨','💕','💖','🎧','💗'];
+                window.musicWaveInt = setInterval(() => {
+                    if (bgm.paused) return;
+                    const h = document.createElement('div');
+                    h.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+                    h.style.cssText = `
+                        position: absolute;
+                        left: ${10 + Math.random() * 80}vw;
+                        bottom: -10vh;
+                        font-size: ${1.2 + Math.random() * 1.5}rem;
+                        --rnd: ${Math.random()};
+                        animation: mWaveFloat ${2.5 + Math.random() * 2}s ease-in forwards;
+                    `;
+                    waveCont.appendChild(h);
+                    setTimeout(() => h.remove(), 5000);
+                }, 350);
             }).catch(() => {
                 const pl = document.getElementById('plbl' + idx);
                 if (pl) pl.innerHTML = '⚠️ <a href="https://youtu.be/neelothi" target="_blank" style="color:#60a5fa">🎵 Open Song on YouTube</a>';

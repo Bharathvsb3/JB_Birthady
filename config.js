@@ -78,7 +78,7 @@
             nav: 'longpress',
             icon: '📱',
             head: 'August 2021 – First Hi 💙',
-            txt: "August 2021… sema bayathula naan first 'Hi' anupinen.\nKai aadi pochu. Nee enna pathi enna nenaipanu kuda theroyala but msg pannitan.\n\nAana nee reply panna moment… naan romba happy.\nAndha small message en life la periya change 💙",
+            txt: "August 2021… sema bayathula naan first 'Hi' anupinen.\nKai aadi pochu. Nee enna pathi enna nenaipanu kuda theriyala but msg pannitan.\n\nAana nee reply panna moment… naan romba happy.\nAndha small message en life la periya change 💙",
             img: 'IMG20230129154348.jpg',
             trick: "2 sec long press pannu 👆"
         },
@@ -130,7 +130,7 @@
             nav: 'spread',
             icon: '✈️',
             head: 'Namma Future ✨',
-            txt: "Enga ponaalum parava illa.\nNee kooda irundha podhum.\nEvery place paradise dhaan 🌍. Nee nenaikura mari illadi nanu. \nNee sollura ellam kekkuran but enaku theriyala aadha eppadi project pannuradhuuu.\n Ne venum aadhuku na enna effort pottalum aadhu edhachum problem vandhu mudinjidudhu. \n But onnu ennala munjavara vidama effort poduvan.",
+            txt: "Enga ponaalum parava illa.\nNee kooda irundha podhum.\nEvery place paradise dhaan 🌍. Nee nenaikura mari illadi nanu. \nNee sollura ellam kekkuran but enaku theriyala aadha eppadi project pannuradhuuu.\n Ne venum aadhuku na enna effort pottalum aadhu edhachum problem vandhu mudinjidudhu. \n But onnu ennala mudinjavara vidama effort poduvan.",
             img: '3.jpg',
             trick: "Screen la fingers spread pannu 🤲"
         },
@@ -150,7 +150,7 @@
             head: 'Un Support 💙',
             txt: "College mudinju apram nee dhaan sonna IT job try pannu nu.\nNee nambina.\nAdhanala naan try pannen.\nInniku nalla job, nalla salary la iruken.\nIdhuku nee dhaan reason ma 💙. \nBut nee enna nambu na eppadiyavadhu nee expect pannura mari oru nalla possion ku varuvan. \nNaan en mela confidence illama irukura nerathula nee en mela confidence vechi enaku support ahh erudi.",
             img: 'Picsart_26-01-16_22-59-05-218.jpg',
-            trick: "Phone rotate pannu ↺"
+            trick: "Phone 90 degree rotate pannitu, thirumba straight ah veyyi ↺ illa na 90 degree laye vechipa 😄"
         },
         {
             nav: 'twofingertap',
