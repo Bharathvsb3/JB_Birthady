@@ -567,6 +567,10 @@
             /* cancel waveRAF and confetti */
             if (waveRAF) { cancelAnimationFrame(waveRAF); waveRAF = null; }
             if (typeof stopConfetti === 'function') stopConfetti();
+            if (typeof speechRec !== 'undefined' && speechRec) { try { speechRec.stop(); } catch (e) { } }
+            if (typeof stopMicStream === 'function') stopMicStream();
+            if (typeof micSucceeded !== 'undefined') micSucceeded = false;
+            if (typeof micActive !== 'undefined') micActive = false;
 
             const curEl = document.getElementById('stp' + cur);
             curEl.style.cssText = '';
@@ -654,7 +658,7 @@
                 sbadge.textContent = `${cur + 1} / ${TOTAL}`;
                 if (ST[cur].puzzle && !document.getElementById('pzBoard')?.dataset.built) setTimeout(buildPuzzle, 300);
                 if (ST[cur].nav === 'drag') setTimeout(setupDrag, 300);
-                if (ST[cur].nav === 'iloveyou') setTimeout(startSpeech, 600);
+                if (ST[cur].nav === 'iloveyou') setTimeout(() => { initAudioContext(); startSpeech(); }, 600);
                 /* GSAP stagger entrance */
                 animateStepIn(nEl);
             }, 520);
@@ -683,6 +687,10 @@
             cleanupAnimations();
             runCleanup(cur);
             if (waveRAF) { cancelAnimationFrame(waveRAF); waveRAF = null; }
+            if (typeof speechRec !== 'undefined' && speechRec) { try { speechRec.stop(); } catch (e) { } }
+            if (typeof stopMicStream === 'function') stopMicStream();
+            if (typeof micSucceeded !== 'undefined') micSucceeded = false;
+            if (typeof micActive !== 'undefined') micActive = false;
 
             const curEl = document.getElementById('stp' + cur);
             if (curEl) {
@@ -711,7 +719,7 @@
 
                 if (ST[cur].puzzle && !document.getElementById('pzBoard')?.dataset.built) setTimeout(buildPuzzle, 300);
                 if (ST[cur].nav === 'drag') setTimeout(setupDrag, 300);
-                if (ST[cur].nav === 'iloveyou') setTimeout(startSpeech, 600);
+                if (ST[cur].nav === 'iloveyou') setTimeout(() => { initAudioContext(); startSpeech(); }, 600);
 
                 if (cur === TOTAL - 1) {
                     doConfetti(); startTicker();
@@ -745,6 +753,10 @@
             cleanupAnimations();
             runCleanup(cur);
             if (waveRAF) { cancelAnimationFrame(waveRAF); waveRAF = null; }
+            if (typeof speechRec !== 'undefined' && speechRec) { try { speechRec.stop(); } catch (e) { } }
+            if (typeof stopMicStream === 'function') stopMicStream();
+            if (typeof micSucceeded !== 'undefined') micSucceeded = false;
+            if (typeof micActive !== 'undefined') micActive = false;
 
 
             const curEl = document.getElementById('stp' + cur);
@@ -1392,18 +1404,20 @@
 
                 speechRec.onerror = (e) => {
                     console.error("Speech error", e.error);
-                    micActive = false;
                     if (e.error === 'not-allowed') {
+                        micActive = false;
                         if (status) status.textContent = CONFIG.mic.denied;
+                        if (btn) {
+                            btn.textContent = "🎤 Start Listening";
+                            btn.classList.remove('recording');
+                        }
+                        if (circle) circle.classList.remove('listening');
                     } else {
-                        if (status) status.textContent = CONFIG.mic.error;
+                        // Suppress other error UI changes so it doesn't flicker on/off during auto-restart
+                        micActive = false;
                     }
-                    if (btn) {
-                        btn.textContent = "🎤 Start Listening";
-                        btn.classList.remove('recording');
-                    }
-                    if (circle) circle.classList.remove('listening');
                 };
+
 
                 speechRec.onend = () => {
                     micActive = false;
@@ -1458,6 +1472,13 @@
 
         let actx = null;
         let fakeWaveTmr = null;
+        let globalMicStream = null;
+        function stopMicStream() {
+            if (globalMicStream) {
+                globalMicStream.getTracks().forEach(t => t.stop());
+                globalMicStream = null;
+            }
+        }
         async function initAudioContext() {
             if (actx || fakeWaveTmr) return;
 
@@ -1481,6 +1502,7 @@
 
             try {
                 const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                globalMicStream = stream;
                 actx = new (window.AudioContext || window.webkitAudioContext)();
                 if (actx.state === 'suspended') await actx.resume();
 
@@ -1561,7 +1583,7 @@
                     waveCont.id = 'mWaveCont';
                     waveCont.style.cssText = 'position:fixed;bottom:0;left:0;width:100vw;height:100vh;pointer-events:none;z-index:900;overflow:hidden;';
                     document.body.appendChild(waveCont);
-                    
+
                     const st = document.createElement('style');
                     st.innerHTML = `
                         @keyframes mWaveFloat {
@@ -1573,7 +1595,7 @@
                     `;
                     document.head.appendChild(st);
                 }
-                const emojis = ['💙','🎵','🎶','✨','💕','💖','🎧','💗'];
+                const emojis = ['💙', '🎵', '🎶', '✨', '💕', '💖', '🎧', '💗'];
                 window.musicWaveInt = setInterval(() => {
                     if (bgm.paused) return;
                     const h = document.createElement('div');
