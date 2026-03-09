@@ -658,7 +658,7 @@
                 sbadge.textContent = `${cur + 1} / ${TOTAL}`;
                 if (ST[cur].puzzle && !document.getElementById('pzBoard')?.dataset.built) setTimeout(buildPuzzle, 300);
                 if (ST[cur].nav === 'drag') setTimeout(setupDrag, 300);
-                if (ST[cur].nav === 'iloveyou') setTimeout(() => { initAudioContext(); startSpeech(); }, 600);
+                if (ST[cur].nav === 'iloveyou') setTimeout(async () => { await initAudioContext(); startSpeech(); }, 600);
                 /* GSAP stagger entrance */
                 animateStepIn(nEl);
             }, 520);
@@ -719,7 +719,7 @@
 
                 if (ST[cur].puzzle && !document.getElementById('pzBoard')?.dataset.built) setTimeout(buildPuzzle, 300);
                 if (ST[cur].nav === 'drag') setTimeout(setupDrag, 300);
-                if (ST[cur].nav === 'iloveyou') setTimeout(() => { initAudioContext(); startSpeech(); }, 600);
+                if (ST[cur].nav === 'iloveyou') setTimeout(async () => { await initAudioContext(); startSpeech(); }, 600);
 
                 if (cur === TOTAL - 1) {
                     doConfetti(); startTicker();
@@ -1277,11 +1277,11 @@
         let waveAn = null, waveData = null, waveRAF = null;
         let micSkips = 0, micSkipTmr = null;
 
-        function micCircleClick() {
+        async function micCircleClick() {
             if (micSucceeded) return;
 
             /* Fast-track audio context on direct click so Mobile Safari/Android likes it */
-            initAudioContext();
+            await initAudioContext();
             startSpeech();
 
             /* 10 click bypass */
@@ -1320,11 +1320,12 @@
 
             if (!speechRec) {
                 speechRec = new Speech();
-                speechRec.lang = 'en-US';
+                speechRec.lang = 'en-IN'; /* Better for Indian accents/Tanglish */
                 speechRec.continuous = true;
                 speechRec.interimResults = true;
 
                 speechRec.onstart = () => {
+                    micActive = true;
                     if (status) {
                         status.textContent = CONFIG.mic.listening;
                         status.classList.add('active');
@@ -1426,7 +1427,7 @@
                     if (!micSucceeded && ST[cur].nav === 'iloveyou') {
                         setTimeout(() => {
                             if (!micSucceeded && ST[cur].nav === 'iloveyou') {
-                                try { speechRec.start(); } catch (e) { startSpeech(); }
+                                try { micActive = true; speechRec.start(); } catch (e) { startSpeech(); }
                             }
                         }, 250);
                     } else if (micSucceeded || ST[cur].nav !== 'iloveyou') {
@@ -1485,7 +1486,7 @@
             /* ONLY apply fake wave to iOS (Safari/Chrome on iOS)
                Android Chrome actually *benefits* from getUserMedia to keep interimResults fully active and streaming!
                iOS Safari strictly blocks SpeechRec if getUserMedia is running simultaneously. */
-            const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
+            const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
 
             if (isIOS) {
                 /* FAKE WAVE FOR iOS */
