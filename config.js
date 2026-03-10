@@ -180,8 +180,6 @@
                 { type: 'img', src: 'startpropsel.jpg' },
                 { type: 'img', src: 'IMG-20211019-WA0005.jpg' },
                 { type: 'img', src: 'IMG-20220216-WA0006.jpg' },
-                { type: 'img', src: 'IMG-20220505-WA0022.jpg' },
-                { type: 'img', src: 'IMG-20220505-WA0023.jpg' },
                 { type: 'img', src: 'IMG-20220515-WA0007.jpg' },
                 { type: 'img', src: 'IMG-20220610-WA0004.jpg' },
                 { type: 'img', src: 'IMG-20220614-WA0001.jpg' },
