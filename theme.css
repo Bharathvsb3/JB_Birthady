@@ -1703,7 +1703,10 @@ body {
     cursor: pointer;
     transition: transform 0.2s;
     overflow: hidden;
-    display: block;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
 .album-grid-item:active {
@@ -1712,14 +1715,23 @@ body {
 
 .album-img {
     width: 100%;
+    /* Let the browser calculate the height based on the intrinsic aspect ratio */
+    min-height: 50px;
     height: auto;
+    object-fit: contain;
     display: block;
+    /* guarantees height while lazy loading */
+    background: rgba(0, 0, 0, 0.6);
 }
 
 .album-vid {
     width: 100%;
+    min-height: 50px;
     height: auto;
+    object-fit: contain;
     display: block;
+    /* guarantees height while lazy loading metadata */
+    background: rgba(0, 0, 0, 0.6);
     pointer-events: none;
     /* Let parent capture clicks easily */
 }
