@@ -1509,7 +1509,7 @@
 
                 speechRec.onerror = (e) => {
                     console.error("Speech error", e.error);
-                    if (e.error === 'not-allowed') {
+                    if (e.error === 'not-allowed' || e.error === 'audio-capture') {
                         micActive = false;
                         if (status) status.textContent = CONFIG.mic.denied;
                         if (btn) {
@@ -1518,23 +1518,22 @@
                         }
                         if (circle) circle.classList.remove('listening');
                     } else {
-                        // Suppress other error UI changes so it doesn't flicker on/off during auto-restart
-                        micActive = false;
+                        // Do NOT set micActive = false here, keep the wave and UI alive
                     }
                 };
 
 
                 speechRec.onend = () => {
-                    micActive = false;
-
                     /* Continuous Mode: If they haven't succeeded and are STILL on the mic step, immediately reboot mic WITHOUT changing UI to 'stopped' */
                     if (!micSucceeded && ST[cur].nav === 'iloveyou') {
+                        // Immediately fire restart to keep it seamlessly listening
                         setTimeout(() => {
                             if (!micSucceeded && ST[cur].nav === 'iloveyou') {
-                                try { micActive = true; speechRec.start(); } catch (e) { startSpeech(); }
+                                try { speechRec.start(); } catch (e) { startSpeech(); }
                             }
-                        }, 250);
-                    } else if (micSucceeded || ST[cur].nav !== 'iloveyou') {
+                        }, 50);
+                    } else {
+                        micActive = false;
                         if (btn) {
                             btn.textContent = "🎤 Start Listening";
                             btn.classList.remove('recording');
@@ -1572,7 +1571,11 @@
 
             setTimeout(() => { doHeartBlast(); }, 400);
             setTimeout(() => { doHeartRain(); }, 1300);
-            setTimeout(() => { goNext(); }, 4500);
+            setTimeout(() => {
+                /* Override navBusy specifically for mic step because animations take time */
+                navBusy = false;
+                goNext();
+            }, 4500);
         }
 
         function stopMicStream() {
