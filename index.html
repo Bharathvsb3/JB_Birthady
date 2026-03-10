@@ -91,18 +91,24 @@
         };
 
         (function () {
-            var IMAGES = [];
+            var ASSETS = [];
             if (typeof CONFIG !== 'undefined') {
-                if (CONFIG.puzzleImage) IMAGES.push(CONFIG.puzzleImage);
+                if (CONFIG.puzzleImage) ASSETS.push({ type: 'img', src: CONFIG.puzzleImage });
                 if (CONFIG.steps) {
                     CONFIG.steps.forEach(function (s) {
-                        if (s.img) IMAGES.push(s.img);
+                        if (s.img) ASSETS.push({ type: 'img', src: s.img });
+                        if (s.vid) ASSETS.push({ type: 'vid', src: s.vid });
+                        if (s.media && s.media.length) {
+                            s.media.forEach(function (m) {
+                                ASSETS.push({ type: m.type, src: m.src });
+                            });
+                        }
                     });
                 }
             }
             var AUDIO_SRC = (typeof CONFIG !== 'undefined' && CONFIG.audioFile) ? CONFIG.audioFile : 'song1.aac';
             var MIN_MS = (typeof CONFIG !== 'undefined' && CONFIG.loadingMinTimeMs) ? CONFIG.loadingMinTimeMs : 3500;
-            var TOTAL = IMAGES.length + 1;
+            var TOTAL = ASSETS.length + 1;
             var bar = document.getElementById('ldBar');
             var pct = document.getElementById('ldPct');
             var msgEl = document.getElementById('ldMsg');
@@ -118,10 +124,30 @@
                 if (loaded >= TOTAL && !done) tryFinish();
             }
 
-            IMAGES.forEach(function (src) {
-                var img = new Image();
-                img.onload = img.onerror = onAsset;
-                img.src = src;
+            ASSETS.forEach(function (ast) {
+                if (ast.type === 'img') {
+                    var img = new Image();
+                    img.onload = img.onerror = function () { img.onload = img.onerror = null; onAsset(); };
+                    img.src = ast.src;
+                } else if (ast.type === 'vid') {
+                    var vid = document.createElement('video');
+                    vid.preload = 'auto';
+                    vid.muted = true;
+                    vid.playsInline = true;
+                    // For video, either loadeddata or error signifies we got enough metadata
+                    var doneVid = false;
+                    var vidReady = function () {
+                        if (doneVid) return;
+                        doneVid = true;
+                        vid.removeEventListener('loadeddata', vidReady);
+                        vid.removeEventListener('error', vidReady);
+                        onAsset();
+                    };
+                    vid.addEventListener('loadeddata', vidReady);
+                    vid.addEventListener('error', vidReady);
+                    vid.src = ast.src;
+                    vid.load();
+                }
             });
 
             var bgmPre = document.createElement('audio');
