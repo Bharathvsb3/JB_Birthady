@@ -1694,11 +1694,10 @@ body {
     width: 0;
 }
 
-.album-item {
+.album-grid-item {
     width: 100%;
-    height: 100%;
+    height: auto;
     aspect-ratio: 1 / 1;
-    object-fit: contain;
     border-radius: 10px;
     background: rgba(0, 0, 0, 0.6);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
@@ -1706,18 +1705,27 @@ body {
     transition: transform 0.2s;
 }
 
-.album-item:active {
+.album-grid-item:active {
     transform: scale(0.95);
+}
+
+.album-img {
+    object-fit: contain;
 }
 
 .album-vid-wrap {
     position: relative;
-    width: 100%;
-    aspect-ratio: 1 / 1;
-    border-radius: 10px;
     overflow: hidden;
-    cursor: pointer;
-    background: rgba(0, 0, 0, 0.6);
+    /* other properties inherited from .album-grid-item */
+}
+
+.album-vid {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+    pointer-events: none;
+    /* Let parent capture clicks easily */
 }
 
 .album-vid-wrap .ply-ico {

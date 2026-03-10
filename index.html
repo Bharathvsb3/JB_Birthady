@@ -508,8 +508,8 @@
                     if (s.media && s.media.length > 0) {
                         window.albumMediaArr = s.media;
                         s.media.forEach((m, mId) => {
-                            if (m.type === 'img') mediaHtml += `<img src="${m.src}" loading="lazy" class="album-item no-adv" onclick="openAlbumMediaIndex(${mId})" onerror="window.jbFallback(this)">`;
-                            if (m.type === 'vid') mediaHtml += `<div class="album-vid-wrap no-adv" onclick="openAlbumMediaIndex(${mId})"><video src="${m.src}" loading="lazy" class="album-item" loop muted playsinline autoplay onerror="window.jbFallback(this)"></video><span class="ply-ico">▶</span></div>`;
+                            if (m.type === 'img') mediaHtml += `<img src="${m.src}" loading="lazy" class="album-grid-item album-img no-adv" onclick="openAlbumMediaIndex(${mId})" onerror="window.jbFallback(this)">`;
+                            if (m.type === 'vid') mediaHtml += `<div class="album-grid-item album-vid-wrap no-adv" onclick="openAlbumMediaIndex(${mId})"><video src="${m.src}" loading="lazy" class="album-vid no-adv" loop muted playsinline autoplay onerror="window.jbFallback(this)"></video><span class="ply-ico">▶</span></div>`;
                         });
                     }
                     body = `<div class="inner album-inner">
@@ -2127,10 +2127,16 @@
             }
 
             const mBody = document.getElementById('albumModalBody');
+            const bgm = document.getElementById('bgm');
+
             if (media.type === 'img') {
                 mBody.innerHTML = `<img src="${media.src}" class="album-modal-content no-adv" onclick="event.stopPropagation()" onerror="window.jbFallback(this)">`;
+                // Resume BGM if it was paused by a video during swipe
+                if (bgm && window.bgmPausedByVid) { bgm.play(); window.bgmPausedByVid = false; }
             } else {
                 mBody.innerHTML = `<video src="${media.src}" class="album-modal-content no-adv" controls playsinline style="width:100%;" autoplay onclick="event.stopPropagation()" onerror="window.jbFallback(this)"></video>`;
+                // Pause BGM when video opens
+                if (bgm && !bgm.paused) { bgm.pause(); window.bgmPausedByVid = true; }
             }
             document.getElementById('albumModal').classList.add('active');
         };
@@ -2162,6 +2168,10 @@
         function closeAlbumMedia() {
             document.getElementById('albumModalBody').innerHTML = ''; // Stop video
             document.getElementById('albumModal').classList.remove('active');
+
+            // Resume BGM when closing the modal if paused
+            const bgm = document.getElementById('bgm');
+            if (bgm && window.bgmPausedByVid) { bgm.play(); window.bgmPausedByVid = false; }
         }
 
     </script>
