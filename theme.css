@@ -1683,9 +1683,8 @@ body {
     width: 100%;
     flex: 1;
     overflow-y: auto;
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 10px;
+    column-count: 2;
+    column-gap: 10px;
     padding: 4px;
     border-radius: 12px;
 }
@@ -1697,7 +1696,8 @@ body {
 .album-grid-item {
     position: relative;
     width: 100%;
-    aspect-ratio: 1 / 1;
+    margin-bottom: 10px;
+    break-inside: avoid;
     border-radius: 10px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     cursor: pointer;
@@ -1713,10 +1713,12 @@ body {
 .album-img,
 .album-vid {
     width: 100%;
-    height: 100%;
-    object-fit: cover;
+    height: auto;
+    min-height: 80px;
+    object-fit: contain;
     display: block;
     border-radius: 10px;
+    background: rgba(0, 0, 0, 0.2);
 }
 
 .album-vid {
