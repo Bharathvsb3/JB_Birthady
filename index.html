@@ -1446,9 +1446,10 @@
                     }
                 };
 
-                speechRec.onsoundstart = () => { window.fakeAmpBurst = 0.4; };
-                speechRec.onspeechstart = () => { window.fakeAmpBurst = 0.8; };
-                speechRec.onspeechend = () => { window.fakeAmpBurst = 0.15; };
+                speechRec.onaudiostart = () => { window.fakeAmpBurst = 0.6; };
+                speechRec.onsoundstart = () => { window.fakeAmpBurst = 1.2; };
+                speechRec.onspeechstart = () => { window.fakeAmpBurst = 2.0; };
+                speechRec.onspeechend = () => { window.fakeAmpBurst = 0.2; };
 
                 speechRec.onerror = (e) => {
                     console.error("Speech error", e.error);
@@ -1518,50 +1519,19 @@
             setTimeout(() => { goNext(); }, 4500);
         }
 
-        let actx = null;
-        let globalMicStream = null;
         function stopMicStream() {
-            if (globalMicStream) {
-                globalMicStream.getTracks().forEach(t => t.stop());
-                globalMicStream = null;
-            }
-            if (actx && actx.state !== 'closed') {
-                try { actx.close(); } catch (e) { }
-                actx = null;
-            }
+            // No hardware stream used to avoid locking Android Voice Engine
         }
         async function initAudioContext() {
-            if (actx) return;
+            if (waveRAF) return;
 
-            /* ONLY apply fake wave to iOS (Safari/Chrome on iOS)
-               Android Chrome actually *benefits* from getUserMedia to keep interimResults fully active and streaming!
-               iOS Safari strictly blocks SpeechRec if getUserMedia is running simultaneously. */
-            const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+            /* Hardware microphone access via getUserMedia entirely REMOVED!
+               On many Android phones, getUserMedia absolutely locks the microphone module, 
+               which forces SpeechRecognition to instantly fail on .start() rendering it dead!
+               We use the Smooth Sine Engine natively driven by SpeechRecognition events instead. */
 
-            if (isIOS) {
-                drawWave();
-                return;
-            }
-
-            try {
-                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-                globalMicStream = stream;
-                actx = new (window.AudioContext || window.webkitAudioContext)();
-                if (actx.state === 'suspended') await actx.resume();
-
-                waveAn = actx.createAnalyser();
-                waveAn.fftSize = 256;
-                // smooth out the wave jumpiness
-                waveAn.smoothingTimeConstant = 0.6;
-                const source = actx.createMediaStreamSource(stream);
-                source.connect(waveAn);
-                waveData = new Uint8Array(waveAn.frequencyBinCount);
-                drawWave();
-            } catch (e) {
-                console.error("Audio Context Error. Faking wave fallback.", e);
-                // Fallback to fake wave if no mic permission for AudioContext
-                drawWave();
-            }
+            waveData = new Uint8Array(256).fill(128);
+            drawWave();
         }
 
         /* ── HEART RAIN ── */
