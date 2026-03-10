@@ -519,7 +519,7 @@
         ${s.title ? `<div class="s-title">${s.title}</div>` : ''}
         ${s.head ? `<div class="s-head">${s.head}</div>` : ''}
         ${s.img ? `<div class="mf"><img src="${s.img}" loading="lazy" alt="" data-pos="1" style="object-position:${pos}" onerror="window.jbFallback(this)"></div>` : ''}
-        ${s.vid ? `<div class="mf"><video src="${s.vid}" loading="lazy" controls playsinline style="object-position:center; width:100%; height:100%; object-fit:cover; border-radius:12px;" onerror="window.jbFallback(this)"></video></div>` : ''}
+        ${s.vid ? `<div class="mf"><video src="${s.vid}" loading="lazy" controls playsinline style="object-position:center; width:100%; height:100%; object-fit:contain; border-radius:20px;" onerror="window.jbFallback(this)"></video></div>` : ''}
         ${s.liveAge ? buildAgeHtml(s.liveAge) : ''}
         <div class="s-txt">${s.txt}</div>
         ${s.music ? `<span class="vinyl" id="vinyl${i}" onclick="playS()">🎵</span><div class="plbl" id="plbl${i}">Tap 🎵 to play!</div>` : ''}

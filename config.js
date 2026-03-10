@@ -52,7 +52,7 @@
             head: 'March 12, 2002 🌟',
             txt: "Indha naal la dhaan indha ulagathuku oru azhagana ponnu vandha.\nAparam konjam varushathuku apram… en life la vandha 💙",
             liveAge: 'A',
-            img: 'Babyjeni.jpg',
+            img: 'Babyjeni.png',
             trick: "Phone shake pannu di📳"
         },
 
@@ -79,7 +79,7 @@
             icon: '📱',
             head: 'August 2021 – First Hi 💙',
             txt: "August 2021… sema bayathula naan first 'Hi' anupinen.\nKai aadi pochu. Nee enna pathi enna nenaipanu kuda theriyala but msg pannitan.\n\nAana nee reply panna moment… naan romba happy.\nAndha small message en life la periya change 💙",
-            img: 'FirstHi.jpg',
+            img: 'Firsthi.jpg',
             trick: "2 sec long press pannu 👆"
         },
 
@@ -187,8 +187,6 @@
                 { type: 'img', src: 'IMG-20220614-WA0001.jpg' },
                 { type: 'img', src: 'IMG-20221002-WA0055.jpg' },
                 { type: 'img', src: 'IMG-20221002-WA0056.jpg' },
-                { type: 'img', src: 'IMG-20221002-WA0057.jpg' },
-                { type: 'img', src: 'IMG-20221002-WA0058.jpg' },
                 { type: 'img', src: 'IMG20220709112148.jpg' },
                 { type: 'img', src: 'IMG20230129154348.jpg' },
                 { type: 'img', src: 'IMG_20221010_231141.jpg' },
