@@ -1001,10 +1001,12 @@
             /* ── Compute amplitude (0–1) ── */
             let sumDev = 0;
             for (let i = 0; i < waveData.length; i++) sumDev += Math.abs(waveData[i] - 128);
-            /* EXTREME GAIN: was /12, now /3 to make tiny sounds look MASSIVE */
-            const rawAmp = Math.min(sumDev / waveData.length / 3, 1);
+            /* EXTREME GAIN: was /3, now /1.2 to make ANY sound look MASSIVE */
+            const rawAmp = Math.min(sumDev / waveData.length / 1.2, 1);
             lastAmp = lastAmp * 0.5 + rawAmp * 0.5;   /* instant response */
-            const amp = lastAmp;
+
+            // Artificial floor bump if speaking is detected but volume is mathematically low
+            const amp = Math.max(lastAmp, (window.fakeAmpBurst || 0) * 0.4);
 
             /* ── Gradient color: pink ↔ blue by amplitude ── */
             const pinkR = 236, pinkG = 72, pinkB = 153;
@@ -1383,6 +1385,10 @@
                             window.lastWordCount = wCount;
 
                             newWords.forEach((fwText, idx) => {
+                                // Strip puntuation from drawn word just in case
+                                fwText = fwText.replace(/[.,!?]/g, '');
+                                if (!fwText) return;
+
                                 setTimeout(() => {
                                     const fw = document.createElement('div');
                                     fw.className = 'fly-word';
@@ -1420,7 +1426,14 @@
                         /* Strip punctuation to ensure words like 'hi!' or 'hi.' match exactly */
                         const cleanMsg = msg.replace(/[.,!?]/g, '').toLowerCase().trim();
 
-                        if (magics.some(m => cleanMsg.includes(m.toLowerCase()))) {
+                        /* Convert magical words to an array of variations, specifically checking for partial matches */
+                        const isMatch = magics.some(m => {
+                            let normalizedM = m.toLowerCase().replace(/\s+/g, '');
+                            let normalizedCleanMsg = cleanMsg.replace(/\s+/g, '');
+                            return normalizedCleanMsg.includes(normalizedM);
+                        });
+
+                        if (isMatch) {
                             micSucceeded = true;
                             speechRec.stop();
                             micSuccess();
