@@ -52,7 +52,7 @@
             head: 'March 12, 2002 🌟',
             txt: "Indha naal la dhaan indha ulagathuku oru azhagana ponnu vandha.\nAparam konjam varushathuku apram… en life la vandha 💙",
             liveAge: 'A',
-            img: 'IMG20230312122458.jpg',
+            img: 'Babyjeni.jpg',
             trick: "Phone shake pannu di📳"
         },
 
@@ -79,7 +79,7 @@
             icon: '📱',
             head: 'August 2021 – First Hi 💙',
             txt: "August 2021… sema bayathula naan first 'Hi' anupinen.\nKai aadi pochu. Nee enna pathi enna nenaipanu kuda theriyala but msg pannitan.\n\nAana nee reply panna moment… naan romba happy.\nAndha small message en life la periya change 💙",
-            img: 'IMG20230129154348.jpg',
+            img: 'FirstHi.jpg',
             trick: "2 sec long press pannu 👆"
         },
 
@@ -88,7 +88,7 @@
             icon: '💘',
             head: 'First I Love You 💘',
             txt: "Konjam naal pesina apram… naan dhaan first love ahh sonnen.\n'I love you.'\nEn heart sema beat.\nNee appo prank pannuranu nenicha nanum samalichan.\nAndha silence enaku bayama irundhudhu di.\nAana naan wait panna unakaga.",
-            img: '4.jpg',
+            img: 'iloveyou.jpg',
             trick: "Swipe left pannu ⬅️"
         },
 
@@ -104,8 +104,8 @@
             nav: 'doubletap',
             icon: '🎉',
             head: 'Dec 28, 2021 💙',
-            txt: "December 28, 2021.\nEn life la marakka mudiyadha naal.\nNee sonna — 'I love you Bharath.'\n\nAndha moment la en bayam ellam pochu.\nAndha naal la dhaan namma love official aachu Thangam 💙",
-            img: '444.jpg',
+            txt: "December 28, 2021.\nEn life la marakka mudiyadha naal.\nNee sonna — '❤️Bharath love you too ma.'\n\nAndha moment la en bayam ellam pochu.\nAndha naal la dhaan namma love official aachu Thangam 💙",
+            img: 'toomsgj.jpg',
             trick: "Double tap pannu ✌️"
         },
 
@@ -167,6 +167,53 @@
             head: 'Love Meter 💙',
             txt: "Evalo love panra nu kaatu.\n100% vara slide pannu 😌",
             trick: "100% ku slide pannu!"
+        },
+
+        {
+            nav: 'album',
+            icon: '📸',
+            head: 'Namma Memories 💖',
+            txt: "Namma spend panna azhagana moments ah paaru! Scroll panniko. Mudichutu mela iruka Next poga click pannu 👆✨",
+            media: [
+                { type: 'img', src: '4.jpg' },
+                { type: 'img', src: '444.jpg' },
+                { type: 'img', src: 'startpropsel.jpg' },
+                { type: 'img', src: 'IMG-20211019-WA0005.jpg' },
+                { type: 'img', src: 'IMG-20220216-WA0006.jpg' },
+                { type: 'img', src: 'IMG-20220505-WA0022.jpg' },
+                { type: 'img', src: 'IMG-20220505-WA0023.jpg' },
+                { type: 'img', src: 'IMG-20220515-WA0007.jpg' },
+                { type: 'img', src: 'IMG-20220610-WA0004.jpg' },
+                { type: 'img', src: 'IMG-20220614-WA0001.jpg' },
+                { type: 'img', src: 'IMG-20221002-WA0055.jpg' },
+                { type: 'img', src: 'IMG-20221002-WA0056.jpg' },
+                { type: 'img', src: 'IMG-20221002-WA0057.jpg' },
+                { type: 'img', src: 'IMG-20221002-WA0058.jpg' },
+                { type: 'img', src: 'IMG20220709112148.jpg' },
+                { type: 'img', src: 'IMG20230129154348.jpg' },
+                { type: 'img', src: 'IMG_20221010_231141.jpg' },
+                { type: 'img', src: 'IMG_20230312_114403.jpg' },
+                { type: 'img', src: 'IMG_20230312_122252.jpg' },
+                { type: 'img', src: 'IMG20230312122458.jpg' },
+                { type: 'img', src: 'Picsart_22-11-25_23-27-43-512.jpg' },
+                { type: 'img', src: 'Picsart_23-01-29_23-09-58-009.jpg' },
+                { type: 'img', src: 'Picsart_23-01-29_23-11-00-462.jpg' },
+                { type: 'img', src: 'Snapchat-1970939386.jpg' },
+                { type: 'img', src: 'Snapchat-996654878.jpg' },
+                { type: 'vid', src: 'Snapchat-1548734568.mp4' },
+                { type: 'vid', src: 'VID-20220716-WA0017.mp4' },
+                { type: 'vid', src: 'VID-20220717-WA0048.mp4' },
+                { type: 'vid', src: 'VID-20220806-WA0022.mp4' },
+                { type: 'vid', src: 'VID-20220817-WA0002.mp4' },
+                { type: 'vid', src: 'VID-20220916-WA0007.mp4' },
+                { type: 'vid', src: 'VID-20221016-WA0013.mp4' },
+                { type: 'vid', src: 'VID-20230104-WA0000.mp4' },
+                { type: 'vid', src: 'VID-20230108-WA0003.mp4' },
+                { type: 'vid', src: 'VID-20230114-WA0016.mp4' },
+                { type: 'vid', src: 'VID-20230121-WA0005.mp4' },
+                { type: 'vid', src: 'VID-20230121-WA0006.mp4' },
+                { type: 'vid', src: 'VID-l0qpeku8.mp4' }
+            ]
         },
 
         {

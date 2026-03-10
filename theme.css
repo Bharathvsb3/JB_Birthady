@@ -1514,7 +1514,8 @@ body {
     position: fixed;
     inset: 0;
     pointer-events: none;
-    z-index: 2147483647; /* Absolute front */
+    z-index: 2147483647;
+    /* Absolute front */
     overflow: hidden;
 }
 
@@ -1632,6 +1633,156 @@ body {
         max-width: 500px;
     }
 }
+
+/* ── EXTENDED GLOBALS / FALLBACKS ── */
+.jb-fallback {
+    position: relative;
+    background: linear-gradient(135deg, rgba(2, 12, 34, 0.6), rgba(59, 130, 246, 0.1));
+    border: 1px dashed rgba(96, 165, 250, 0.3);
+    border-radius: 12px;
+    display: flex !important;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    min-height: 120px;
+    box-sizing: border-box;
+    pointer-events: none;
+    /* Disable click on broken media */
+}
+
+.jb-fallback span:not(.ply-ico) {
+    font-family: 'Great Vibes', cursive;
+    font-size: 3.5rem;
+    background: -webkit-linear-gradient(45deg, #60a5fa, #c084fc);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 0 10px rgba(96, 165, 250, 0.3));
+    line-height: 1;
+}
+
+.jb-fallback div {
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.4);
+    margin-top: 5px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* ── ALBUM STEP ── */
+.album-inner {
+    padding: 20px 14px 10px !important;
+    gap: 8px !important;
+    height: 100%;
+}
+
+.album-grid {
+    width: 100%;
+    flex: 1;
+    overflow-y: auto;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    padding: 4px;
+    border-radius: 12px;
+}
+
+.album-grid::-webkit-scrollbar {
+    width: 0;
+}
+
+.album-item {
+    width: 100%;
+    height: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.05);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.album-item:active {
+    transform: scale(0.95);
+}
+
+.album-vid-wrap {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    border-radius: 10px;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.album-vid-wrap .ply-ico {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 2rem;
+    color: rgba(255, 255, 255, 0.8);
+    pointer-events: none;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    z-index: 2;
+}
+
+.album-btn {
+    margin-top: 10px;
+    flex-shrink: 0;
+    width: 100%;
+}
+
+/* ── ALBUM MODAL ── */
+.album-modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.92);
+    z-index: 999999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+
+.album-modal.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.album-modal-content {
+    max-width: 95vw;
+    max-height: 85vh;
+    object-fit: contain;
+    border-radius: 12px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+}
+
+.album-modal-close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    font-size: 2rem;
+    line-height: 1;
+    color: #fff;
+    cursor: pointer;
+    background: rgba(255, 255, 255, 0.2);
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(4px);
+    z-index: 2;
+}
+
 
 /* ── REAL PUZZLE GAME ── */
 .pz-game-inner {

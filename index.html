@@ -76,6 +76,20 @@
     </div>
 
     <script>
+        window.jbFallback = function (el) {
+            el.onerror = null;
+            var d = document.createElement('div');
+            d.className = (el.className || '') + ' jb-fallback no-adv';
+            d.style.cssText = el.style.cssText;
+            d.innerHTML = '<span>JB</span><div>Memory loading...</div>';
+            /* If it's wrapped in a .album-vid-wrap, replace the entire parent so the play button disappears too */
+            if (el.parentElement && el.parentElement.classList.contains('album-vid-wrap')) {
+                el.parentElement.replaceWith(d);
+            } else {
+                el.replaceWith(d);
+            }
+        };
+
         (function () {
             var IMAGES = [];
             if (typeof CONFIG !== 'undefined') {
@@ -445,6 +459,21 @@
                     body = `<div class="inner"><span class="s-icon">${s.icon}</span><div class="s-head">${s.head}</div><div class="s-txt">${s.txt}</div><input type="tel" class="yr-input no-adv" id="yrInput" placeholder="YYYY" maxlength="4" oninput="chkYear(this.value)"></div>`;
                 } else if (s.nav === 'drag') {
                     body = `<div class="inner"><span class="s-icon">${s.icon}</span><div class="s-head">${s.head}</div><div class="s-txt">${s.txt}</div><div class="drag-zone" id="dragZone"><div class="drag-heart" id="dragHeart">💙</div><div class="drag-target" id="dragTarget"><span>❤️</span><span class="drag-lbl">Drop!</span></div></div></div>`;
+                } else if (s.nav === 'album') {
+                    let mediaHtml = '';
+                    if (s.media && s.media.length > 0) {
+                        s.media.forEach((m, mId) => {
+                            if (m.type === 'img') mediaHtml += `<img src="${m.src}" loading="lazy" class="album-item no-adv" onclick="openAlbumMedia('${m.src}', 'img')" onerror="window.jbFallback(this)">`;
+                            if (m.type === 'vid') mediaHtml += `<div class="album-vid-wrap no-adv" onclick="openAlbumMedia('${m.src}', 'vid')"><video src="${m.src}" loading="lazy" class="album-item" loop muted playsinline autoplay onerror="window.jbFallback(this)"></video><span class="ply-ico">▶</span></div>`;
+                        });
+                    }
+                    body = `<div class="inner album-inner">
+                        <span class="s-icon">${s.icon}</span>
+                        <div class="s-head">${s.head}</div>
+                        <div class="s-txt">${s.txt}</div>
+                        <div class="album-grid no-adv">${mediaHtml}</div>
+                        <button class="conf-btn album-btn no-adv" onclick="goNext()">Final Step poga Click Pannu ✨</button>
+                    </div>`;
                 } else {
                     /* Per-image best crop position */
                     const imgPos = {
@@ -463,7 +492,8 @@
         <span class="s-icon">${s.icon}</span>
         ${s.title ? `<div class="s-title">${s.title}</div>` : ''}
         ${s.head ? `<div class="s-head">${s.head}</div>` : ''}
-        ${s.img ? `<div class="mf"><img src="${s.img}" loading="lazy" alt="" data-pos="1" style="object-position:${pos}"></div>` : ''}
+        ${s.img ? `<div class="mf"><img src="${s.img}" loading="lazy" alt="" data-pos="1" style="object-position:${pos}" onerror="window.jbFallback(this)"></div>` : ''}
+        ${s.vid ? `<div class="mf"><video src="${s.vid}" loading="lazy" controls playsinline style="object-position:center; width:100%; height:100%; object-fit:cover; border-radius:12px;" onerror="window.jbFallback(this)"></video></div>` : ''}
         ${s.liveAge ? buildAgeHtml(s.liveAge) : ''}
         <div class="s-txt">${s.txt}</div>
         ${s.music ? `<span class="vinyl" id="vinyl${i}" onclick="playS()">🎵</span><div class="plbl" id="plbl${i}">Tap 🎵 to play!</div>` : ''}
@@ -481,7 +511,7 @@
                     swiperight: 'nh-right ➡️', doubletap: 'nh-dt 👆👆',
                     shake: 'nh-shake 📳', tilt: 'nh-tilt 📱', rotate: 'nh-rotate ↺',
                     pinch: 'nh-pinch 🤏', spread: 'nh-spread 🤲',
-                    longpress: '', twofingertap: ''
+                    longpress: '', twofingertap: '', album: ''
                 };
                 const nhVal = nhMap[s.nav];
                 if (nhVal) {
@@ -2025,7 +2055,30 @@
                 }
             });
         };
+
+        function openAlbumMedia(src, type) {
+            const mBody = document.getElementById('albumModalBody');
+            if (type === 'img') {
+                mBody.innerHTML = `<img src="${src}" class="album-modal-content no-adv" onclick="event.stopPropagation()" onerror="window.jbFallback(this)">`;
+            } else {
+                mBody.innerHTML = `<video src="${src}" class="album-modal-content no-adv" controls playsinline style="width:100%;" autoplay onclick="event.stopPropagation()" onerror="window.jbFallback(this)"></video>`;
+            }
+            document.getElementById('albumModal').classList.add('active');
+        }
+
+        function closeAlbumMedia() {
+            document.getElementById('albumModalBody').innerHTML = ''; // Stop video
+            document.getElementById('albumModal').classList.remove('active');
+        }
+
     </script>
+
+    <!-- Album Fullscreen Modal -->
+    <div class="album-modal no-adv" id="albumModal" onclick="closeAlbumMedia()">
+        <div class="album-modal-close no-adv" onclick="closeAlbumMedia()">&times;</div>
+        <div id="albumModalBody"
+            style="display:flex; justify-content:center; align-items:center; width:100%; height:100%;"></div>
+    </div>
 </body>
 
 </html>
