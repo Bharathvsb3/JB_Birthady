@@ -1514,7 +1514,7 @@ body {
     position: fixed;
     inset: 0;
     pointer-events: none;
-    z-index: 9999;
+    z-index: 2147483647; /* Absolute front */
     overflow: hidden;
 }
 
@@ -1527,7 +1527,7 @@ body {
 
 @keyframes rainFall {
     0% {
-        transform: translateY(0) rotate(0deg);
+        transform: translateY(-50px) rotate(0deg);
         opacity: 1
     }
 

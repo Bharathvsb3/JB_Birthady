@@ -1368,15 +1368,16 @@
                         /* ── WAVE BURST FOR MUTED HARDWARE ── */
                         window.fakeAmpBurst = 1.0;
 
-                        if (window.lastFlyIndex !== e.resultIndex) {
-                            window.lastFlyIndex = e.resultIndex;
-                            window.lastWordCount = 0;
-                        }
-
+                        /* ── FLYING WORDS EFFECT ── */
+                        /* Safely isolate words that have not been animated yet */
                         let words = msg.split(/\s+/).filter(w => w.length > 0);
                         let wCount = words.length;
 
-                        /* Spawn ALL newly detected words since the last interim chunk */
+                        // If SpeechRec reset slightly, wipe our memory so we pick up the new sentence
+                        if (wCount < (window.lastWordCount || 0)) {
+                            window.lastWordCount = 0;
+                        }
+
                         if (wCount > (window.lastWordCount || 0)) {
                             let newWords = words.slice(window.lastWordCount || 0);
                             window.lastWordCount = wCount;
@@ -1387,23 +1388,25 @@
                                     fw.className = 'fly-word';
                                     fw.textContent = fwText;
 
-                                    const colors = ['#3b82f6', '#ec4899', '#facc15', '#a855f7', '#4ade80', '#60a5fa'];
+                                    const colors = ['#3b82f6', '#ec4899', '#facc15', '#fff', '#4ade80', '#60a5fa'];
                                     fw.style.color = colors[Math.floor(Math.random() * colors.length)];
-                                    fw.style.left = (10 + Math.random() * 60) + 'vw';
+                                    fw.style.left = (20 + Math.random() * 60) + 'vw';
                                     fw.style.top = (75 + Math.random() * 10) + 'vh';
                                     fw.style.position = 'fixed';
-                                    fw.style.fontWeight = 'bold';
-                                    fw.style.fontSize = '1.3rem';
-                                    fw.style.zIndex = '9000';
+                                    fw.style.fontWeight = '900';
+                                    fw.style.fontSize = '2rem';
+                                    fw.style.zIndex = '2147483647'; /* Absolute max z-index */
                                     fw.style.pointerEvents = 'none';
+                                    fw.style.textShadow = '0 3px 8px rgba(0,0,0,0.8)';
+                                    fw.style.webkitTextStroke = '1px rgba(0,0,0,0.4)';
                                     document.body.appendChild(fw);
 
                                     gsap.fromTo(fw,
-                                        { scale: 0.2, opacity: 0, y: 0, rotation: -20 + Math.random() * 40 },
+                                        { scale: 0.1, opacity: 0, y: 0, rotation: -20 + Math.random() * 40 },
                                         {
-                                            scale: 1.2, opacity: 0.9, y: -(150 + Math.random() * 100), rotation: -40 + Math.random() * 80, duration: 1.8, ease: "power2.out",
+                                            scale: 1.5 + Math.random() * 0.5, opacity: 1, y: -(250 + Math.random() * 150), rotation: -40 + Math.random() * 80, duration: 2.2, ease: "power2.out",
                                             onComplete: () => {
-                                                gsap.to(fw, { opacity: 0, y: "-=80", duration: 1.2, ease: "power1.in", onComplete: () => fw.remove() });
+                                                gsap.to(fw, { opacity: 0, y: "-=100", duration: 1.2, ease: "power1.in", onComplete: () => fw.remove() });
                                             }
                                         }
                                     );
@@ -1418,11 +1421,14 @@
                         const cleanMsg = msg.replace(/[.,!?]/g, '').toLowerCase().trim();
 
                         if (magics.some(m => cleanMsg.includes(m.toLowerCase()))) {
+                            micSucceeded = true;
                             speechRec.stop();
                             micSuccess();
-                        } else if (isFinal) {
-                            /* If speech ended and was wrong, show wrong rain */
+                        } else if (cleanMsg.length > 2 && (isFinal || wCount > 4)) {
+                            /* If speech ended and was wrong, or just got too long, reset and show wrong rain */
                             doHeartRain(['❌', '😅', '🤔', '💔', '🌧️', '👎']);
+                            window.lastWordCount = 0;
+                            try { speechRec.stop(); } catch (e) { } // Force restart via onend
                         }
                     }
                 };
