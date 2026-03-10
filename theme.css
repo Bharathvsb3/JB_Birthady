@@ -1683,10 +1683,10 @@ body {
     width: 100%;
     flex: 1;
     overflow-y: auto;
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    padding: 10px 4px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    padding: 4px;
     border-radius: 12px;
 }
 
@@ -1697,41 +1697,29 @@ body {
 .album-grid-item {
     position: relative;
     width: 100%;
+    aspect-ratio: 1 / 1;
     border-radius: 10px;
-    background: rgba(0, 0, 0, 0.6);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     cursor: pointer;
     transition: transform 0.2s;
     overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    background: transparent;
 }
 
 .album-grid-item:active {
     transform: scale(0.95);
 }
 
-.album-img {
+.album-img,
+.album-vid {
     width: 100%;
-    /* Let the browser calculate the height based on the intrinsic aspect ratio */
-    min-height: 50px;
-    height: auto;
-    object-fit: contain;
+    height: 100%;
+    object-fit: cover;
     display: block;
-    /* guarantees height while lazy loading */
-    background: rgba(0, 0, 0, 0.6);
+    border-radius: 10px;
 }
 
 .album-vid {
-    width: 100%;
-    min-height: 50px;
-    height: auto;
-    object-fit: contain;
-    display: block;
-    /* guarantees height while lazy loading metadata */
-    background: rgba(0, 0, 0, 0.6);
     pointer-events: none;
     /* Let parent capture clicks easily */
 }
