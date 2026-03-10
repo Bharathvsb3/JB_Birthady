@@ -1351,7 +1351,6 @@
                         /* ── WAVE BURST FOR MUTED HARDWARE ── */
                         window.fakeAmpBurst = 1.0;
 
-                        /* ── FLYING WORDS EFFECT ── */
                         if (window.lastFlyIndex !== e.resultIndex) {
                             window.lastFlyIndex = e.resultIndex;
                             window.lastWordCount = 0;
@@ -1375,6 +1374,11 @@
                                     fw.style.color = colors[Math.floor(Math.random() * colors.length)];
                                     fw.style.left = (10 + Math.random() * 60) + 'vw';
                                     fw.style.top = (75 + Math.random() * 10) + 'vh';
+                                    fw.style.position = 'fixed';
+                                    fw.style.fontWeight = 'bold';
+                                    fw.style.fontSize = '1.3rem';
+                                    fw.style.zIndex = '9000';
+                                    fw.style.pointerEvents = 'none';
                                     document.body.appendChild(fw);
 
                                     gsap.fromTo(fw,
@@ -1399,9 +1403,16 @@
                         if (magics.some(m => cleanMsg.includes(m.toLowerCase()))) {
                             speechRec.stop();
                             micSuccess();
+                        } else if (isFinal) {
+                            /* If speech ended and was wrong, show wrong rain */
+                            doHeartRain(['❌', '😅', '🤔', '💔', '🌧️', '👎']);
                         }
                     }
                 };
+
+                speechRec.onsoundstart = () => { window.fakeAmpBurst = 0.4; };
+                speechRec.onspeechstart = () => { window.fakeAmpBurst = 0.8; };
+                speechRec.onspeechend = () => { window.fakeAmpBurst = 0.15; };
 
                 speechRec.onerror = (e) => {
                     console.error("Speech error", e.error);
@@ -1475,64 +1486,37 @@
         let fakeWaveTmr = null;
         let globalMicStream = null;
         function stopMicStream() {
-            if (globalMicStream) {
-                globalMicStream.getTracks().forEach(t => t.stop());
-                globalMicStream = null;
-            }
+            /* No longer capturing a secondary hardware stream so this is just a stub to prevent errors from other steps */
         }
         async function initAudioContext() {
-            if (actx || fakeWaveTmr) return;
+            if (fakeWaveTmr) return; // Only init once
 
-            /* ONLY apply fake wave to iOS (Safari/Chrome on iOS)
-               Android Chrome actually *benefits* from getUserMedia to keep interimResults fully active and streaming!
-               iOS Safari strictly blocks SpeechRec if getUserMedia is running simultaneously. */
-            const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+            /* Instead of attempting getUserMedia, which often crashes SpeechRecognition due to hardware locks on mobile,
+               we strictly rely entirely on SpeechRecognition's events to drive the wave natively, bypassing any AudioContext blocking */
 
-            if (isIOS) {
-                /* FAKE WAVE FOR iOS */
-                waveData = new Uint8Array(256);
-                fakeWaveTmr = setInterval(() => {
-                    if (!micActive) return;
-                    for (let i = 0; i < waveData.length; i++) {
-                        waveData[i] = 128 + (Math.random() > 0.5 ? Math.random() * 40 : -Math.random() * 40);
-                    }
-                }, 80);
-                drawWave();
-                return;
-            }
+            waveData = new Uint8Array(256);
+            fakeWaveTmr = setInterval(() => {
+                if (!micActive) return;
 
-            try {
-                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-                globalMicStream = stream;
-                actx = new (window.AudioContext || window.webkitAudioContext)();
-                if (actx.state === 'suspended') await actx.resume();
+                // If speech is happening (window.fakeAmpBurst is pushed high by on speech triggers), the wave explodes up
+                let amp = window.fakeAmpBurst || 0.12;
+                for (let i = 0; i < waveData.length; i++) {
+                    waveData[i] = 128 + (Math.random() > 0.5 ? Math.random() * 95 * amp : -Math.random() * 95 * amp);
+                }
 
-                waveAn = actx.createAnalyser();
-                waveAn.fftSize = 256;
-                const source = actx.createMediaStreamSource(stream);
-                source.connect(waveAn);
-                waveData = new Uint8Array(waveAn.frequencyBinCount);
-                drawWave();
-            } catch (e) {
-                console.error("Audio Context Error. Faking wave fallback.", e);
-                // Fallback to detailed fake wave if Desktop/Android fails
-                waveData = new Uint8Array(256);
-                fakeWaveTmr = setInterval(() => {
-                    if (!micActive) return;
-                    for (let i = 0; i < waveData.length; i++) {
-                        waveData[i] = 128 + (Math.random() > 0.5 ? Math.random() * 40 : -Math.random() * 40);
-                    }
-                }, 80);
-                drawWave();
-            }
+                // Steadily decay down to idle jitter
+                window.fakeAmpBurst = Math.max(0.12, (window.fakeAmpBurst || 0.12) * 0.94);
+            }, 60);
+
+            drawWave();
         }
 
         /* ── HEART RAIN ── */
-        function doHeartRain() {
+        function doHeartRain(customEmojis = null) {
             const container = document.createElement('div');
             container.className = 'heart-rain-container';
             document.body.appendChild(container);
-            const emojis = ['💙', '💜', '💖', '💗', '💝', '✨', '🥹', '💕', '💞', '🌟'];
+            const emojis = customEmojis || ['💙', '💜', '💖', '💗', '💝', '✨', '🥹', '💕', '💞', '🌟'];
             for (let i = 0; i < 40; i++) {
                 const h = document.createElement('div');
                 h.className = 'rain-heart';
