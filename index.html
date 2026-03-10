@@ -799,6 +799,7 @@
                 if (lpFired) { lpFired = false; return; }
                 if (ST[cur].nav === 'iloveyou') return; /* mic-only step */
 
+                if (ST[cur].nav === 'longpress' || ST[cur].nav === 'longpress2') return; /* Wait for actual longpress timer, ignore taps */
                 /* Prevent simple tap from advancing shake/doubletap/etc steps */
                 if (ST[cur].nav === 'tap') goNext();
             });
@@ -870,8 +871,8 @@
                     pinchDist = Math.hypot(dx, dy);
                 }
 
-                /* EMERGENCY 7-TAP – disabled for mic step */
-                if (nav !== 'type' && nav !== 'iloveyou') {
+                /* EMERGENCY 7-TAP – disabled for mic, type, and longpress steps */
+                if (nav !== 'type' && nav !== 'iloveyou' && nav !== 'longpress' && nav !== 'longpress2') {
                     emg++; clearTimeout(emgT);
                     if (emg >= 7) { emg = 0; goNext(); }
                     emgT = setTimeout(() => emg = 0, 2500);
@@ -951,7 +952,12 @@
 
         function drawWave() {
             const canvas = document.getElementById('micCanvas');
-            if (!canvas || !micActive) return;
+            if (!canvas || !micActive) {
+                if (waveRAF) { cancelAnimationFrame(waveRAF); waveRAF = null; }
+                return;
+            }
+            if (!waveData) waveData = new Uint8Array(256).fill(128); /* safety default */
+
             waveRAF = requestAnimationFrame(drawWave);
             registerRAF(waveRAF);
 
@@ -959,23 +965,30 @@
                 waveAn.getByteTimeDomainData(waveData);
             }
 
-            /* SMART WAVE BACKUP: If the hardware muted the audio stream (wave is completely flat), 
-               we generate beautiful synthetic visual noise and reaction bursts. */
+            /* SMART WAVE BACKUP: If the hardware muted the audio stream (wave is completely flat either because of iOS or muting), 
+               we generate beautiful synthetic Sine waves and reaction bursts on the fly. */
             let sumRaw = 0;
             for (let i = 0; i < waveData.length; i++) sumRaw += Math.abs(waveData[i] - 128);
 
-            /* Add some artificial movement to make wave always look alive */
-            let baseWobble = micActive ? 4 : 0;
+            let baseWobble = micActive ? 1.5 : 0;
 
-            if (sumRaw < 10 && micActive) {
-                window.fakeAmpBurst = (window.fakeAmpBurst || 0) * 0.90;
-                /* Even higher continuous wave if we get nothing from mic */
-                baseWobble = window.fakeAmpBurst > 0.05 ? window.fakeAmpBurst * 80 : 15;
-            }
-
-            for (let i = 0; i < waveData.length; i++) {
-                let w = (Math.random() * baseWobble * 2) - baseWobble;
-                waveData[i] = Math.min(255, Math.max(0, waveData[i] + w));
+            if ((!waveAn || sumRaw < 10) && micActive) {
+                /* Smooth Sine Fake Wave */
+                window.fakeAmpBurst = Math.max(0.12, (window.fakeAmpBurst || 0.12) * 0.95);
+                let amp = window.fakeAmpBurst;
+                wavePhase += 0.15;
+                for (let i = 0; i < waveData.length; i++) {
+                    let sinVal = Math.sin(wavePhase + i * 0.1) * 35 * amp;
+                    let sinVal2 = Math.cos(wavePhase * 1.5 + i * 0.05) * 25 * amp;
+                    let noise = (Math.random() - 0.5) * 15 * amp;
+                    waveData[i] = 128 + sinVal + sinVal2 + noise;
+                }
+            } else if (micActive) {
+                /* Hardware audio wave - add a tiny bit of life/wobble */
+                for (let i = 0; i < waveData.length; i++) {
+                    let w = (Math.random() * baseWobble * 2) - baseWobble;
+                    waveData[i] = Math.min(255, Math.max(0, waveData[i] + w));
+                }
             }
 
             const ctx = canvas.getContext('2d');
@@ -1326,6 +1339,10 @@
 
                 speechRec.onstart = () => {
                     micActive = true;
+                    if (!waveRAF) drawWave();
+                    window.lastFlyIndex = -1;
+                    window.lastWordCount = 0;
+
                     if (status) {
                         status.textContent = CONFIG.mic.listening;
                         status.classList.add('active');
@@ -1483,32 +1500,49 @@
         }
 
         let actx = null;
-        let fakeWaveTmr = null;
         let globalMicStream = null;
         function stopMicStream() {
-            /* No longer capturing a secondary hardware stream so this is just a stub to prevent errors from other steps */
+            if (globalMicStream) {
+                globalMicStream.getTracks().forEach(t => t.stop());
+                globalMicStream = null;
+            }
+            if (actx && actx.state !== 'closed') {
+                try { actx.close(); } catch (e) { }
+                actx = null;
+            }
         }
         async function initAudioContext() {
-            if (fakeWaveTmr) return; // Only init once
+            if (actx) return;
 
-            /* Instead of attempting getUserMedia, which often crashes SpeechRecognition due to hardware locks on mobile,
-               we strictly rely entirely on SpeechRecognition's events to drive the wave natively, bypassing any AudioContext blocking */
+            /* ONLY apply fake wave to iOS (Safari/Chrome on iOS)
+               Android Chrome actually *benefits* from getUserMedia to keep interimResults fully active and streaming!
+               iOS Safari strictly blocks SpeechRec if getUserMedia is running simultaneously. */
+            const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
 
-            waveData = new Uint8Array(256);
-            fakeWaveTmr = setInterval(() => {
-                if (!micActive) return;
+            if (isIOS) {
+                drawWave();
+                return;
+            }
 
-                // If speech is happening (window.fakeAmpBurst is pushed high by on speech triggers), the wave explodes up
-                let amp = window.fakeAmpBurst || 0.12;
-                for (let i = 0; i < waveData.length; i++) {
-                    waveData[i] = 128 + (Math.random() > 0.5 ? Math.random() * 95 * amp : -Math.random() * 95 * amp);
-                }
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                globalMicStream = stream;
+                actx = new (window.AudioContext || window.webkitAudioContext)();
+                if (actx.state === 'suspended') await actx.resume();
 
-                // Steadily decay down to idle jitter
-                window.fakeAmpBurst = Math.max(0.12, (window.fakeAmpBurst || 0.12) * 0.94);
-            }, 60);
-
-            drawWave();
+                waveAn = actx.createAnalyser();
+                waveAn.fftSize = 256;
+                // smooth out the wave jumpiness
+                waveAn.smoothingTimeConstant = 0.6;
+                const source = actx.createMediaStreamSource(stream);
+                source.connect(waveAn);
+                waveData = new Uint8Array(waveAn.frequencyBinCount);
+                drawWave();
+            } catch (e) {
+                console.error("Audio Context Error. Faking wave fallback.", e);
+                // Fallback to fake wave if no mic permission for AudioContext
+                drawWave();
+            }
         }
 
         /* ── HEART RAIN ── */
